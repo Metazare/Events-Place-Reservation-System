@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Paper, Typography, TextField, Button, Box } from '@mui/material';
-import { AccountCircle, Lock, Mail } from '@mui/icons-material';
+import { AccountCircle} from '@mui/icons-material';
 
-const Register: React.FC = () => {
+export default function Register() {
+  const [firstName, setFirstName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [contactNum, setContactNum] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -22,17 +26,49 @@ const Register: React.FC = () => {
         </Typography>
         <form>
           <TextField
+            label="First Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+
+          <TextField
+            label="Middle Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={middleName}
+            onChange={(e) => setMiddleName(e.target.value)}
+          />
+
+          <TextField
+            label="Last Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+
+          <TextField
+            label="Contact Number"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={contactNum}
+            type='number'
+            onChange={(e) => setContactNum(e.target.value)}
+          />
+
+          <TextField
             label="Email"
             variant="outlined"
             fullWidth
             margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <Mail style={{ color: 'gray' }} />
-              ),
-            }}
           />
           <TextField
             label="Password"
@@ -42,11 +78,6 @@ const Register: React.FC = () => {
             margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <Lock style={{ color: 'gray' }} />
-              ),
-            }}
           />
           <TextField
             label="Confirm Password"
@@ -56,11 +87,6 @@ const Register: React.FC = () => {
             margin="normal"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <Lock style={{ color: 'gray' }} />
-              ),
-            }}
           />
           <Button
             variant="contained"
@@ -75,5 +101,3 @@ const Register: React.FC = () => {
     </Container>
   );
 };
-
-export default Register;
