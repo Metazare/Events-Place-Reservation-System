@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Base from './Layouts/Base/Base';
 
 // Pages
-import Default from './Pages/Default/Default';
+import Default from './Pages/LandingPage/Default';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 
