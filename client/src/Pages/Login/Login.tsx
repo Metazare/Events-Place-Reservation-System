@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Container, Paper, Typography, TextField, Button, Box } from '@mui/material';
 import { AccountCircle, Lock } from '@mui/icons-material';
 
-const Login: React.FC = () => {
+
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -50,5 +51,3 @@ const Login: React.FC = () => {
     </Container>
   );
 };
-
-export default Login;
