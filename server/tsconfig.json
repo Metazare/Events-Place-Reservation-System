@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+      "jsx": "react",
+      "alwaysStrict": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "module": "CommonJS",
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "outDir": "./dist",
+      "removeComments": true,
+      "resolveJsonModule": true,
+      "skipLibCheck": true,
+      "sourceMap": true,
+      "strict": true,
+      "strictFunctionTypes": true,
+      "strictNullChecks": true,
+      "target": "ES2016",
+      "typeRoots": ["./src/@types", "./node_modules/@types"]
+  },
+  "include": ["./src/**/*.ts"]
+}
