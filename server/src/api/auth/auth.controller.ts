@@ -71,8 +71,10 @@ export const login: RequestHandler = async (req: BodyRequest<LoginUser>, res) =>
     const { email, password} = req.body;
     const checker = new CheckData();
 
+    console.log(req.body)
+
     checker.checkType(email, 'string', 'email');
-    // checker.checkType(password, 'string', 'password');s
+    checker.checkType(password, 'string', 'password');
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
     const findUser = await Promise.all([

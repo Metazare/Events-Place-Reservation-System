@@ -2,13 +2,24 @@ import React, { useState } from 'react';
 import { Container, Paper, Typography, TextField, Button, Box } from '@mui/material';
 import { AccountCircle, Lock } from '@mui/icons-material';
 
+// Hooks
+import { useAuth } from '../../Hooks/useAuth';
 
 export default function Login() {
+  const { login } = useAuth();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Implement your login logic here
+    // Create a form object with the values
+    const formData = {
+      email: email,
+      password: password
+    };
+
+    console.log(formData);
+    login(formData);
   };
 
   return (
