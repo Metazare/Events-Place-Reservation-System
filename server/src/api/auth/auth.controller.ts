@@ -17,13 +17,9 @@ export const createUser = async (body: RegisterUser): Promise<Payload> => {
 
     let { middleName } = body;
 
-    console.log(body);
-
     const checker = new CheckData();
   
-    console.log("check 1");
     checker.checkType(firstName, 'string', 'firstName');
-    console.log("check 2");
     checker.checkType(lastName, 'string', 'lastName');
     checker.checkType(contact, 'number', 'contact');
     checker.checkType(email, 'string', 'email');
@@ -31,7 +27,6 @@ export const createUser = async (body: RegisterUser): Promise<Payload> => {
     if (middleName) checker.checkType(middleName, 'string', 'middleName');
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
   
-    console.log("check 3");
     const { id } = await UserModel.create({
         firstName: firstName,
         middleName: middleName,
@@ -44,12 +39,8 @@ export const createUser = async (body: RegisterUser): Promise<Payload> => {
   };
 
 export const register: RequestHandler = async (req: BodyRequest<UserRegister>, res) => {
-    console.log("Register Called!");
-    
     const { role, ...body } = req.body;
     const { credentials: { email, password } } = body;
-
-    // console.log(req.body);
 
     const checker: CheckData = new CheckData();
 
