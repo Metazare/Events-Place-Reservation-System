@@ -3,8 +3,21 @@ import useRequest from './useRequest';
 
 interface EventsPlaceData {
   id?: string;
-  title?: string;
+  name?: string;
   description?: string;
+  type?: string;
+  location?: string;
+  rate?: number;
+  maxCapacity?: number;
+  amenities?: AmenitiesData[];
+  images?: string[];
+  hostId?: string;
+}
+
+interface AmenitiesData{
+  id?: string;
+  name?: string;
+  rate?: string;
 }
 
 function useEventsPlace() {
