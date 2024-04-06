@@ -10,14 +10,14 @@ interface EventsPlaceData {
 function useEventsPlace() {
   const { data, loading, error, makeRequest } = useRequest();
 
-  const getContent = (id: string) => {
+  const getEventsPlace = (id: string) => {
     makeRequest({
       method: 'get',
       url: `/eventsplace/${id}`,
     });
   };
 
-  const createContent = (content: EventsPlaceData) => {
+  const createEventsPlace = (content: EventsPlaceData) => {
     makeRequest({
       method: 'post',
       url: '/eventsplace',
@@ -25,7 +25,7 @@ function useEventsPlace() {
     });
   };
 
-  const updateContent = (id: string, content: EventsPlaceData) => {
+  const updateEventsPlace = (id: string, content: EventsPlaceData) => {
     makeRequest({
       method: 'patch',
       url: `/eventsplace/${id}`,
@@ -33,10 +33,10 @@ function useEventsPlace() {
     });
   };
 
-  const deleteContent = (id: string) => {
+  const deleteEventsPlace= (id: string) => {
     makeRequest({
       method: 'delete',
-      url: `/content/${id}`,
+      url: `/eventsplace/${id}`,
     });
   };
 
@@ -44,10 +44,10 @@ function useEventsPlace() {
     data,
     loading,
     error,
-    getContent,
-    createContent,
-    updateContent,
-    deleteContent,
+    getEventsPlace,
+    createEventsPlace,
+    updateEventsPlace,
+    deleteEventsPlace,
   };
 }
 
