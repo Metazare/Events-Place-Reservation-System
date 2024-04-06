@@ -12,14 +12,10 @@ export default function Login() {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Create a form object with the values
-    const formData = {
+    login({
       email: email,
       password: password
-    };
-
-    console.log(formData);
-    login(formData);
+    });
   };
 
   return (

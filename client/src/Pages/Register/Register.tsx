@@ -17,8 +17,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegister = () => {
-    // Create a form object with the values
-    const formData = {
+    register({
       first: firstName,
       middle: middleName,
       last: lastName,
@@ -26,11 +25,7 @@ export default function Register() {
       email: email,
       password: password,
       role:'renter'
-    };
-
-    // Now you can use formData as needed, for example, log it to the console
-    console.log(formData);
-    register(formData);
+    });
   };
 
   return (

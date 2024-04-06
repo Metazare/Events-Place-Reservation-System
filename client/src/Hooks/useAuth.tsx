@@ -75,10 +75,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               role: role,
           })
           .then((response: any) => {
-              console.log(response)
-              setUser(response.data.user);
-              localStorage.setItem('user', JSON.stringify(response.data.user))
-              navigate("/dashboard")
+              if (response.data){
+                login({
+                    email: email,
+                    password: password
+                })
+              }
           });
       }
       catch (error: any){
