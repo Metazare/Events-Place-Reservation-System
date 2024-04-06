@@ -16,7 +16,6 @@ export default cleanEnv(process.env, {
     CORS_ORIGIN: devDefault('CORS_ORIGIN', 'http://localhost:3000'),
     MONGO_URI: devDefault(
         'MONGO_URI',
-        'mongodb://127.0.0.1:27017/Online-Automated-Scheduling-Management-System-Driving-Schools'
-    ),
-    RESEND_KEY: str()
+        'mongodb://127.0.0.1:27017/Events-Place-Reservation-System'
+    )
 });

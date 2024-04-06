@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Container, Paper, Typography, TextField, Button, Box } from '@mui/material';
 import { AccountCircle} from '@mui/icons-material';
 
+// Hooks
+import { useAuth } from '../../Hooks/useAuth';
+
 export default function Register() {
+  const { register } = useAuth();
+
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -12,7 +17,20 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegister = () => {
-    // Implement your registration logic here
+    // Create a form object with the values
+    const formData = {
+      first: firstName,
+      middle: middleName,
+      last: lastName,
+      contact: parseInt(contactNum),
+      email: email,
+      password: password,
+      role:'renter'
+    };
+
+    // Now you can use formData as needed, for example, log it to the console
+    console.log(formData);
+    register(formData);
   };
 
   return (

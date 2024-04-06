@@ -6,7 +6,11 @@ import helmet from 'helmet';
 import mongoose from 'mongoose';
 
 // Middlewares
+import authenticate from './middlewares/authenticate';
 import errorHandler from './middlewares/errorHandler';
+
+// Routes
+import authRoute from './api/auth/auth.route';
 
 // Utilities
 import { NotFound } from './utilities/errors';
@@ -21,6 +25,9 @@ app.use(cors({ credentials: true, origin: CORS_ORIGIN }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
+
+app.use('/auth', authRoute);
+app.use(authenticate);
 
 app.use((_req, _res, next) => next(new NotFound()));
 app.use(errorHandler);

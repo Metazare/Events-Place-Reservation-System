@@ -11,16 +11,10 @@ interface AuthContextState {
 }
 
 interface RegisterData {
-    name: string;
     first: string;
     middle: string;
     last: string;
-    extension: string;
-    sex: string;
-    birthday: Date;
-    address: string;
-    contact: string;
-    about: string;
+    contact: number;
     email: string;
     password: string;
     role: string;
@@ -65,23 +59,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const register = async (data: RegisterData) => {
-      const { name, first, middle, last, extension, sex, birthday, address, contact, about, email, password, role } = data;
+      const { first, middle, last, contact, email, password, role } = data;
 
       try{
           await axios
           .post(`/auth/register`,{
-              name: name,
               firstName: first,
               middleName: middle,
               lastName: last,
-              extensionName: extension,
-              sex: sex,
-              birthday: birthday,
-              address: address || ' ',
-              contact: contact || ' ',
-              about: about || ' ',
-              email: email,
-              password: password,
+              contact: contact,
+              credentials: {
+                email: email,
+                password: password,
+              },
               role: role,
           })
           .then((response: any) => {
