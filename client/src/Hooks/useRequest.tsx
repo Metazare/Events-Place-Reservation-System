@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import axios, { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
+import axios from './useAxios';
 
 interface RequestData {
   data: any;
@@ -24,8 +25,8 @@ function useRequest(): RequestHook {
     setLoading(true);
     try {
       const response = await axios(config);
+      console.log(response.data);
       setData(response.data);
-      alert("Request Successful!"); // Modify this based on your needs
     } catch (error: any) {
       setError(error);
       console.error('Error making request:', error);
