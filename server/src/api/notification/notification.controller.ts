@@ -13,8 +13,8 @@ export const getNotifications: RequestHandler = async (req, res) => {
     res.json(notifications);
 };
 
-export const createNotification: RequestHandler = async (req: BodyRequest<CreateNotification>, res) => {
-    const { userId, type, content } = req.body;
+export const createNotification = async (req: CreateNotification) => {
+    const { userId, type, content } = req;
 
     const checker = new CheckData();
     checker.checkType(userId, 'string', 'userId');
@@ -26,8 +26,6 @@ export const createNotification: RequestHandler = async (req: BodyRequest<Create
         type,
         content,
     });
-
-    res.sendStatus(204);
 };
 
 export const readNotification: RequestHandler = async (req: BodyRequest<ReadNotification>, res) => {
