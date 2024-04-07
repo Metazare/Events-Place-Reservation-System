@@ -1,4 +1,4 @@
-import { RegisterUser, UserDocumentBase } from '../user/user.types';
+import { RegisterUser, UserDocument } from '../user/user.types';
 
 export enum Role {
     ADMIN = 'admin',
@@ -10,8 +10,6 @@ export interface Payload {
     userId: string;
     role: Role;
 }
-
-export type UserDocument = UserDocumentBase;
 
 export interface User {
     userId?: string;

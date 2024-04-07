@@ -1,8 +1,9 @@
 import { hashSync } from 'bcrypt';
 import { Schema, model } from 'mongoose';
-import { UserDocumentBase } from './user.types';
+import { UserDocument } from './user.types';
+import { id } from '../../utilities/ids';
 
-const userSchema = new Schema<UserDocumentBase>(
+const userSchema = new Schema<UserDocument>(
   {
     firstName: { type: String, required: true },
     middleName: { type: String },
@@ -35,4 +36,4 @@ const userSchema = new Schema<UserDocumentBase>(
   }
 );
 
-export default model<UserDocumentBase>('User', userSchema);
+export default model<UserDocument>('User', userSchema);

@@ -1,7 +1,6 @@
 import { Document } from 'mongoose';
 
 export interface User {
-  id: string;
   firstName: string;
   middleName?: string;
   lastName: string;
@@ -18,16 +17,12 @@ export interface User {
   };
 }
 
-export interface UserDocumentBase extends Omit<User, 'id'>, Document {
+export interface UserDocument extends User, Document {
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface UserDocument extends UserDocumentBase {
-  id: string;
-}
-
-export type RegisterUser = Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
+export type RegisterUser = Omit<User, 'createdAt' | 'updatedAt'> & { role: string };
 export type CheckEmail = Pick<User['credentials'], 'email'>;
 export type UpdateUser = Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>;
 export type LoginUser = Pick<User['credentials'], 'email' | 'password'>;

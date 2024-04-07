@@ -1,4 +1,5 @@
-import { UserDocument, Payload, Role } from '../api/auth/auth.types';
+import { Payload, Role } from '../api/auth/auth.types';
+import { UserDocument } from '../api/user/user.types';
 import { cookieOptions, signAccess, signRefresh } from '../utilities/cookies';
 import { Forbidden, Unauthorized } from '../utilities/errors';
 import { JwtPayload, verify } from 'jsonwebtoken';
@@ -38,19 +39,7 @@ const authenticate: RequestHandler = async (req, res, next) => {
         let user: UserDocument | null;
         const { userId, role } = payload;
 
-        switch (payload.role) {
-            case Role.ADMIN:
-                user = await UserModel.findOne({ adminId: userId }).exec();
-                break;
-            case Role.RENTER:
-                user = await UserModel.findOne({ renterId: userId }).exec();
-                break;
-            case Role.HOST:
-                user = await UserModel.findOne({ hostId: userId }).exec();
-                break;
-            default:
-                return next(new Unauthorized('Invalid user role'));
-        }
+        user = await UserModel.findOne({ _id: userId }).exec();
 
         if (!user) return next(new Forbidden());
 
