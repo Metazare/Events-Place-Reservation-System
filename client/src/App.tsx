@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import io from 'socket.io-client';
 
 // Layouts
 import Base from './Layouts/Base/Base';
@@ -11,9 +12,13 @@ import Register from './Pages/Register/Register';
 
 // Test
 import TestHelpdesk from './Test/TestHelpdesk';
+import TestNotification from './Test/TestNotification';
 
 // Hooks
 import { ProtectedRoute } from './Hooks/useAuth';
+
+
+const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
 
 function App() {
   return (
@@ -25,6 +30,7 @@ function App() {
         </Route>
 
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
+        <Route path="/test/notification" element={<TestNotification socket={socket}/>} />
 
         {/* Sample usage of Protected Route */}
         <Route element={<ProtectedRoute allowedRoles={["admin"]}/>}>
