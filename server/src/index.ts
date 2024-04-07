@@ -11,6 +11,7 @@ import errorHandler from './middlewares/errorHandler';
 
 // Routes
 import authRoute from './api/auth/auth.route';
+import helpdeskRoute from './api/helpdesk/helpdesk.route';
 
 // Utilities
 import { NotFound } from './utilities/errors';
@@ -28,6 +29,7 @@ app.use(helmet());
 
 app.use('/auth', authRoute);
 app.use(authenticate);
+app.use('/helpdesk', helpdeskRoute);
 
 app.use((_req, _res, next) => next(new NotFound()));
 app.use(errorHandler);
