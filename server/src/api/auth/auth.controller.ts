@@ -5,7 +5,19 @@ import { cookieOptions, signAccess, signRefresh } from '../../utilities/cookies'
 import { Payload, Role, UserLogin, UserRegister } from './auth.types';
 import { Unauthorized, UnprocessableEntity } from '../../utilities/errors';
 import UserModel from '../user/user.model';
+import {User} from '../user/user.types';
 import { RegisterUser, CheckEmail, UpdateUser, LoginUser } from '../user/user.types';
+
+export const getUsers: RequestHandler = async (req: BodyRequest<User>, res) => {
+	if (!req.user) throw new Unauthorized();
+    const { document: user } = req.user;
+
+    const loggedInUserId = user._id;
+
+    const filteredUsers = await UserModel.find({ _id: { $ne: loggedInUserId } }).select("-password");
+
+    res.json(filteredUsers);
+};
 
 export const createUser = async (body: RegisterUser): Promise<Payload> => {
     const {

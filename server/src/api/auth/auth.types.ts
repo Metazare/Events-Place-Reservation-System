@@ -14,7 +14,7 @@ export interface Payload {
 export interface User {
     userId?: string;
     document: UserDocument;
-    role: Role;
+    role?: Role;
 }
 
 export interface SocketUser {
