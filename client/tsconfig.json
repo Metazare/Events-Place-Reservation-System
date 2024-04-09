@@ -4,6 +4,7 @@
     "paths": {
       "@material-ui/core/*": ["node_modules/@material-ui/core/*"]
     },
+    "types": ["socket.io-client"],
     "target": "es5",
     "lib": [
       "dom",

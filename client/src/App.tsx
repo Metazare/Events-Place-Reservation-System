@@ -14,7 +14,7 @@ import Register from './Pages/Register/Register';
 import TestHelpdesk from './Test/TestHelpdesk';
 import TestNotification from './Test/TestNotification';
 
-const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
+const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:4000');
 
 function App() {
   return (
