@@ -9,6 +9,7 @@ import Base from './Layouts/Base/Base';
 import Default from './Pages/LandingPage/Default';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
+import Chat from './Pages/Chat/Chat';
 
 // Test
 import TestHelpdesk from './Test/TestHelpdesk';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<Default/>} />
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
+            <Route path="/chat" element={<Chat/>} />
         </Route>
 
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
