@@ -3,10 +3,10 @@ import { Container, Paper, Typography, TextField, Button, Box } from '@mui/mater
 import { AccountCircle, Lock } from '@mui/icons-material';
 
 // Hooks
-import { useAuth } from '../../Hooks/useAuth';
+import { useLogin } from '../../Hooks/useAuth';
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login } = useLogin();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

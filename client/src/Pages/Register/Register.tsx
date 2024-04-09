@@ -3,10 +3,10 @@ import { Container, Paper, Typography, TextField, Button, Box } from '@mui/mater
 import { AccountCircle} from '@mui/icons-material';
 
 // Hooks
-import { useAuth } from '../../Hooks/useAuth';
+import { useRegister } from '../../Hooks/useAuth';
 
 export default function Register() {
-  const { register } = useAuth();
+  const { register } = useRegister();
 
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');

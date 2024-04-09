@@ -14,10 +14,6 @@ import Register from './Pages/Register/Register';
 import TestHelpdesk from './Test/TestHelpdesk';
 import TestNotification from './Test/TestNotification';
 
-// Hooks
-import { ProtectedRoute } from './Hooks/useAuth';
-
-
 const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
 
 function App() {
@@ -31,11 +27,6 @@ function App() {
 
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
         <Route path="/test/notification" element={<TestNotification socket={socket}/>} />
-
-        {/* Sample usage of Protected Route */}
-        <Route element={<ProtectedRoute allowedRoles={["admin"]}/>}>
-          <Route path="/private" element={<Default/>} />
-        </Route>
 
     </Routes>
   );
