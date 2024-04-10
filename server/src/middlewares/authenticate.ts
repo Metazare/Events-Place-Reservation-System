@@ -36,22 +36,8 @@ const authenticate: RequestHandler = async (req, res, next) => {
     }
 
     if (payload) {
-        let user: UserDocument | null;
         const { userId, role } = payload;
-
-        switch (payload.role) {
-            case UserRole.ADMIN:
-                user = await UserModel.findOne({ adminId: userId }).exec();
-                break;
-            case UserRole.RENTER:
-                user = await UserModel.findOne({ renterId: userId }).exec();
-                break;
-            case UserRole.HOST:
-                user = await UserModel.findOne({ hostId: userId }).exec();
-                break;
-            default:
-                return next(new Unauthorized('Invalid user role'));
-        }
+        const user = await UserModel.findOne({ userId, role });
 
         if (!user) return next(new Forbidden());
 

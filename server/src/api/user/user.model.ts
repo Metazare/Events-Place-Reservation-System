@@ -1,7 +1,7 @@
 import { hashSync } from 'bcrypt';
 import { id } from '../../utilities/ids';
 import { Schema, model } from 'mongoose';
-import { UserDocument } from './user.types';
+import { UserDocument, UserRole } from './user.types';
 
 const userSchema = new Schema(
     {
@@ -9,6 +9,14 @@ const userSchema = new Schema(
             type: String,
             unique: true,
             default: id
+        },
+        role: {
+            type: String,
+            enum: {
+                values: Object.values(UserRole),
+                message: '{VALUE} is not supported'
+            },
+            required: true
         },
         name: {
             type: {
@@ -48,9 +56,11 @@ const userSchema = new Schema(
                 const {
                     _id,
                     credentials: { email },
+                    name: { first, middle, last, suffix },
                     ...rest
                 } = ret;
-                return { email, ...rest };
+
+                return { name: { first, middle, last, suffix }, email, ...rest };
             }
         }
     }
