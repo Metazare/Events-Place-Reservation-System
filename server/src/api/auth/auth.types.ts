@@ -1,33 +1,20 @@
-import { RegisterUser, UserDocumentBase } from '../user/user.types';
-
-export enum Role {
-    ADMIN = 'admin',
-    RENTER = 'renter',
-    HOST = 'host'
-}
+import { UserRole } from "../user/user.types";
 
 export interface Payload {
     userId: string;
-    role: Role;
+    role: UserRole;
 }
 
-export type UserDocument = UserDocumentBase;
-
-export interface User {
-    userId?: string;
-    document: UserDocument;
-    role: Role;
-}
-
-export interface SocketUser {
-    userId: string;
-    role: Role;
-}
-
-export type UserLogin = {
+export interface RegisterUser {
+    role: UserRole;
     email: string;
     password: string;
-    oauth?: boolean;
-};
-
-export type UserRegister = (RegisterUser) & { role: Role };
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    suffixName?: string;
+    contact: string;
+    photo?: string;
+    description?: string;
+    license?: string;
+}

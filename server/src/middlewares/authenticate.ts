@@ -1,8 +1,9 @@
-import { UserDocument, Payload, Role } from '../api/auth/auth.types';
 import { cookieOptions, signAccess, signRefresh } from '../utilities/cookies';
 import { Forbidden, Unauthorized } from '../utilities/errors';
 import { JwtPayload, verify } from 'jsonwebtoken';
+import { Payload } from '../api/auth/auth.types';
 import { RequestHandler } from 'express';
+import { UserDocument, UserRole } from '../api/user/user.types';
 import envs from '../utilities/envs';
 import UserModel from '../api/user/user.model';
 
@@ -39,13 +40,13 @@ const authenticate: RequestHandler = async (req, res, next) => {
         const { userId, role } = payload;
 
         switch (payload.role) {
-            case Role.ADMIN:
+            case UserRole.ADMIN:
                 user = await UserModel.findOne({ adminId: userId }).exec();
                 break;
-            case Role.RENTER:
+            case UserRole.RENTER:
                 user = await UserModel.findOne({ renterId: userId }).exec();
                 break;
-            case Role.HOST:
+            case UserRole.HOST:
                 user = await UserModel.findOne({ hostId: userId }).exec();
                 break;
             default:
@@ -54,7 +55,7 @@ const authenticate: RequestHandler = async (req, res, next) => {
 
         if (!user) return next(new Forbidden());
 
-        req.user = { document: user, role };
+        req.user = user;
 
         return next();
     }
