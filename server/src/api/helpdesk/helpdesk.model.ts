@@ -1,21 +1,33 @@
-import { hashSync } from 'bcrypt';
-import { Schema, model } from 'mongoose';
-import { HelpdeskDocument } from './helpdesk.types';
+import { Schema, Types, model } from 'mongoose';
 import { id } from '../../utilities/ids';
+import { HelpdeskDocument } from './helpdesk.types';
 
-const helpdeskSchema = new Schema<HelpdeskDocument>(
+const helpdeskSchema = new Schema(
     {
-        id: { 
-            type: String, 
-            required: true ,
+        helpdeskid: {
+            type: String,
+            unique: true,
             default: id
         },
-        userId: { type: String, required: true },
-        eventsPlaceId: { type: String },
-        report: { type: String, required: true },
-        response: { type: String },
-        createdAt: { type: Date, default: Date.now },
-        updatedAt: { type: Date, default: Date.now },
+        user: {
+            type: Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        eventsPlace: {
+            type: Types.ObjectId,
+            ref: 'EventsPlace',
+            required: true
+        },
+        report: {
+            type: String,
+            required: true
+        },
+        response: String
+    },
+    {
+        versionKey: false,
+        timestamps: true
     }
 );
 

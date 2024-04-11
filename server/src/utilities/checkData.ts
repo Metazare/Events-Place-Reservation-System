@@ -46,7 +46,7 @@ export class CheckData {
      * @param {string} key - The key or path of the value being checked.
      * @param {boolean} [canEmpty=false] - Indicates whether an empty array is allowed.
      */
-    checkArray(value: any, target: string, key: string, canEmpty = false) {
+    checkArray(value: any, target: string, key: string, canEmpty: boolean = false) {
         if (!Array.isArray(value)) {
             this.errors.push({ path: key, message: `${key} is not array` });
             return;
@@ -76,7 +76,7 @@ export class CheckData {
      *
      * @return {number} The size of the errors array.
      */
-    size() {
+    size(): number {
         return this.errors.length;
     }
 
@@ -85,7 +85,7 @@ export class CheckData {
      *
      * @return {Array} The list of errors.
      */
-    list() {
+    list(): Array<any> {
         return this.errors;
     }
 }

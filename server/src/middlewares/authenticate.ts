@@ -1,9 +1,9 @@
-import { Payload, Role } from '../api/auth/auth.types';
-import { UserDocument } from '../api/user/user.types';
 import { cookieOptions, signAccess, signRefresh } from '../utilities/cookies';
 import { Forbidden, Unauthorized } from '../utilities/errors';
 import { JwtPayload, verify } from 'jsonwebtoken';
+import { Payload } from '../api/auth/auth.types';
 import { RequestHandler } from 'express';
+import { UserDocument, UserRole } from '../api/user/user.types';
 import envs from '../utilities/envs';
 import UserModel from '../api/user/user.model';
 
@@ -36,14 +36,12 @@ const authenticate: RequestHandler = async (req, res, next) => {
     }
 
     if (payload) {
-        let user: UserDocument | null;
         const { userId, role } = payload;
-
-        user = await UserModel.findOne({ _id: userId }).exec();
+        const user = await UserModel.findOne({ userId, role });
 
         if (!user) return next(new Forbidden());
 
-        req.user = { document: user, role };
+        req.user = user;
 
         return next();
     }
