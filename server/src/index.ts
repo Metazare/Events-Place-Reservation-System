@@ -43,7 +43,10 @@ app.use('/chat', chatRoute);
 app.use((_req, _res, next) => next(new NotFound()));
 app.use(errorHandler);
 
-server.listen(PORT, () => {
-    connectToMongoDB();
-    console.log(`Server Running on port ${PORT}`);
-});
+mongoose
+    .connect(MONGO_URI)
+    .then(() => {
+        console.log('Connected to database');
+        app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+    })
+    .catch(console.error);

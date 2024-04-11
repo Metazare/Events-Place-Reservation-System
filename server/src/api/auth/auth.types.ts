@@ -2,7 +2,7 @@ import { UserRole } from "../user/user.types";
 
 export interface Payload {
     userId: string;
-    role: UserRole;
+    email: string;
 }
 
 export interface RegisterUser {

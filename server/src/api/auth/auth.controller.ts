@@ -43,7 +43,6 @@ export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, r
 
     // Build the user
     const createUser: Omit<User, 'userId'> = {
-        role,
         name: {
             first: firstName,
             middle: middleName,
@@ -62,7 +61,7 @@ export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, r
 
     // Create the user
     const user = await UserModel.create(createUser);
-    const payload: Payload = { userId: user.userId, role: user.role };
+    const payload: Payload = { userId: user.userId, email: user.credentials.email };
 
     return res
         .cookie('access-token', signAccess(payload), cookieOptions.access)
@@ -81,7 +80,7 @@ export const login: RequestHandler = async (req: BodyRequest<User['credentials']
     const user = await UserModel.findOne({ 'credentials.email': email }).exec();
     if (!user || !compareSync(password, user.credentials.password)) throw new Unauthorized();
 
-    const payload: Payload = { userId: user.id, role: user.role };
+    const payload: Payload = { userId: user.userId, email: user.credentials.email };
     res.cookie('access-token', signAccess(payload), cookieOptions.access)
         .cookie('refresh-token', signRefresh(payload), cookieOptions.refresh)
         .json(user);

@@ -22,8 +22,8 @@ const authenticate: RequestHandler = async (req, res, next) => {
 
     if (!payload) {
         try {
-            const { userId, role, exp = new Date() } = verify(refreshToken, envs.JWT_REFRESH) as JwtPayload & Payload;
-            payload = { userId, role };
+            const { userId, email, exp = new Date() } = verify(refreshToken, envs.JWT_REFRESH) as JwtPayload & Payload;
+            payload = { userId, email };
 
             res.cookie('access-token', signAccess(payload), cookieOptions.access);
 
@@ -36,8 +36,8 @@ const authenticate: RequestHandler = async (req, res, next) => {
     }
 
     if (payload) {
-        const { userId, role } = payload;
-        const user = await UserModel.findOne({ userId, role });
+        const { userId, email } = payload;
+        const user = await UserModel.findOne({ userId, 'credentials.email': email });
 
         if (!user) return next(new Forbidden());
 
