@@ -10,14 +10,6 @@ const userSchema = new Schema(
             unique: true,
             default: id
         },
-        role: {
-            type: String,
-            enum: {
-                values: Object.values(UserRole),
-                message: '{VALUE} is not supported'
-            },
-            required: true
-        },
         name: {
             type: {
                 first: { type: String, required: true },
