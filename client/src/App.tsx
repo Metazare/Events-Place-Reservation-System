@@ -10,7 +10,7 @@ import Default from './Pages/LandingPage/Default';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import Chat from './Pages/Chat/Chat';
-
+import Profile from './Pages/UserProfile/Profile';
 // Test
 import TestHelpdesk from './Test/TestHelpdesk';
 import TestNotification from './Test/TestNotification';
@@ -25,6 +25,7 @@ function App() {
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
             <Route path="/chat" element={<Chat/>} />
+            <Route path="/profile" element={<Profile/>} />
         </Route>
 
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />

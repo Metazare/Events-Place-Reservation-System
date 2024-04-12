@@ -3,8 +3,11 @@ import { AppBar,Box, Toolbar,IconButton,Typography,Menu,MenuItem,Avatar,Containe
 
 // Images
 import Logo from '../../Images/Logo/White.png'
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
+  const navigate = useNavigate()
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -20,12 +23,16 @@ export default function Header() {
           </Box>
           {Login?
             <>
-
-              <Tooltip title="Notification">
-                <IconButton aria-label="" onClick={()=>{}}>
-                  
-                </IconButton>
-              </Tooltip>
+              <Button variant="outlined" sx={{borderColor:"white",opacity:".9",borderRadius:"15px",padding:".4em 1.5em",color:"white", ":hover":{borderColor:"white"}}}>
+                Renter Mode
+              </Button>
+              <div className='border-l-2 border-[white]/60 pl-2 ml-2'>
+                <Tooltip title="Notification">
+                  <IconButton aria-label="" onClick={()=>{}}>
+                    <NotificationsIcon sx={{color:"white"}}/>
+                  </IconButton>
+                </Tooltip>
+              </div>
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={
@@ -52,7 +59,10 @@ export default function Header() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={()=>{
+                    navigate("/profile")
+                    handleCloseUserMenu()
+                  }}>
                     <Typography textAlign="center">
                       Profile
                     </Typography>
@@ -60,7 +70,7 @@ export default function Header() {
                 </Menu>
               </Box>
             </>:<>
-              <Button variant="contained" sx={{background:"white",color:"#144273",padding:".5em 2em",":hover":{color:"white"}}}>
+              <Button variant="contained" sx={{background:"white",color:"#144273",padding:".5em 2em",":hover":{color:"white"}}} onClick={()=>{navigate("/login")}}>
                 Login
               </Button>
             </>
