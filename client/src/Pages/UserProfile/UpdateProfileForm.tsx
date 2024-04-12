@@ -6,7 +6,7 @@ import GoogleIcon from "../../Images/Logo/google.png"
 
 // Components
 import CardBaseLoginRegister from 'src/Layouts/CardBaseLoginRegister';
-import TextField from 'src/Components/TextField';
+import TextField from '../../Components/TextField';
 import {  Button, Box} from '@mui/material';
 
 interface PropsType {
