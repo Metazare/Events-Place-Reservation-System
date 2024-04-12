@@ -2,45 +2,13 @@ import { BodyRequest, RequestHandler } from 'express';
 import { CheckData } from '../../utilities/checkData';
 import { compareSync } from 'bcrypt';
 import { cookieOptions, signAccess, signRefresh } from '../../utilities/cookies';
-import { Payload, Role, UserLogin, UserRegister } from './auth.types';
+import { Payload, RegisterUser } from './auth.types';
 import { Unauthorized, UnprocessableEntity } from '../../utilities/errors';
+import { User, UserRole } from '../user/user.types';
 import UserModel from '../user/user.model';
-import { RegisterUser, CheckEmail, UpdateUser, LoginUser } from '../user/user.types';
 
-export const createUser = async (body: RegisterUser): Promise<Payload> => {
-    const {
-      firstName,
-      lastName,
-      credentials: { email, password },
-      contact,
-    } = body;
-
-    let { middleName } = body;
-
-    const checker = new CheckData();
-  
-    checker.checkType(firstName, 'string', 'firstName');
-    checker.checkType(lastName, 'string', 'lastName');
-    checker.checkType(contact, 'number', 'contact');
-    checker.checkType(email, 'string', 'email');
-    checker.checkType(password, 'string', 'password');
-    if (middleName) checker.checkType(middleName, 'string', 'middleName');
-    if (checker.size()) throw new UnprocessableEntity(checker.errors);
-  
-    const { id } = await UserModel.create({
-        firstName: firstName,
-        middleName: middleName,
-        lastName: lastName,
-        contact,
-        credentials: { email, password }
-    });
-
-    return { userId: id, role: Role.RENTER };
-  };
-
-export const register: RequestHandler = async (req: BodyRequest<UserRegister>, res) => {
-    const { role, ...body } = req.body;
-    const { credentials: { email, password } } = body;
+export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, res) => {
+    const { role, email, password, firstName, middleName, lastName, suffixName, contact, photo, description, license } = req.body;
 
     const checker: CheckData = new CheckData();
 
@@ -48,18 +16,52 @@ export const register: RequestHandler = async (req: BodyRequest<UserRegister>, r
     checker.checkType(email, 'string', 'email');
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
-    const checkDuplicateEmail = await Promise.all([
-        UserModel.exists({ 'credentials.email': email }).exec(),
-    ]);
-    
-    if (checkDuplicateEmail.find(Boolean)) {
+    // Check for duplicate email
+    const checkDuplicateEmail = await UserModel.exists({ 'credentials.email': email }).exec();
+    if (checkDuplicateEmail) {
         checker.addError('email', 'Duplicate email');
         throw new UnprocessableEntity(checker.errors);
     }
 
-    let payload: Payload;
+    // Validate user data
+    checker.checkType(password, 'string', 'password');
+    checker.checkType(firstName, 'string', 'firstName');
+    checker.checkType(lastName, 'string', 'lastName');
+    checker.checkType(contact, 'string', 'contact');
+    if (middleName != null) checker.checkType(middleName, 'string', 'middleName');
+    if (suffixName != null) checker.checkType(suffixName, 'string', 'suffixName');
+    if (photo != null) checker.checkType(photo, 'string', 'photo');
 
-    payload = await createUser(<RegisterUser>body);
+    // If the role is host, check for the additional necessary info
+    if (role === UserRole.HOST) {
+        checker.checkType(description, 'string', 'description');
+        checker.checkType(license, 'string', 'license');
+    }
+
+    // Check if there are errors found by the checker
+    if (checker.size()) throw new UnprocessableEntity(checker.errors);
+
+    // Build the user
+    const createUser: Omit<User, 'userId'> = {
+        name: {
+            first: firstName,
+            middle: middleName,
+            last: lastName,
+            suffix: suffixName
+        },
+        credentials: { email, password },
+        contact,
+        photo
+    }
+
+    if (role === UserRole.HOST) {
+        createUser.description = description;
+        createUser.license = license;
+    }
+
+    // Create the user
+    const user = await UserModel.create(createUser);
+    const payload: Payload = { userId: user.userId, email: user.credentials.email };
 
     return res
         .cookie('access-token', signAccess(payload), cookieOptions.access)
@@ -67,40 +69,30 @@ export const register: RequestHandler = async (req: BodyRequest<UserRegister>, r
         .sendStatus(201);
 };
 
-export const login: RequestHandler = async (req: BodyRequest<LoginUser>, res) => {
-    const { email, password} = req.body;
+export const login: RequestHandler = async (req: BodyRequest<User['credentials']>, res) => {
+    const { email, password } = req.body;
     const checker = new CheckData();
 
     checker.checkType(email, 'string', 'email');
     checker.checkType(password, 'string', 'password');
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
-    const findUser = await Promise.all([
-        UserModel.findOne({ 'credentials.email': email }).exec()
-    ]);
-
-    const user = findUser.find(Boolean);
+    const user = await UserModel.findOne({ 'credentials.email': email }).exec();
     if (!user || !compareSync(password, user.credentials.password)) throw new Unauthorized();
 
-    let payload: Payload;
-
-    if (user instanceof UserModel) payload = { userId: user.id, role: Role.ADMIN };
-    else throw new Unauthorized();
-
+    const payload: Payload = { userId: user.userId, email: user.credentials.email };
     res.cookie('access-token', signAccess(payload), cookieOptions.access)
         .cookie('refresh-token', signRefresh(payload), cookieOptions.refresh)
-        .json({ ...user.toJSON(), role: payload.role });
+        .json(user);
 };
 
 export const checkEmail: RequestHandler = async (req, res) => {
     const { email } = req.body;
 
-    const checkDuplicateEmail = await Promise.all([
-        UserModel.exists({ 'credentials.email': email }).exec(),
-    ]);
+    const checkDuplicateEmail = await Promise.all([UserModel.exists({ 'credentials.email': email }).exec()]);
 
     res.json({ duplicateEmail: checkDuplicateEmail.find(Boolean) });
-}
+};
 
 export const logout: RequestHandler = async (_req, res) =>
     // prettier-ignore

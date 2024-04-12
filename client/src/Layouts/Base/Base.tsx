@@ -7,9 +7,11 @@ import Footer from '../Footer/Footer'
 export default function Base() {
   return (
     <>
-      <Header />
-      <Outlet />
-      <Footer />
+      <div className='flex flex-col min-h-[100vh]'>
+        <Header />
+        <Outlet />
+        <Footer />
+      </div>
     </>
   )
 }

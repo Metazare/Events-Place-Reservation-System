@@ -1,39 +1,61 @@
 import { hashSync } from 'bcrypt';
-import { Schema, model } from 'mongoose';
-import { UserDocument } from './user.types';
 import { id } from '../../utilities/ids';
+import { Schema, model } from 'mongoose';
+import { UserDocument, UserRole } from './user.types';
 
-const userSchema = new Schema<UserDocument>(
-  {
-    firstName: { type: String, required: true },
-    middleName: { type: String },
-    lastName: { type: String, required: true },
-    credentials: {
-      type: {
-          email: {
-              type: String,
-              unique: true,
-              match: /^[\w\.-]+@([\w-]+\.)+[\w-]{2,4}$/,
-              required: true
-          },
-          password: {
-              type: String,
-              set: (value: string): string => hashSync(value, 10),
-              required: true
-          }
-      },
-      required: true
+const userSchema = new Schema(
+    {
+        userId: {
+            type: String,
+            unique: true,
+            default: id
+        },
+        name: {
+            type: {
+                first: { type: String, required: true },
+                middle: String,
+                last: { type: String, required: true },
+                suffix: String
+            },
+            required: true
+        },
+        credentials: {
+            type: {
+                email: {
+                    type: String,
+                    unique: true,
+                    match: /^[\w\.-]+@([\w-]+\.)+[\w-]{2,4}$/,
+                    required: true
+                },
+                password: {
+                    type: String,
+                    set: (value: string): string => hashSync(value, 10),
+                    required: true
+                }
+            },
+            required: true
+        },
+        contact: { type: String, required: true },
+        photo: String,
+        description: String,
+        license: String
     },
-    contact: { type: Number, required: true },
-    photo: { type: String },
-    host: {
-      id: { type: String },
-      name: { type: String },
-      photo: { type: String },
-    },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-  }
+    {
+        versionKey: false,
+        timestamps: true,
+        toJSON: {
+            transform(_doc, ret) {
+                const {
+                    _id,
+                    credentials: { email },
+                    name: { first, middle, last, suffix },
+                    ...rest
+                } = ret;
+
+                return { name: { first, middle, last, suffix }, email, ...rest };
+            }
+        }
+    }
 );
 
 export default model<UserDocument>('User', userSchema);

@@ -17,7 +17,7 @@ const bufferHex = (n: number): Buffer => {
 
 const stringBuffer = (b: Buffer): string => [...b].map((b) => alphabet[b & 63]).join('');
 
-const spacer = 4;
+const spacer = 1;
 export const id = (): string => {
     const date = bufferHex(Date.now());
     const bytes = randomBytes((date.length + 1) * spacer);
