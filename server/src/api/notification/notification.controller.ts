@@ -6,7 +6,7 @@ import NotificationModel from './notification.model';
 
 export const getNotifications: RequestHandler = async (req, res) => {
     if (!req.user) throw new Unauthorized();
-    const { document: user } = req.user;
+    const user = req.user;
 
     const notifications = await NotificationModel.find({ userId: user._id }).exec();
 

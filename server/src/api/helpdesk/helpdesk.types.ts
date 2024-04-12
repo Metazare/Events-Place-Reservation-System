@@ -21,3 +21,8 @@ export interface HelpdekPopulatedDocument extends HelpdeskDocument {
     user: UserDocument;
     eventsPlace: EventsPlacePopulatedDocument;
 }
+
+export type GetHelpdeskEntry = {
+    id?: string;
+    userId?: string;
+};

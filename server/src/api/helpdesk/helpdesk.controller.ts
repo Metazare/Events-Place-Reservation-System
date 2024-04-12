@@ -5,17 +5,17 @@ import Helpdesk from './helpdesk.model';
 import { HelpdeskDocument, GetHelpdeskEntry } from './helpdesk.types';
 
 export const createHelpdeskReport: RequestHandler = async (req: BodyRequest<HelpdeskDocument>, res) => {
-    const { eventsPlaceId, report} = req.body;
+    const { eventsPlace, report} = req.body;
 
     if (!req.user) throw new Unauthorized();
-    const { document: user, role } = req.user;
+    const user = req.user;
 
     const checker = new CheckData();
     checker.checkType(report, 'string', 'report');
 
     await Helpdesk.create({
         userId: user._id,
-        eventsPlaceId,
+        eventsPlace,
         report,
     });
 
@@ -45,14 +45,14 @@ export const createHelpdeskResponse: RequestHandler = async (req: BodyRequest<He
 export const getHelpdeskEntry: RequestHandler = async (req: QueryRequest<GetHelpdeskEntry>, res) => {
 
     if (!req.user) throw new Unauthorized();
-    const { document: user, role } = req.user;
+    const user = req.user;
 
     const { id } = req.query;
 
     const helpdeskQuery: Record<string, unknown> = {};
 
     if (typeof id === 'string') helpdeskQuery.id = id;
-    if (role!=='admin') helpdeskQuery.userId = user._id;
+    // if (role!=='admin') helpdeskQuery.userId = user._id;
 
     const entry = await Helpdesk.find(helpdeskQuery).exec();
 

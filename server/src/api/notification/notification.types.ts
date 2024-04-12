@@ -1,4 +1,3 @@
-import { Role, SocketUser } from '../auth/auth.types';
 import { Document } from 'mongoose';
 import { UserDocument } from '../user/user.types';
 
