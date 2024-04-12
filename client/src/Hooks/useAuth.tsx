@@ -53,7 +53,7 @@ const useLogin = () => {
                 });
 
         } catch (error: any) {
-            toast.error(error.message);
+            toast.error(error.response?.data?.message);
         } finally {
             setLoading(false);
         }
@@ -77,7 +77,7 @@ const useLogout = () => {
                     setAuthUser(null);
                 });
         } catch (error: any) {
-            toast.error(error.message);
+            toast.error(error.response?.data?.message);
         } finally {
             setLoading(false);
         }
@@ -102,6 +102,29 @@ const useRegister = () => {
         return true;
     };
 
+    const isEmailUnique = async (data): Promise<boolean | undefined> => {
+        setLoading(true);
+
+        try {
+            await axios
+                .post(`/auth/checkemail`, {email: data})
+                .then((response: any) => {
+                    if (response.data.duplicateEmail) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+            return false;
+        } finally {
+            setLoading(false);
+        }
+
+        return undefined;
+    };
+
     const register = async (data: RegisterData) => {
         if (!handleInputErrors(data)) {
             return; // Exit early if there are input errors
@@ -109,23 +132,27 @@ const useRegister = () => {
 
         setLoading(true);
 
-        try {
-            await axios.post(`/auth/register`, data).then((response: any) => {
-                // Login user after successful registration
-                login({ email: data.email, password: data.password });
-                localStorage.setItem("user", JSON.stringify(response.data));
-                setAuthUser(response.data);
-            });
-
-        } catch (error: any) {
-            console.log(error);
-            toast.error(error.message);
-        } finally {
-            setLoading(false);
+        if (await isEmailUnique(data.email)){
+            try {
+                await axios.post(`/auth/register`, data).then((response: any) => {
+                    // Login user after successful registration
+                    login({ email: data.email, password: data.password });
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                    setAuthUser(response.data);
+                });
+    
+            } catch (error: any) {
+                toast.error(error.response?.data?.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        else {
+            toast.error("Email already exists");
         }
     };
 
-    return { loading, register };
+    return { loading, register, isEmailUnique };
 };
 
 
