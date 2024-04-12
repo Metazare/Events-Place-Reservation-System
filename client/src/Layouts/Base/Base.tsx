@@ -9,9 +9,7 @@ export default function Base() {
     <>
       <div className='flex flex-col min-h-[100vh]'>
         <Header />
-        <div className='grow'>
-          <Outlet />
-        </div>
+        <Outlet />
         <Footer />
       </div>
     </>
