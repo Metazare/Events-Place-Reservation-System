@@ -10,26 +10,26 @@ interface User {
     email: string;
     password: string;
     role: string;
-  }
+}
   
-  interface Message {
+interface Message {
     _id: string;
     senderId: string;
     receiverId: string;
     message: string;
-  }
-  
-  interface Conversation {
+}
+
+interface Conversation {
     _id: string;
     participants: User[];
     messages: Message[];
-  }
+}
 
 interface ConversationProps {
     conversation: Conversation;
     lastIdx: boolean;
     emoji: string;
-    }
+}
 
 const Conversation: React.FC<ConversationProps> = ({ conversation, lastIdx, emoji }) => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
@@ -54,7 +54,7 @@ const Conversation: React.FC<ConversationProps> = ({ conversation, lastIdx, emoj
 
 				<div className='flex flex-col flex-1'>
 					<div className='flex gap-3 justify-between'>
-						{/* <p className='font-bold text-gray-200'>{conversation.firstName}</p> */}
+						<p className='font-bold text-gray-200'>{conversation?.participants?.[0]?.first}</p>
 						<span className='text-xl'>{emoji}</span>
 					</div>
 				</div>

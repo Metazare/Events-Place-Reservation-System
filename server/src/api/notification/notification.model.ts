@@ -1,6 +1,5 @@
 import { id } from '../../utilities/ids';
 import { NotificationDocument, NotificationStatus } from './notification.types';
-import { Role } from '../auth/auth.types';
 import { Schema, model } from 'mongoose';
 
 const notificationSchema = new Schema({

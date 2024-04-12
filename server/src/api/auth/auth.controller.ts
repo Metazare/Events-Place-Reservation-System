@@ -94,6 +94,18 @@ export const checkEmail: RequestHandler = async (req, res) => {
     res.json({ duplicateEmail: checkDuplicateEmail.find(Boolean) });
 };
 
+export const getUsers: RequestHandler = async (req: BodyRequest<User>, res) => {
+    if (!req.user) throw new Unauthorized();
+    const user = req.user;
+
+    const loggedInUserId = user._id;
+
+    const filteredUsers = await UserModel.find({ _id: { $ne: loggedInUserId } }).select("-password");
+
+    res.json(filteredUsers);
+};
+
+
 export const logout: RequestHandler = async (_req, res) =>
     // prettier-ignore
     res.cookie('access-token', '', cookieOptions.default)

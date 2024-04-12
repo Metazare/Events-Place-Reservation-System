@@ -8,7 +8,7 @@ import Conversation from './conversation.model';
 
 export const sendMessage: RequestHandler = async (req: BodyRequest<MessageDocument>, res) => {
     if (!req.user) throw new Unauthorized();
-    const { document: user } = req.user;
+    const user = req.user;
     const senderId = user._id;
 
     const { receiverId, message } = req.body;
@@ -53,7 +53,7 @@ export const sendMessage: RequestHandler = async (req: BodyRequest<MessageDocume
 
 export const getMessages: RequestHandler = async (req: QueryRequest<GetMessageData>, res) => {
     if (!req.user) throw new Unauthorized();
-    const { document: user } = req.user;
+    const user = req.user;
 
     const senderId = user._id;
 

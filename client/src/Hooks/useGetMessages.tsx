@@ -16,10 +16,11 @@ const useGetMessages = () => {
 
   useEffect(() => {
     const getMessages = async () => {
+      console.log(selectedConversation?._id)
       setLoading(true);
       try {
         await axios
-          .get("/chat/users", {
+          .get("/auth/users", {
             params: {
               conversationId: selectedConversation?._id,
             },

@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './Styles/main.scss'
 import { AuthContextProvider } from "./Context/AuthContext";
-import { SocketContextProvider } from "./Context/SocketContext";
+// import { SocketContextProvider } from "./Context/SocketContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,11 +14,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
-				<SocketContextProvider>
+				{/* <SocketContextProvider> */}
           <Routes>
             <Route path="/*" element={<App/>}/>
           </Routes>
-				</SocketContextProvider>
+				{/* </SocketContextProvider> */}
 			</AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>

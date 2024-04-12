@@ -16,6 +16,7 @@ const useSendMessage = () => {
 
     const sendMessage = async (message: string) => {
         setLoading(true);
+        console.log(selectedConversation?._id)
         console.log(message)
         try {
             await axios

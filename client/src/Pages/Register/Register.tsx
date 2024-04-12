@@ -9,27 +9,29 @@ import CardBaseLoginRegister from 'src/Layouts/CardBaseLoginRegister';
 import TextField from 'src/Components/TextField';
 import {  Button, Box} from '@mui/material';
 
+// Hooks
+import { useRegister } from '../../Hooks/useAuth';
+
 export default function Register() {
+  const { register } = useRegister();
   const navigate = useNavigate();
   const LoginForm = useFormik({
     initialValues: {
       firstName:'',
       middleName:'',
       lastName:'',
-      suffix:'',
-      contactNumber:'',
+      suffixName:'',
+      contact:'',
       email: '',
       password: '',
       confirmPassword:''
     },
     validate: values => {
-      let error:{ firstName?:string, middleName?:string, lastName?:string, suffix?:string, contactNumber?:string, email?: string, password?:string, confirmPassword?:string} = {};
+      let error:{ firstName?:string, middleName?:string, lastName?:string, suffixName?:string, contact?:string, email?: string, password?:string, confirmPassword?:string} = {};
 
       if(!values.firstName) error.firstName = "First Name is required"
-      if(!values.middleName) error.middleName = "Middle Name is required"
       if(!values.lastName) error.lastName = "Last Name is required"
-      if(!values.suffix) error.suffix = "Middle Name is required"
-      if(!values.contactNumber) error.contactNumber = "Contact Number is required"
+      if(!values.contact) error.contact = "Contact Number is required"
       if(!values.confirmPassword) error.confirmPassword = "Confirm Password is required"
       if (!/\S+@\S+\.\S+/.test(values.email)) error.email = "Invalid email format";
       if(!values.email) error.email = "Email is required"
@@ -38,7 +40,8 @@ export default function Register() {
       return error;
     },
     onSubmit: values => {
-      console.log(values)
+      const { confirmPassword, ...formData } = values;
+      register({ ...formData, role: 'renter' });
     }
   })
 
@@ -104,14 +107,14 @@ export default function Register() {
             <TextField 
               attr={{
                 placeholder:"Jr.",
-                name:"suffix",
-                values:LoginForm.values.suffix,
+                name:"suffixName",
+                values:LoginForm.values.suffixName,
               }}
               label="Suffix" 
               type="text" 
               handleChange={LoginForm.handleChange}
-              error={LoginForm.touched.suffix && LoginForm.errors.suffix !== undefined}
-              errorMessages={LoginForm.errors.suffix}
+              error={LoginForm.touched.suffixName && LoginForm.errors.suffixName !== undefined}
+              errorMessages={LoginForm.errors.suffixName}
             />
           </Box>
           {/* Email & Contact Number */}
@@ -138,14 +141,14 @@ export default function Register() {
             <TextField 
               attr={{
                 placeholder:"09152312322",
-                name:"contactNumber",
-                values:LoginForm.values.contactNumber,
+                name:"contact",
+                values:LoginForm.values.contact,
               }}
               label="Contact Number" 
               type="text" 
               handleChange={LoginForm.handleChange}
-              error={LoginForm.touched.contactNumber && LoginForm.errors.contactNumber !== undefined}
-              errorMessages={LoginForm.errors.contactNumber}
+              error={LoginForm.touched.contact && LoginForm.errors.contact !== undefined}
+              errorMessages={LoginForm.errors.contact}
             />
           </Box>
           {/* Password & Confirm Password */}
