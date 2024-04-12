@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
+
+import { Toaster } from 'react-hot-toast';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './Styles/main.scss'
@@ -15,6 +17,7 @@ root.render(
     <BrowserRouter>
       <AuthContextProvider>
 				{/* <SocketContextProvider> */}
+          <Toaster />
           <Routes>
             <Route path="/*" element={<App/>}/>
           </Routes>
