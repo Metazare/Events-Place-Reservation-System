@@ -78,7 +78,7 @@ export default function Login() {
 
           <div className='w-full flex gap-3 justify-center bg-[#F7F7F7] p-2 cursor-pointer hover:bg-[#e9e9e9] mt-3 rounded-xl opacity-90 font-[4  00]' style={{transition:"all .3s ease-in-out"}}>
             <img src={GoogleIcon} alt="" width={"25px"}/>
-            <p>Goggle</p>
+            <p>Google</p>
           </div>
         </div>
       </CardBaseLoginRegister>

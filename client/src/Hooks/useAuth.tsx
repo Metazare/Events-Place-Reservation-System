@@ -51,7 +51,6 @@ const useLogin = () => {
                     setAuthUser(response.data);
                     navigate('/profile');
                 });
-
         } catch (error: any) {
             toast.error(error.response?.data?.message);
         } finally {
