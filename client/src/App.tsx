@@ -15,7 +15,7 @@ import Profile from './Pages/UserProfile/Profile';
 import TestHelpdesk from './Test/TestHelpdesk';
 import TestNotification from './Test/TestNotification';
 
-const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:4000');
+// const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:4000');
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
         </Route>
 
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
-        <Route path="/test/notification" element={<TestNotification socket={socket}/>} />
+        {/* <Route path="/test/notification" element={<TestNotification socket={socket}/>} /> */}
 
     </Routes>
   );

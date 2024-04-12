@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
 import axios from './useAxios';
 
 interface RegisterData {
-    first: string;
-    middle: string;
-    last: string;
-    contact: number;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    suffixName: string;
+    contact: string;
     email: string;
     password: string;
     role: string;
@@ -21,6 +23,7 @@ interface LoginData {
 const useLogin = () => {
     const [loading, setLoading] = useState(false);
     const { setAuthUser } = useAuthContext();
+    const navigate = useNavigate();
 
     const handleInputErrors = (data: LoginData): boolean => {
         const { email, password } = data;
@@ -42,14 +45,11 @@ const useLogin = () => {
 
         try {
             await axios
-                .post(`/auth/login`,{
-                    "email" : email,
-                    "password" : password
-                })
+                .post(`/auth/login`, data)
                 .then((response: any) => {
-                    console.log(response.data)
                     localStorage.setItem('user', JSON.stringify(response.data))
                     setAuthUser(response.data);
+                    navigate('/profile');
                 });
 
         } catch (error: any) {
@@ -92,15 +92,10 @@ const useRegister = () => {
     const { setAuthUser } = useAuthContext();
 
     const handleInputErrors = (data: RegisterData): boolean => {
-        const { first, middle, last, contact, email, password, role } = data;
+        const { firstName, lastName, contact, email, password} = data;
         
-        if (!first || !middle || !last || !contact || !email || !password || !role) {
+        if (!firstName || !lastName || !contact || !email || !password) {
             toast.error("Please fill in all fields");
-            return false;
-        }
-
-        if (password.length < 6) {
-            toast.error("Password must be at least 6 characters");
             return false;
         }
 
@@ -112,23 +107,12 @@ const useRegister = () => {
             return; // Exit early if there are input errors
         }
 
-        const { first, middle, last, contact, email, password, role } = data;
         setLoading(true);
 
         try {
-            await axios.post(`/auth/register`, {
-                firstName: first,
-                middleName: middle,
-                lastName: last,
-                contact: contact,
-                credentials: {
-                    email: email,
-                    password: password,
-                },
-                role: role,
-            }).then((response: any) => {
+            await axios.post(`/auth/register`, data).then((response: any) => {
                 // Login user after successful registration
-                login({ email: email, password: password });
+                login({ email: data.email, password: data.password });
                 localStorage.setItem("user", JSON.stringify(response.data));
                 setAuthUser(response.data);
             });

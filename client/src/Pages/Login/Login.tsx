@@ -10,8 +10,11 @@ import CardBaseLoginRegister from 'src/Layouts/CardBaseLoginRegister';
 import TextField from 'src/Components/TextField';
 import {  Button} from '@mui/material';
 
+// Hooks
+import { useLogin } from '../../Hooks/useAuth';
 
 export default function Login() {
+  const { login } = useLogin();
   const navigate = useNavigate();
   const LoginForm = useFormik({
     initialValues: {
@@ -30,7 +33,7 @@ export default function Login() {
       return error;
     },
     onSubmit: values => {
-      console.log(values)
+      login(values);
     }
   })
   
