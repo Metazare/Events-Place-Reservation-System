@@ -36,6 +36,9 @@ export default function Register() {
       if (!/\S+@\S+\.\S+/.test(values.email)) error.email = "Invalid email format";
       if(!values.email) error.email = "Email is required"
       if(!values.password) error.password = "Password is required"
+      if (values.password !== values.confirmPassword) {
+        error.confirmPassword = "Password does not match";
+      }
 
       return error;
     },
