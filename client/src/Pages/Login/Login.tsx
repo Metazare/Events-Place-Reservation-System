@@ -10,16 +10,12 @@ import CardBaseLoginRegister from 'src/Layouts/CardBaseLoginRegister';
 import TextField from 'src/Components/TextField';
 import {  Button} from '@mui/material';
 
-// Hooks
-import { useLogin } from '../../Hooks/useAuth';
 
 export default function Login() {
   const navigate = useNavigate();
-  // const { login } = useLogin();
   const LoginForm = useFormik({
     initialValues: {
       email: '',
-      telegram: '',
       password: ''
     },
     validate: values => {
@@ -35,10 +31,6 @@ export default function Login() {
     },
     onSubmit: values => {
       console.log(values)
-      // login({
-      //   email: values.email,
-      //   password: values.password
-      // });
     }
   })
   

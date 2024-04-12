@@ -5,10 +5,11 @@ interface PropsType{
   title:string
   subTitle:string
   children:any
+  otherStyle?:string
 }
-function CardBaseLoginRegister({title,subTitle,children}:PropsType) {
+function CardBaseLoginRegister({title,subTitle,children,otherStyle}:PropsType) {
   return (
-    <div className='bg-[white] px-4 py-5 rounded-xl w-full max-w-[450px]'>
+    <div className={`bg-[white] px-4 py-5 rounded-xl w-full max-w-[450px] ${otherStyle} `}>
       <div className='flex items-center mb-6'>
         <div className='grow'>
           <h5 className='text-[24px] leading-[24px] font-[600] text-primary'>{title}</h5>
