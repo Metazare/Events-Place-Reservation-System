@@ -11,6 +11,7 @@ import errorHandler from './middlewares/errorHandler';
 
 // Routes
 import authRoute from './api/auth/auth.route';
+import userRoute from './api/user/user.route';
 
 // Utilities
 import { NotFound } from './utilities/errors';
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use(helmet());
 
 app.use('/auth', authRoute);
+app.use('/user', userRoute);
 app.use(authenticate);
 
 app.use((_req, _res, next) => next(new NotFound()));

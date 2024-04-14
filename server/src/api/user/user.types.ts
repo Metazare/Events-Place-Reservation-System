@@ -28,3 +28,25 @@ export interface UserDocument extends User, Document {
     createdAt: Date;
     updatedAt: Date;
 }
+
+/* REQUESTS */
+
+export type EditUserInfo = {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    suffixName: string;
+    contact: string;
+    photo: string;
+    description: string;
+    license: string;
+}
+
+export type GetUser = {
+    userId?: string;
+}
+
+export type EditUserCredentials = {
+    email: string;
+    password: string;
+}
