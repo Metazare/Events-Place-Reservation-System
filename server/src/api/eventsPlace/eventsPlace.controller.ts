@@ -1,7 +1,13 @@
-import { BodyRequest, RequestHandler } from 'express';
-import { CreateEventsPlace } from './eventsPlace.types';
+import { BodyRequest, QueryRequest, RequestHandler } from 'express';
+import {
+    CreateEventsPlace,
+    EditEventsPlace,
+    EventsPlaceDocument,
+    EventsPlaceQuery,
+    GetEventsPlace
+} from './eventsPlace.types';
 import { CheckData } from '../../utilities/checkData';
-import { Unauthorized, UnprocessableEntity } from '../../utilities/errors';
+import { NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
 import eventsPlaceModel from './eventsPlace.model';
 
 export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateEventsPlace>, res) => {
@@ -57,8 +63,83 @@ export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateE
     res.sendStatus(201);
 };
 
-export const getEventsPlace: RequestHandler = async (req, res) => {};
+export const getEventsPlace: RequestHandler = async (req: QueryRequest<GetEventsPlace>, res) => {
+    const { user, query } = req;
+    const { eventsPlaceId } = query;
 
-export const updateEventsPlace: RequestHandler = async (req, res) => {};
+    const checker = new CheckData();
+    checker.checkType(eventsPlaceId, 'string', 'eventsPlaceId', true);
+    if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
-export const deleteEventsPlace: RequestHandler = async (req, res) => {};
+    const eventsPlaceQuery: EventsPlaceQuery = {};
+    if (user) {
+        eventsPlaceQuery.host = user._id;
+    }
+
+    if (eventsPlaceId) {
+        eventsPlaceQuery.eventsPlaceId = eventsPlaceId;
+    }
+
+    const eventsPlaces: EventsPlaceDocument[] = await eventsPlaceModel.find(eventsPlaceQuery, { host: 0 }).exec();
+
+    res.json(eventsPlaces);
+};
+
+export const editEventsPlace: RequestHandler = async (req: BodyRequest<EditEventsPlace>, res) => {
+    const { user, body } = req;
+
+    if (!user) throw new Unauthorized();
+    const { eventsPlaceId, name, description, placeType, location, rate, maxCapacity, amenities, images } = body;
+    const checker = new CheckData();
+
+    // Find the events place by eventsPlaceId  and host
+    const eventsPlace: EventsPlaceDocument | null = await eventsPlaceModel
+        .findOne({ eventsPlaceId, host: user._id })
+        .exec();
+    if (!eventsPlace) throw new NotFound('Events Place');
+
+    // Validate inputs
+
+    checker.checkType(name, 'string', 'name');
+    checker.checkType(description, 'string', 'desription');
+    checker.checkType(placeType, 'string', 'placeType');
+    checker.checkType(location, 'string', 'location');
+    checker.checkType(rate, 'number', 'rate');
+    checker.checkType(maxCapacity, 'number', 'maxCapacity');
+
+    if (amenities instanceof Array) {
+        for (let i = 0; i < amenities.length; i++) {
+            const { name, amenityType, rate } = amenities[i];
+            checker.checkType(name, 'string', `amenities.${i}.name`);
+            checker.checkType(amenityType, 'string', `amenities.${i}.amenityType`);
+            checker.checkType(rate, 'number', `amenities.${i}.rate`);
+        }
+    } else if (amenities != null) {
+        checker.addError('amenities', `amenities is ${typeof amenities}`);
+    }
+
+    if (images instanceof Array) {
+        for (let i = 0; i < images.length; i++) {
+            checker.checkType(images[i], 'string', `images.${i}`);
+        }
+    } else if (images != null) {
+        checker.addError('images', `images is ${typeof images}`);
+    }
+
+    if (checker.size()) throw new UnprocessableEntity(checker.errors);
+
+    // Update values
+    eventsPlace.name = name;
+    eventsPlace.description = description;
+    eventsPlace.placeType = placeType;
+    eventsPlace.location = location;
+    eventsPlace.rate = rate;
+    eventsPlace.maxCapacity = maxCapacity;
+    eventsPlace.amenities = amenities;
+    eventsPlace.images = images;
+
+    // Save changes
+    await eventsPlace.save();
+
+    res.sendStatus(204);
+};

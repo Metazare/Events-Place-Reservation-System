@@ -16,7 +16,5 @@ router.post('/register/host', asynchronousHandler(registerHost));
 
 router.post('/logout', asynchronousHandler(logout));
 
-router.get('/users', authenticate, asynchronousHandler(getUsers));
-
 
 export default router;
