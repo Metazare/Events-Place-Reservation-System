@@ -45,3 +45,14 @@ export interface EventsPlacePopulatedDocument extends EventsPlaceDocument {
 /* REQUESTS */
 
 export type CreateEventsPlace = Omit<EventsPlace, 'eventsPlaceId' | 'host'>;
+
+export type GetEventsPlace = {
+    eventsPlaceId?: string;
+}
+
+export type EditEventsPlace = Omit<EventsPlace, 'host'>;
+
+export type EventsPlaceQuery = {
+    host?: EventsPlaceDocument['_id'];
+    eventsPlaceId?: string;
+}
