@@ -13,7 +13,7 @@ export interface User {
         middle?: string;
         last: string;
         suffix?: string;
-    }
+    };
     credentials: {
         email: string;
         password: string;
@@ -22,6 +22,7 @@ export interface User {
     photo?: string;
     description?: string;
     license?: string;
+    passwordResetHash?: string;
 }
 
 export interface UserDocument extends User, Document {
@@ -40,13 +41,31 @@ export type EditUserInfo = {
     photo: string;
     description: string;
     license: string;
-}
+};
 
 export type GetUser = {
     userId?: string;
-}
+};
 
 export type EditUserCredentials = {
     email: string;
     password: string;
+};
+
+export type ForgotPassword = {
+    email: string;
+};
+
+export type PasswordHashContent = {
+    hash: string;
+    email: string;
+    due: Date;
+};
+
+export type ResetPassword = {
+    password: string;
+} & VerifyHash;
+
+export type VerifyHash = {
+    hash: string;
 }
