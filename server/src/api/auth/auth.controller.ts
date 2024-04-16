@@ -2,17 +2,16 @@ import { BodyRequest, RequestHandler } from 'express';
 import { CheckData } from '../../utilities/checkData';
 import { compareSync } from 'bcrypt';
 import { cookieOptions, signAccess, signRefresh } from '../../utilities/cookies';
-import { Payload, RegisterUser } from './auth.types';
+import { Payload, RegisterHost, RegisterUser } from './auth.types';
 import { Unauthorized, UnprocessableEntity } from '../../utilities/errors';
-import { User, UserRole } from '../user/user.types';
+import { User } from '../user/user.types';
 import UserModel from '../user/user.model';
 
 export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, res) => {
-    const { role, email, password, firstName, middleName, lastName, suffixName, contact, photo, description, license } = req.body;
+    const { email, password, firstName, middleName, lastName, suffixName, contact, photo } = req.body;
 
     const checker: CheckData = new CheckData();
 
-    checker.checkType(role, 'string', 'role');
     checker.checkType(email, 'string', 'email');
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
@@ -28,15 +27,9 @@ export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, r
     checker.checkType(firstName, 'string', 'firstName');
     checker.checkType(lastName, 'string', 'lastName');
     checker.checkType(contact, 'string', 'contact');
-    if (middleName != null) checker.checkType(middleName, 'string', 'middleName');
-    if (suffixName != null) checker.checkType(suffixName, 'string', 'suffixName');
-    if (photo != null) checker.checkType(photo, 'string', 'photo');
-
-    // If the role is host, check for the additional necessary info
-    if (role === UserRole.HOST) {
-        checker.checkType(description, 'string', 'description');
-        checker.checkType(license, 'string', 'license');
-    }
+    checker.checkType(middleName, 'string', 'middleName', true);
+    checker.checkType(suffixName, 'string', 'suffixName', true);
+    checker.checkType(photo, 'string', 'photo', true);
 
     // Check if there are errors found by the checker
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
@@ -54,11 +47,6 @@ export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, r
         photo
     }
 
-    if (role === UserRole.HOST) {
-        createUser.description = description;
-        createUser.license = license;
-    }
-
     // Create the user
     const user = await UserModel.create(createUser);
     const payload: Payload = { userId: user.userId, email: user.credentials.email };
@@ -68,6 +56,28 @@ export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, r
         .cookie('refresh-token', signRefresh(payload), cookieOptions.refresh)
         .sendStatus(201);
 };
+
+export const registerHost: RequestHandler = async (req: BodyRequest<RegisterHost>, res) => {
+    const { user } = req;
+    if (!user) throw new Unauthorized();
+
+    // Check if user is already host
+    if (user.license != null) throw new Unauthorized('Already a host');
+
+    const { description, license } = req.body;
+    const checker = new CheckData();
+
+    checker.checkType(description, 'string', 'description');
+    checker.checkType(license, 'string', 'license');
+
+    if (checker.size()) throw new UnprocessableEntity(checker.errors);
+
+    user.description = description;
+    user.license = license;
+    await user.save();
+
+    return res.sendStatus(201);
+}
 
 export const login: RequestHandler = async (req: BodyRequest<User['credentials']>, res) => {
     const { email, password } = req.body;
@@ -85,26 +95,6 @@ export const login: RequestHandler = async (req: BodyRequest<User['credentials']
         .cookie('refresh-token', signRefresh(payload), cookieOptions.refresh)
         .json(user);
 };
-
-export const checkEmail: RequestHandler = async (req, res) => {
-    const { email } = req.body;
-
-    const checkDuplicateEmail = await Promise.all([UserModel.exists({ 'credentials.email': email }).exec()]);
-
-    res.json({ duplicateEmail: checkDuplicateEmail.find(Boolean) });
-};
-
-export const getUsers: RequestHandler = async (req: BodyRequest<User>, res) => {
-    if (!req.user) throw new Unauthorized();
-    const user = req.user;
-
-    const loggedInUserId = user._id;
-
-    const filteredUsers = await UserModel.find({ _id: { $ne: loggedInUserId } }).select("-password");
-
-    res.json(filteredUsers);
-};
-
 
 export const logout: RequestHandler = async (_req, res) =>
     // prettier-ignore

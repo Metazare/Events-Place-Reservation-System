@@ -13,6 +13,7 @@ import errorHandler from './middlewares/errorHandler';
 
 // Routes
 import authRoute from './api/auth/auth.route';
+import userRoute from './api/user/user.route';
 import helpdeskRoute from './api/helpdesk/helpdesk.route';
 import notificationRoute from './api/notification/notification.route';
 import chatRoute from './api/chat/message.route';
@@ -35,6 +36,7 @@ app.use(express.json());
 app.use(helmet());
 
 app.use('/auth', authRoute);
+app.use('/user', userRoute);
 app.use(authenticate);
 app.use('/helpdesk', helpdeskRoute);
 app.use('/notification', notificationRoute);

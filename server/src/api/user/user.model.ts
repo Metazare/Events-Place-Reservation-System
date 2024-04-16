@@ -38,7 +38,8 @@ const userSchema = new Schema(
         contact: { type: String, required: true },
         photo: String,
         description: String,
-        license: String
+        license: String,
+        passwordResetHash: String
     },
     {
         versionKey: false,

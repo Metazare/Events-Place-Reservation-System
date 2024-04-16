@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { UserDocument } from '../auth/auth.types';
+import { UserDocument } from '../user/user.types';
 
 export enum EventsPlaceType {
     RESORT = 'resort',
@@ -13,6 +13,12 @@ export enum AmenityType {
     PER_QUANTITY = 'per quantity'
 }
 
+export interface Amenity {
+    name: string;
+    amenityType: AmenityType;
+    rate: number;
+}
+
 export interface EventsPlace {
     eventsPlaceId: string;
     host: Types.ObjectId | Record<string, unknown>;
@@ -22,11 +28,7 @@ export interface EventsPlace {
     location: string;
     rate: number;
     maxCapacity: number;
-    amenities: {
-        name: string;
-        amenityType: AmenityType;
-        rate: number;
-    }[];
+    amenities: Amenity[];
     images: string[];
 }
 
@@ -39,3 +41,7 @@ export interface EventsPlaceDocument extends EventsPlace, Document {
 export interface EventsPlacePopulatedDocument extends EventsPlaceDocument {
     host: UserDocument;
 }
+
+/* REQUESTS */
+
+export type CreateEventsPlace = Omit<EventsPlace, 'eventsPlaceId' | 'host'>;

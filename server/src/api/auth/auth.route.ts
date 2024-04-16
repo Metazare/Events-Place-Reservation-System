@@ -1,4 +1,4 @@
-import { getUsers, checkEmail, login, logout, register } from './auth.controller';
+import { login, logout, register, registerHost } from './auth.controller';
 import { Router } from 'express';
 import asynchronousHandler from '../../middlewares/asynchronousHandler';
 import authenticate from '../../middlewares/authenticate';
@@ -10,9 +10,11 @@ router.post('/login', asynchronousHandler(login));
 
 router.post('/register', asynchronousHandler(register));
 
-router.post('/checkemail', asynchronousHandler(checkEmail));
+router.use(authenticate);
 
-router.post('/logout', authenticate, asynchronousHandler(logout));
+router.post('/register/host', asynchronousHandler(registerHost));
+
+router.post('/logout', asynchronousHandler(logout));
 
 router.get('/users', authenticate, asynchronousHandler(getUsers));
 

@@ -1,4 +1,4 @@
-import { Data } from "./checkData";
+import { Data } from './checkData';
 
 export class Unauthorized extends Error {
     name: string = 'Unauthorized';
