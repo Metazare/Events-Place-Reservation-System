@@ -50,6 +50,7 @@ const userSchema = new Schema(
                     _id,
                     credentials: { email },
                     name: { first, middle, last, suffix },
+                    passwordResetHash,
                     ...rest
                 } = ret;
 
