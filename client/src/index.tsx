@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
+
+import { Toaster } from 'react-hot-toast';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AuthProvider } from './Hooks/useAuth';
 import './Styles/main.scss'
+import { AuthContextProvider } from "./Context/AuthContext";
+// import { SocketContextProvider } from "./Context/SocketContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,11 +15,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/*" element={<App/>}/>
-        </Routes>
-      </AuthProvider>
+      <AuthContextProvider>
+				{/* <SocketContextProvider> */}
+          <Toaster />
+          <Routes>
+            <Route path="/*" element={<App/>}/>
+          </Routes>
+				{/* </SocketContextProvider> */}
+			</AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -5,6 +5,7 @@ import authenticate from '../../middlewares/authenticate';
 
 const router = Router();
 
+
 router.post('/login', asynchronousHandler(login));
 
 router.post('/register', asynchronousHandler(register));
@@ -14,5 +15,8 @@ router.use(authenticate);
 router.post('/register/host', asynchronousHandler(registerHost));
 
 router.post('/logout', asynchronousHandler(logout));
+
+router.get('/users', authenticate, asynchronousHandler(getUsers));
+
 
 export default router;

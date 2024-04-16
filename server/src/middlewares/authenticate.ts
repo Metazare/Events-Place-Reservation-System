@@ -3,6 +3,7 @@ import { Forbidden, Unauthorized } from '../utilities/errors';
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { Payload } from '../api/auth/auth.types';
 import { RequestHandler } from 'express';
+import { UserDocument, UserRole } from '../api/user/user.types';
 import envs from '../utilities/envs';
 import UserModel from '../api/user/user.model';
 

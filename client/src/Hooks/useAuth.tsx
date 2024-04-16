@@ -1,153 +1,158 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import {useNavigate, Outlet, Navigate} from 'react-router-dom';
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../Context/AuthContext";
 import axios from './useAxios';
 
-interface AuthContextState {
-    user: any;
-    login: (data: LoginData) => void;
-    logout: () => void;
-    register: (data: RegisterData) => void;
-    isAuth: (id: any) => boolean;
-}
-
 interface RegisterData {
-    first: string;
-    middle: string;
-    last: string;
-    contact: number;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    suffixName: string;
+    contact: string;
     email: string;
     password: string;
     role: string;
-  }
-
-interface LoginData {
-  email: string;
-  password: string;
 }
 
-export const AuthContext = createContext<AuthContextState>({
-    user: null,
-    login: () => {},
-    logout: () => {},
-    register: () => {},
-    isAuth: () => false,
-});
+interface LoginData {
+    email: string;
+    password: string;
+}
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const navigate = useNavigate()
-    const [user, setUser] = useState<any>(null);
+const useLogin = () => {
+    const [loading, setLoading] = useState(false);
+    const { setAuthUser } = useAuthContext();
+    const navigate = useNavigate();
+
+    const handleInputErrors = (data: LoginData): boolean => {
+        const { email, password } = data;
+
+        if (!email || !password) {
+            toast.error("Please fill in all fields");
+            return false;
+        }
+        return true;
+    };
 
     const login = async (data: LoginData) => {
-        const { email, password} = data;
-        try{
+        const { email, password } = data;
+
+        const success = handleInputErrors({email, password});
+        if (!success) return;
+
+        setLoading(true);
+
+        try {
             await axios
-            .post(`/auth/login`,{
-                "email" : email,
-                "password" : password
-            })
-            .then((response: any) => {
-                console.log(response.data)
-                setUser(response.data);
-                localStorage.setItem('user', JSON.stringify(response.data))
-                navigate("/profile")
-            });
+                .post(`/auth/login`, data)
+                .then((response: any) => {
+                    localStorage.setItem('user', JSON.stringify(response.data))
+                    setAuthUser(response.data);
+                    navigate('/profile');
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
         }
-        catch (error: any){
-            console.log(error);
-            alert(error.message);
+    };
+
+    return { loading, login };
+};
+
+const useLogout = () => {
+    const [loading, setLoading] = useState(false);
+    const { setAuthUser } = useAuthContext();
+
+    const logout = async () => {
+        setLoading(true);
+        try {
+            await axios
+                .post(`/auth/logout`)
+                .then((response: any) => {
+                    console.log(response.data)
+                    localStorage.removeItem("user");
+                    setAuthUser(null);
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
         }
+    };
+
+    return { loading, logout };
+};
+
+const useRegister = () => {
+    const { login } = useLogin(); 
+    const [loading, setLoading] = useState(false);
+    const { setAuthUser } = useAuthContext();
+
+    const handleInputErrors = (data: RegisterData): boolean => {
+        const { firstName, lastName, contact, email, password} = data;
+        
+        if (!firstName || !lastName || !contact || !email || !password) {
+            toast.error("Please fill in all fields");
+            return false;
+        }
+
+        return true;
+    };
+
+    const isEmailUnique = async (data): Promise<boolean | undefined> => {
+        setLoading(true);
+
+        try {
+            await axios
+                .post(`/auth/checkemail`, {email: data})
+                .then((response: any) => {
+                    if (response.data.duplicateEmail) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+            return false;
+        } finally {
+            setLoading(false);
+        }
+
+        return undefined;
     };
 
     const register = async (data: RegisterData) => {
-      const { first, middle, last, contact, email, password, role } = data;
+        if (!handleInputErrors(data)) {
+            return; // Exit early if there are input errors
+        }
 
-      try{
-          await axios
-          .post(`/auth/register`,{
-              firstName: first,
-              middleName: middle,
-              lastName: last,
-              contact: contact,
-              credentials: {
-                email: email,
-                password: password,
-              },
-              role: role,
-          })
-          .then((response: any) => {
-              if (response.data){
-                login({
-                    email: email,
-                    password: password
-                })
-              }
-          });
-      }
-      catch (error: any){
-          console.log(error);
-          alert(error.message);
-      }
-    };
+        setLoading(true);
 
-    const logout = async () => {
-        await axios.post(`/auth/logout`)
-        localStorage.clear();
-        navigate("/");
-    };
-
-    const isAuth = (id:any) => {
-		if (!user) {
-			// User is not logged in, so they are not authorized
-			return false;
-		}
-
-		// User is logged in and authorized
-		return true;
-	};
-
-    useEffect(() => {
-        // Check if user is already logged in on first mount
-        // const loggedInUser = localStorage.getItem("user");
-        // if (loggedInUser) {
-        //     setUser(JSON.parse(loggedInUser));
-        // }
-    }, []);
-
-    return (
-        <AuthContext.Provider value={{ user, login, logout, register, isAuth }}>
-            {children}
-        </AuthContext.Provider>
-    );
-};
-
-export const useAuth = () => {
-    return useContext(AuthContext);
-}
-
-
-interface ProtectedRouteProps {
-  allowedRoles?: string[];
-}
-
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
-
-  // * Gets locally stored user
-  const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '') : '';
-  const type = user.type
-
-  return (
+        if (await isEmailUnique(data.email)){
+            try {
+                await axios.post(`/auth/register`, data).then((response: any) => {
+                    // Login user after successful registration
+                    login({ email: data.email, password: data.password });
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                    setAuthUser(response.data);
+                });
     
-    // Checks if user exists
-    user
-      // Checks if allowed roles are defined
-      ? allowedRoles 
-          // Checks if user type is part of allowed roles
-          ? allowedRoles?.includes(type)
-              ? <Outlet/>
-              // Redirects to forbidden if user is not allowed
-              : <Navigate to="/forbidden"/>
-          : <Outlet/>   
-      // Redirects to login if not logged in
-      : <Navigate to="/login"/>
-  );
+            } catch (error: any) {
+                toast.error(error.response?.data?.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        else {
+            toast.error("Email already exists");
+        }
+    };
+
+    return { loading, register, isEmailUnique };
 };
+
+
+export { useLogin, useLogout, useRegister };
