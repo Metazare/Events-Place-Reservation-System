@@ -29,9 +29,9 @@ export default function TextField({label,type,attr,error,errorMessages,handleCha
           <IconButton aria-label="" sx={{opacity:".5",width:"15px",height:"15px"}} onClick={()=>{setisVisible(!isVisible)}}>
           {
             isVisible? 
-                <VisibilityIcon/>
+              <VisibilityOffIcon/>
               :
-                <VisibilityOffIcon/>
+              <VisibilityIcon/>
           }
           </IconButton>
         </>}
