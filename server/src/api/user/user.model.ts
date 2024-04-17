@@ -31,15 +31,15 @@ const userSchema = new Schema(
                     type: String,
                     set: (value: string): string => hashSync(value, 10),
                     required: true
-                }
+                },
+                passwordResetHash: String
             },
             required: true
         },
         contact: { type: String, required: true },
         photo: String,
         description: String,
-        license: String,
-        passwordResetHash: String
+        license: String
     },
     {
         versionKey: false,
@@ -50,7 +50,6 @@ const userSchema = new Schema(
                     _id,
                     credentials: { email },
                     name: { first, middle, last, suffix },
-                    passwordResetHash,
                     ...rest
                 } = ret;
 
