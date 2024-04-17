@@ -17,12 +17,12 @@ export interface User {
     credentials: {
         email: string;
         password: string;
+        passwordResetHash?: string;
     };
     contact: string;
     photo?: string;
     description?: string;
     license?: string;
-    passwordResetHash?: string;
 }
 
 export interface UserDocument extends User, Document {

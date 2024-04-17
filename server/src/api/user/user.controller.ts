@@ -63,7 +63,7 @@ export const forgotPassword: RequestHandler = async (req: BodyRequest<ForgotPass
     const user: UserDocument | null = await UserModel.findOne({ 'credentials.email': email }).exec();
     if (!user) throw new NotFound('User');
 
-    let { passwordResetHash } = user;
+    let passwordResetHash = user.credentials.passwordResetHash;
 
     // If password hash is not null
     //     If hash is past due, create new hash
@@ -88,7 +88,7 @@ export const forgotPassword: RequestHandler = async (req: BodyRequest<ForgotPass
     }
 
     // Save the new hash to the user
-    user.passwordResetHash = passwordResetHash;
+    user.credentials.passwordResetHash = passwordResetHash;
     await user.save();
 
     await sendEmail({
@@ -128,7 +128,7 @@ export const resetPassword: RequestHandler = async (req: BodyRequest<ResetPasswo
     user.credentials.password = password;
 
     // Reset password reset hash
-    user.passwordResetHash = undefined;
+    user.credentials.passwordResetHash = undefined;
 
     await user.save();
 

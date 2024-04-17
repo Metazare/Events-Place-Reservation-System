@@ -9,6 +9,8 @@ import {
 import { CheckData } from '../../utilities/checkData';
 import { NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
 import eventsPlaceModel from './eventsPlace.model';
+import { updateAmenities } from '../amenity/amenity.controller';
+import { UpdateAmenity } from '../amenity/amenity.types';
 
 export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateEventsPlace>, res) => {
     if (!req.user) throw new Unauthorized();
@@ -47,8 +49,8 @@ export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateE
 
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
-    /* Actual data processing */
-    await eventsPlaceModel.create({
+    // Save the evente place
+    const eventsPlace: EventsPlaceDocument = await eventsPlaceModel.create({
         host: user._id,
         name,
         description,
@@ -56,9 +58,11 @@ export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateE
         location,
         rate,
         maxCapacity,
-        amenities,
         images
     });
+
+    // Save the amenities
+    await updateAmenities(eventsPlace, amenities as UpdateAmenity[]);
 
     res.sendStatus(201);
 };
@@ -135,11 +139,13 @@ export const editEventsPlace: RequestHandler = async (req: BodyRequest<EditEvent
     eventsPlace.location = location;
     eventsPlace.rate = rate;
     eventsPlace.maxCapacity = maxCapacity;
-    eventsPlace.amenities = amenities;
     eventsPlace.images = images;
 
     // Save changes
     await eventsPlace.save();
+
+    // Update the amenities
+    await updateAmenities(eventsPlace, amenities);
 
     res.sendStatus(204);
 };
