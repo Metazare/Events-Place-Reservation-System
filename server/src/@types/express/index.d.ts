@@ -12,4 +12,5 @@ declare global {
 declare module 'express' {
     export interface BodyRequest<T> extends Request<{}, {}, T> {}
     export interface QueryRequest<T> extends Request<{}, {}, {}, T> {}
+    export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 }
