@@ -1,4 +1,4 @@
-import { AmenityDocument, AmenityType } from './amenity.types';
+import { AmenityDocument, AmenityState, AmenityType } from './amenity.types';
 import { id } from '../../utilities/ids';
 import { Schema, Types, model } from 'mongoose';
 
@@ -29,6 +29,10 @@ const amenitySchema = new Schema(
         rate: {
             type: Number,
             required: true
+        },
+        state: {
+            type: String,
+            enum: Object.values(AmenityState)
         }
     },
     {
