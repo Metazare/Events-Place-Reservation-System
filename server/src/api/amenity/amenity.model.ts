@@ -7,7 +7,7 @@ const amenitySchema = new Schema(
         amenityId: {
             type: String,
             unique: true,
-            default: id
+            default: () => id(2)
         },
         eventsPlace: {
             type: Types.ObjectId,
