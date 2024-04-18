@@ -8,12 +8,18 @@ export enum AmenityType {
     PER_QUANTITY = 'per quantity'
 }
 
+export enum AmenityState {
+    ACTIVE = 'active',
+    INACTIVE = 'inactive'
+}
+
 export interface Amenity {
     amenityId: string;
     eventsPlace: Types.ObjectId | Record<string, unknown>;
     name: string;
     amenityType: AmenityType;
     rate: number;
+    state: AmenityState;
 }
 
 export interface AmenityDocument extends Amenity, Document {
@@ -29,3 +35,8 @@ export interface AmenityPopulatedDocument extends AmenityDocument {
 export type RawAmenity = Omit<Amenity, 'amenityId' | 'eventsPlace'>;
 
 export type UpdateAmenity = RawAmenity & Optional<Amenity, 'amenityId'>;
+
+export type ReserveAmenity = {
+    amenityId: string;
+    quantity: number;
+}

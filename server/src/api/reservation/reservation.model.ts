@@ -7,7 +7,7 @@ const reservationSchema = new Schema(
         reservationId: {
             type: String,
             unique: true,
-            default: id
+            default: () => id(2)
         },
         renter: {
             type: Types.ObjectId,
@@ -23,6 +23,28 @@ const reservationSchema = new Schema(
             type: Types.ObjectId,
             ref: 'EventsPlace',
             required: true
+        },
+        amenities: [
+            {
+                amenityId: {
+                    type: String,
+                    required: true
+                },
+                quantity: {
+                    type: Number,
+                    required: true
+                }
+            }
+        ],
+        duration: {
+            start: {
+                type: Date,
+                required: true
+            },
+            end: {
+                type: Date,
+                required: true
+            }
         },
         status: {
             type: String,

@@ -1,6 +1,7 @@
 import { Document, Types } from "mongoose";
-import { UserDocument } from "../auth/auth.types";
 import { EventsPlaceDocument, EventsPlacePopulatedDocument } from "../eventsPlace/eventsPlace.types";
+import { UserDocument } from "../user/user.types";
+import { ReserveAmenity } from "../amenity/amenity.types";
 
 export enum ReservationStatus {
     PENDING = 'pending',
@@ -14,6 +15,8 @@ export interface Reservation {
     renter: Types.ObjectId | Record<string, unknown>;
     host: Types.ObjectId | Record<string, unknown>;
     eventsPlace: Types.ObjectId | Record<string, unknown>;
+    amenities: ReserveAmenity[];
+    duration: Duration;
     status: ReservationStatus;
 }
 
@@ -29,4 +32,18 @@ export interface ReservationPopulatedDocument extends ReservationDocument {
     renter: UserDocument;
     host: UserDocument;
     eventsPlace: EventsPlacePopulatedDocument;
+}
+
+/* REQUESTS */
+
+export type CreateReservation = {
+    eventsPlaceId: string;
+    amenities: ReserveAmenity[];
+    startDate: number;
+    days: number;
+}
+
+export type Duration = {
+    start: Date;
+    end: Date;
 }
