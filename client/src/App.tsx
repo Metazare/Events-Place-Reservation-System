@@ -12,6 +12,8 @@ import Register from './Pages/Register/Register';
 import Chat from './Pages/Chat/Chat';
 import Profile from './Pages/UserProfile/Profile';
 import ForgotPassword from './Pages/ForgotPassword';
+
+import ViewEventsPlace from './Pages/EventsPlace/ViewEventsPlace';
 // Test
 import TestHelpdesk from './Test/TestHelpdesk';
 import TestNotification from './Test/TestNotification';
@@ -29,6 +31,8 @@ function App() {
           <Route path="/register" element={<Register/>} />
           <Route path="/chat" element={<Chat/>} />
           <Route path="/profile" element={<Profile/>} />
+
+          <Route path="/view" element={<ViewEventsPlace/>} />
         </Route>
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
         <Route path="/test/toast" element={<TestToast/>} />
