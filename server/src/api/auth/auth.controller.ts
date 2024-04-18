@@ -4,7 +4,7 @@ import { compareSync } from 'bcrypt';
 import { cookieOptions, signAccess, signRefresh } from '../../utilities/cookies';
 import { Payload, RegisterHost, RegisterUser } from './auth.types';
 import { Unauthorized, UnprocessableEntity } from '../../utilities/errors';
-import { User } from '../user/user.types';
+import { User, UserDocument } from '../user/user.types';
 import UserModel from '../user/user.model';
 
 export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, res) => {
@@ -45,7 +45,7 @@ export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, r
         credentials: { email, password },
         contact,
         photo
-    }
+    };
 
     // Create the user
     const user = await UserModel.create(createUser);
@@ -77,7 +77,7 @@ export const registerHost: RequestHandler = async (req: BodyRequest<RegisterHost
     await user.save();
 
     return res.sendStatus(201);
-}
+};
 
 export const login: RequestHandler = async (req: BodyRequest<User['credentials']>, res) => {
     const { email, password } = req.body;
@@ -101,3 +101,8 @@ export const logout: RequestHandler = async (_req, res) =>
     res.cookie('access-token', '', cookieOptions.default)
         .cookie('refresh-token', '', cookieOptions.default)
         .sendStatus(205);
+
+export const checkEmail: RequestHandler = async (req: BodyRequest<Pick<User['credentials'], 'email'>>, res) => {
+    const emailExisting = await UserModel.exists({ 'credentials.email': req.body.email }).exec();
+    res.json({ duplicateEmail: emailExisting != null });
+};
