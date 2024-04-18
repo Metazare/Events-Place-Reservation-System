@@ -42,23 +42,6 @@ const eventsPlaceSchema = new Schema(
             type: Number,
             required: true
         },
-        amenities: {
-            type: {
-                name: {
-                    type: String,
-                    required: true
-                },
-                amenityType: {
-                    type: String,
-                    required: true
-                },
-                rate: {
-                    type: Number,
-                    required: true
-                }
-            },
-            required: true
-        },
         images: [
             {
                 type: String,

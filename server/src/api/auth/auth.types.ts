@@ -1,12 +1,9 @@
-import { UserRole } from "../user/user.types";
-
-export interface Payload {
+export type Payload = {
     userId: string;
     email: string;
-}
-
-export interface RegisterUser {
-    role: UserRole;
+};
+ 
+export type RegisterUser = {
     email: string;
     password: string;
     firstName: string;
@@ -15,6 +12,9 @@ export interface RegisterUser {
     suffixName?: string;
     contact: string;
     photo?: string;
-    description?: string;
-    license?: string;
-}
+};
+
+export type RegisterHost = {
+    description: string;
+    license: string;
+};

@@ -31,7 +31,8 @@ const userSchema = new Schema(
                     type: String,
                     set: (value: string): string => hashSync(value, 10),
                     required: true
-                }
+                },
+                passwordResetHash: String
             },
             required: true
         },

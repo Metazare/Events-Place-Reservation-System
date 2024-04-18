@@ -22,8 +22,10 @@ export class CheckData {
      * @param {any} value - The value to check the type of.
      * @param {string} target - The target type to compare against.
      * @param {string} key - The key or path of the value being checked.
+     * @param {boolean} [nullable=false] - Indicates whether the value can be null or undefined.
      */
-    checkType(value: any, target: string, key: string) {
+    checkType(value: any, target: string, key: string, nullable = false) {
+        if (!value && nullable) return;
         if (typeof value !== target) this.errors.push({ path: key, message: `${key} is ${typeof value}` });
     }
 
