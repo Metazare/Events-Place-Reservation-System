@@ -116,6 +116,7 @@ const useRegister = () => {
                 });
         } catch (error: any) {
             toast.error(error.response?.data?.message);
+            toast.error("Email already exists");
             return false;
         } finally {
             setLoading(false);
@@ -131,23 +132,18 @@ const useRegister = () => {
 
         setLoading(true);
 
-        if (await isEmailUnique(data.email)){
-            try {
-                await axios.post(`/auth/register`, data).then((response: any) => {
-                    // Login user after successful registration
-                    login({ email: data.email, password: data.password });
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                    setAuthUser(response.data);
-                });
-    
-            } catch (error: any) {
-                toast.error(error.response?.data?.message);
-            } finally {
-                setLoading(false);
-            }
-        }
-        else {
-            toast.error("Email already exists");
+        try {
+            await axios.post(`/auth/register`, data).then((response: any) => {
+                // Login user after successful registration
+                login({ email: data.email, password: data.password });
+                localStorage.setItem("user", JSON.stringify(response.data));
+                setAuthUser(response.data);
+            });
+
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
         }
     };
 
