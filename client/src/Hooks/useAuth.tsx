@@ -101,19 +101,12 @@ const useRegister = () => {
         return true;
     };
 
-    const isEmailUnique = async (data): Promise<boolean | undefined> => {
+    const isEmailUnique = async (data): Promise<boolean> => {
         setLoading(true);
 
         try {
-            await axios
-                .post(`/auth/checkemail`, {email: data})
-                .then((response: any) => {
-                    if (response.data.duplicateEmail) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                });
+            const response = await axios.post(`/auth/checkemail`, {email: data});
+            return !response.data.duplicateEmail;
         } catch (error: any) {
             toast.error(error.response?.data?.message);
             toast.error("Email already exists");
@@ -121,8 +114,6 @@ const useRegister = () => {
         } finally {
             setLoading(false);
         }
-
-        return undefined;
     };
 
     const register = async (data: RegisterData) => {
@@ -134,13 +125,13 @@ const useRegister = () => {
 
         try {
             await axios.post(`/auth/register`, data).then((response: any) => {
-                // Login user after successful registration
                 login({ email: data.email, password: data.password });
                 localStorage.setItem("user", JSON.stringify(response.data));
                 setAuthUser(response.data);
             });
 
         } catch (error: any) {
+            console.log(error)
             toast.error(error.response?.data?.message);
         } finally {
             setLoading(false);
@@ -149,6 +140,5 @@ const useRegister = () => {
 
     return { loading, register, isEmailUnique };
 };
-
 
 export { useLogin, useLogout, useRegister };
