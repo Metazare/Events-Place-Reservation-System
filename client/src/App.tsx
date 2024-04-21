@@ -14,6 +14,8 @@ import Profile from './Pages/UserProfile/Profile';
 import ResetPassword from './Pages/ResetPassword';
 import ForgetPassword from './Pages/ForgetPassword';
 import ViewEventsPlace from './Pages/EventsPlace/ViewEventsPlace';
+import MyListings from './Pages/EventsPlace/MyListings';
+import CreateEventsPlace from './Pages/EventsPlace/CreateEventsPlace';
 
 // Test
 import TestHelpdesk from './Test/TestHelpdesk';
@@ -33,8 +35,10 @@ function App() {
           <Route path="/register" element={<Register/>} />
           <Route path="/chat" element={<Chat/>} />
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/create" element={<CreateEventsPlace/>} />
           <Route path="/profile/:userId" element={<Profile/>} />
           <Route path="/view" element={<ViewEventsPlace/>} />
+          <Route path="/listing" element={<MyListings/>} />
         </Route>
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
         <Route path="/test/toast" element={<TestToast/>} />
