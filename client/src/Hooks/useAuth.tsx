@@ -101,27 +101,19 @@ const useRegister = () => {
         return true;
     };
 
-    const isEmailUnique = async (data): Promise<boolean | undefined> => {
+    const isEmailUnique = async (data): Promise<boolean> => {
         setLoading(true);
 
         try {
-            await axios
-                .post(`/auth/checkemail`, {email: data})
-                .then((response: any) => {
-                    if (response.data.duplicateEmail) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                });
+            const response = await axios.post(`/auth/checkemail`, {email: data});
+            return !response.data.duplicateEmail;
         } catch (error: any) {
             toast.error(error.response?.data?.message);
+            toast.error("Email already exists");
             return false;
         } finally {
             setLoading(false);
         }
-
-        return undefined;
     };
 
     const register = async (data: RegisterData) => {
@@ -131,28 +123,75 @@ const useRegister = () => {
 
         setLoading(true);
 
-        if (await isEmailUnique(data.email)){
-            try {
-                await axios.post(`/auth/register`, data).then((response: any) => {
-                    // Login user after successful registration
-                    login({ email: data.email, password: data.password });
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                    setAuthUser(response.data);
-                });
-    
-            } catch (error: any) {
-                toast.error(error.response?.data?.message);
-            } finally {
-                setLoading(false);
-            }
-        }
-        else {
-            toast.error("Email already exists");
+        try {
+            await axios.post(`/auth/register`, data).then((response: any) => {
+                login({ email: data.email, password: data.password });
+                localStorage.setItem("user", JSON.stringify(response.data));
+                setAuthUser(response.data);
+            });
+
+        } catch (error: any) {
+            console.log(error)
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
         }
     };
 
     return { loading, register, isEmailUnique };
 };
 
+const usePasswordReset = () => {
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
-export { useLogin, useLogout, useRegister };
+    const forgetPassword = async (email: string) => {
+        setLoading(true);
+
+        try {
+            await axios
+                .post(`/user/password/forgot`, {email:email})
+                .then((response: any) => {
+                    toast.success("Password reset link sent to email");
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 2000);
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const resetPassword = async (password: string, hash: string) => {
+        setLoading(true);
+
+        console.log({
+            password: password,
+            hash: hash
+        })
+
+        try {
+            await axios
+                .post(`/user/password/reset`, {
+                    password: password,
+                    hash: hash
+                })
+                .then((response: any) => {
+                    toast.success("Password reset successful");
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 2000);
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { loading, forgetPassword, resetPassword };
+}
+
+export { useLogin, useLogout, useRegister, usePasswordReset };

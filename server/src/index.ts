@@ -19,6 +19,7 @@ import helpdeskRoute from './api/helpdesk/helpdesk.route';
 import notificationRoute from './api/notification/notification.route';
 import reservationRoute from './api/reservation/reservation.route';
 import userRoute from './api/user/user.route';
+import emailRoute from './api/email/email.route';
 
 import { createNotification } from './api/notification/notification.controller';
 import { CreateNotification } from './api/notification/notification.types';
@@ -38,6 +39,7 @@ app.use(express.json());
 app.use(helmet());
 
 app.use('/auth', authRoute);
+app.use('/email', emailRoute);
 app.use('/user', userRoute);
 app.use('/eventsplace', eventsPlaceRoute);
 app.use('/reservation', reservationRoute);
