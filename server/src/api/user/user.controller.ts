@@ -121,7 +121,7 @@ export const resetPassword: RequestHandler = async (req: BodyRequest<ResetPasswo
     }
 
     // Find user with the hash
-    const user: UserDocument | null = await UserModel.findOne({ passwordResetHash: hash }).exec();
+    const user: UserDocument | null = await UserModel.findOne({ 'credentials.passwordResetHash': hash }).exec();
     if (!user) throw new NotFound('User');
 
     // Update the password of user
