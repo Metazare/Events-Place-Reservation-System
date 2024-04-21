@@ -5,10 +5,10 @@ interface UserData {
     middleName: string;
     lastName: string;
     suffixName: string;
-    contact: string;
-    photo: string;
-    description: string;
-    license: string;
+    contact?: string;
+    photo?: string;
+    description?: string;
+    license?: string;
 };
 
 interface Credentials {
