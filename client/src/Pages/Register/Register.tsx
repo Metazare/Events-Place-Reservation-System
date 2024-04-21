@@ -43,6 +43,8 @@ export default function Register() {
     },
     onSubmit: values => {
       setOpenOtp(true)
+      
+
     }
   })
   useEffect(() => {
@@ -55,7 +57,7 @@ export default function Register() {
   return (
     <div className='grow w-full flex justify-center items-center p-4'>
       {openOtp?
-        <OTPComponent setStatus={setOtpStatus}/>
+        <OTPComponent setStatus={setOtpStatus} />
         :
         <CardBaseLoginRegister title={"We Get You Started!"} subTitle={"Signup now to get you onboard."} otherStyle="max-w-[500px]">
           <div className='flex flex-col gap-2'>

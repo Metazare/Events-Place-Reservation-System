@@ -18,7 +18,7 @@ export default function Header() {
     <AppBar position="static" sx={{background:"#144273"}}>
       <Container maxWidth="xl" >
         <Toolbar disableGutters sx={{gap:"1em"}}>
-          <Box display="flex" sx={{flexGrow:1}}>
+          <Box display="flex" sx={{flexGrow:1}} onClick={()=>{navigate("/")}}>
             <img src={Logo} width={"100px"} alt="" className='cursor-pointer' draggable={false}/>
           </Box>
           {Login?
@@ -65,6 +65,14 @@ export default function Header() {
                   }}>
                     <Typography textAlign="center">
                       Profile
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={()=>{
+                    navigate("/listing")
+                    handleCloseUserMenu()
+                  }}>
+                    <Typography textAlign="center">
+                      My Listings
                     </Typography>
                   </MenuItem>
                 </Menu>

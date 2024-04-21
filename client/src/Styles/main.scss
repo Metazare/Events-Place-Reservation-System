@@ -39,3 +39,13 @@ body{
 .CardHover:hover .BackgroundHover {
   background-color: rgb(235, 234, 234);
 }
+.deleteHover{
+  display: none;
+  opacity: 0;
+  cursor: pointer;
+}
+.amenitiesCard:hover .deleteHover{
+  display: flex;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}

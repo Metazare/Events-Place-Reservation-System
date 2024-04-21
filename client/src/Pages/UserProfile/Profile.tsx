@@ -10,7 +10,7 @@ export default function Profile() {
   const {setOpenModal,ModalComponent,closeModal} = useModal();
   return (
     <div className='grow'>
-      <Container maxWidth="xl" sx={{display:'flex', flexDirection:{xs:"column",sm:"row"},gap:".5em",padding:"1em"}}>
+      <Container maxWidth="lg" sx={{display:'flex', flexDirection:{xs:"column",sm:"row"},gap:".5em",padding:"1em"}}>
         <Paper variant="elevation" elevation={1} sx={{borderRadius:"15px",padding:"2em 1em 1em", width:{xs:"100%",sm:"250px" },display:"flex",flexDirection:"column",alignItems:"center"}}>
           <Avatar variant="circular" src="" alt="Sample" sx={{ width: '65px', height: '65px' }} />
           <div className='w-full mt-7'>
