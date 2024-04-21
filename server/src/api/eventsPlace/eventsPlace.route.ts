@@ -7,9 +7,9 @@ const router = Router();
 
 router.get('/', asynchronousHandler(getEventsPlace));
 
-router.post('/', asynchronousHandler(createEventsPlace));
-
 router.use(authenticate);
+
+router.post('/', asynchronousHandler(createEventsPlace));
 
 router.get('/owned', asynchronousHandler(getEventsPlace));
 
