@@ -61,14 +61,20 @@ export default function ViewEventsPlace({data}:{data?:any}) {
         </div>
       </div>
       <div className='flex flex-col md:flex-row  aspect-video w-full gap-4'>
-        {!data? <>
-          <div className='grow h-full rounded' style={{background:`url("${data.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-          <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
-            <div className='grow rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-            <div className='grow rounded' style={{background:`url("https://assets.architecturaldigest.in/photos/65b2aecf269da4a0ee6c9b40/master/w_1600%2Cc_limit/atr.royalmansion-bedroom2-mr.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-          </div>
+        {data? <>
+            <div className='grow h-full rounded' style={{background:`url("${data.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+            <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
+              <div className='grow rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+              <div className='grow rounded' style={{background:`url("https://assets.architecturaldigest.in/photos/65b2aecf269da4a0ee6c9b40/master/w_1600%2Cc_limit/atr.royalmansion-bedroom2-mr.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+            </div>
           </>
-          :""
+          :<>
+          <div className='grow h-full rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"contain",backgroundPosition:"center"}}/>
+            <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
+              <div className='grow rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+              <div className='grow rounded' style={{background:`url("https://assets.architecturaldigest.in/photos/65b2aecf269da4a0ee6c9b40/master/w_1600%2Cc_limit/atr.royalmansion-bedroom2-mr.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+            </div>
+          </>
         }
         
       </div>
