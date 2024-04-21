@@ -94,7 +94,7 @@ export const forgotPassword: RequestHandler = async (req: BodyRequest<ForgotPass
     await sendEmail({
         to: email,
         subject: 'Password Reset',
-        content: `This is your reset link: ${envs.RESET_PASSWORD_UI_ENDPOINT}/${passwordResetHash}`
+        content: `This is your reset link: ${envs.CORS_ORIGIN}/${envs.RESET_PASSWORD_UI_ENDPOINT}/${passwordResetHash}`
     });
 
     res.sendStatus(200);
@@ -121,7 +121,7 @@ export const resetPassword: RequestHandler = async (req: BodyRequest<ResetPasswo
     }
 
     // Find user with the hash
-    const user: UserDocument | null = await UserModel.findOne({ passwordResetHash: hash }).exec();
+    const user: UserDocument | null = await UserModel.findOne({ 'credentials.passwordResetHash': hash }).exec();
     if (!user) throw new NotFound('User');
 
     // Update the password of user

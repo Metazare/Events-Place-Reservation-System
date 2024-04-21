@@ -7,7 +7,7 @@ const eventsPlaceSchema = new Schema(
         eventsPlaceId: {
             type: String,
             unique: true,
-            default: id
+            default: () => id()
         },
         host: {
             type: Types.ObjectId,

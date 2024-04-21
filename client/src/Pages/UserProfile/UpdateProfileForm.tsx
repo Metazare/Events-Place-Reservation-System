@@ -9,29 +9,33 @@ import CardBaseLoginRegister from 'src/Layouts/CardBaseLoginRegister';
 import TextField from '../../Components/TextField';
 import {  Button, Box} from '@mui/material';
 
+// Hooks
+import useUser from 'src/Hooks/useUser';
+
 interface PropsType {
   closeModal:() => void
+  data: any
 }
-export default function UpdateProfileForm({closeModal}:PropsType) {
+export default function UpdateProfileForm({closeModal, data}:PropsType) {
+  const {editInfo, editCredentials} = useUser();
+
   const UpdateProfileForm = useFormik({
     initialValues: {
-      firstName:'',
-      middleName:'',
-      lastName:'',
-      suffix:'',
-      contactNumber:'',
-      email: '',
+      firstName: data[0]?.name?.first || '',
+      middleName: data[0]?.name?.middle || '',
+      lastName: data[0]?.name?.last || '',
+      suffixName: data[0]?.name?.suffixName || '',
+      contact: data[0]?.contact || '',
+      email: data[0]?.email || '',
       password: '',
       confirmPassword:''
     },
     validate: values => {
-      let error:{ firstName?:string, middleName?:string, lastName?:string, suffix?:string, contactNumber?:string, email?: string, password?:string, confirmPassword?:string} = {};
+      let error:{ firstName?:string, middleName?:string, lastName?:string, suffixName?:string, contact?:string, email?: string, password?:string, confirmPassword?:string} = {};
 
       if(!values.firstName) error.firstName = "First Name is required"
-      if(!values.middleName) error.middleName = "Middle Name is required"
       if(!values.lastName) error.lastName = "Last Name is required"
-      if(!values.suffix) error.suffix = "Middle Name is required"
-      if(!values.contactNumber) error.contactNumber = "Contact Number is required"
+      if(!values.contact) error.contact = "Contact Number is required"
       if(!values.confirmPassword) error.confirmPassword = "Confirm Password is required"
       if (!/\S+@\S+\.\S+/.test(values.email)) error.email = "Invalid email format";
       if(!values.email) error.email = "Email is required"
@@ -40,7 +44,12 @@ export default function UpdateProfileForm({closeModal}:PropsType) {
       return error;
     },
     onSubmit: values => {
-      console.log(values)
+      editInfo(values)
+
+      // Temporary: will be transferred to another form
+      editCredentials({email:values.email, password:values.password})
+
+      closeModal()
     }
   })
   return (
@@ -66,7 +75,7 @@ export default function UpdateProfileForm({closeModal}:PropsType) {
             type="text" 
             handleChange={UpdateProfileForm.handleChange}
             error={UpdateProfileForm.touched.firstName && UpdateProfileForm.errors.firstName !== undefined}
-            errorMessages={UpdateProfileForm.errors.firstName}
+            errorMessages={typeof UpdateProfileForm.errors.firstName}
           />
           <TextField 
             attr={{
@@ -78,7 +87,7 @@ export default function UpdateProfileForm({closeModal}:PropsType) {
             type="text" 
             handleChange={UpdateProfileForm.handleChange}
             error={UpdateProfileForm.touched.middleName && UpdateProfileForm.errors.middleName !== undefined}
-            errorMessages={UpdateProfileForm.errors.middleName}
+            errorMessages={typeof UpdateProfileForm.errors.middleName}
           />
         </Box>
         {/* Last Name & Suffix */}
@@ -100,19 +109,19 @@ export default function UpdateProfileForm({closeModal}:PropsType) {
             type="text" 
             handleChange={UpdateProfileForm.handleChange}
             error={UpdateProfileForm.touched.lastName && UpdateProfileForm.errors.lastName !== undefined}
-            errorMessages={UpdateProfileForm.errors.lastName}
+            errorMessages={typeof UpdateProfileForm.errors.lastName}
           />
           <TextField 
             attr={{
               placeholder:"Jr.",
-              name:"suffix",
-              values:UpdateProfileForm.values.suffix,
+              name:"suffixName",
+              values:UpdateProfileForm.values.suffixName,
             }}
             label="Suffix" 
             type="text" 
             handleChange={UpdateProfileForm.handleChange}
-            error={UpdateProfileForm.touched.suffix && UpdateProfileForm.errors.suffix !== undefined}
-            errorMessages={UpdateProfileForm.errors.suffix}
+            error={UpdateProfileForm.touched.suffixName && UpdateProfileForm.errors.suffixName !== undefined}
+            errorMessages={typeof UpdateProfileForm.errors.suffixName}
           />
         </Box>
         {/* Email & Contact Number */}
@@ -135,19 +144,19 @@ export default function UpdateProfileForm({closeModal}:PropsType) {
             type="text" 
             handleChange={UpdateProfileForm.handleChange}
             error={UpdateProfileForm.touched.email && UpdateProfileForm.errors.email !== undefined}
-            errorMessages={UpdateProfileForm.errors.email}
+            errorMessages={typeof UpdateProfileForm.errors.email}
           />
           <TextField 
             attr={{
               placeholder:"09152312322",
-              name:"contactNumber",
-              values:UpdateProfileForm.values.contactNumber,
+              name:"contact",
+              values:UpdateProfileForm.values.contact,
             }}
             label="Contact Number" 
             type="text" 
             handleChange={UpdateProfileForm.handleChange}
-            error={UpdateProfileForm.touched.contactNumber && UpdateProfileForm.errors.contactNumber !== undefined}
-            errorMessages={UpdateProfileForm.errors.contactNumber}
+            error={UpdateProfileForm.touched.contact && UpdateProfileForm.errors.contact !== undefined}
+            errorMessages={typeof UpdateProfileForm.errors.contact}
           />
         </Box>
         {/* Password & Confirm Password */}
@@ -169,7 +178,7 @@ export default function UpdateProfileForm({closeModal}:PropsType) {
             type="password" 
             handleChange={UpdateProfileForm.handleChange}
             error={UpdateProfileForm.touched.password && UpdateProfileForm.errors.password !== undefined}
-            errorMessages={UpdateProfileForm.errors.password}
+            errorMessages={typeof UpdateProfileForm.errors.password}
           />
           <TextField 
             attr={{
@@ -181,7 +190,7 @@ export default function UpdateProfileForm({closeModal}:PropsType) {
             type="password" 
             handleChange={UpdateProfileForm.handleChange}
             error={UpdateProfileForm.touched.confirmPassword && UpdateProfileForm.errors.confirmPassword !== undefined}
-            errorMessages={UpdateProfileForm.errors.confirmPassword}
+            errorMessages={typeof UpdateProfileForm.errors.confirmPassword}
           />
         </Box>
         

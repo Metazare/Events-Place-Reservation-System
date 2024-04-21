@@ -8,7 +8,7 @@ const userSchema = new Schema(
         userId: {
             type: String,
             unique: true,
-            default: id
+            default: () => id()
         },
         name: {
             type: {

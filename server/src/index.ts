@@ -13,20 +13,18 @@ import errorHandler from './middlewares/errorHandler';
 
 // Routes
 import authRoute from './api/auth/auth.route';
+import chatRoute from './api/chat/message.route';
 import eventsPlaceRoute from './api/eventsPlace/eventsPlace.route';
-import userRoute from './api/user/user.route';
 import helpdeskRoute from './api/helpdesk/helpdesk.route';
 import notificationRoute from './api/notification/notification.route';
-import chatRoute from './api/chat/message.route';
-
-import { createNotification } from './api/notification/notification.controller';
-import { CreateNotification } from './api/notification/notification.types';
+import reservationRoute from './api/reservation/reservation.route';
+import userRoute from './api/user/user.route';
+import emailRoute from './api/email/email.route';
 
 // Utilities
+import { app, server } from './socket/socket';
 import { NotFound } from './utilities/errors';
 import envs from './utilities/envs';
-import connectToMongoDB from "./database/connectToMongoDB";
-import { app, server } from "./socket/socket";
 
 // Environment Variables
 const { PORT, MONGO_URI, CORS_ORIGIN } = envs;
@@ -37,8 +35,10 @@ app.use(express.json());
 app.use(helmet());
 
 app.use('/auth', authRoute);
+app.use('/email', emailRoute);
 app.use('/user', userRoute);
 app.use('/eventsplace', eventsPlaceRoute);
+app.use('/reservation', reservationRoute);
 app.use(authenticate);
 app.use('/helpdesk', helpdeskRoute);
 app.use('/notification', notificationRoute);
