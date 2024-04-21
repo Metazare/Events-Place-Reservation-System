@@ -17,7 +17,7 @@ interface PropsType {
   data: any
 }
 export default function UpdateProfileForm({closeModal, data}:PropsType) {
-  const {editInfo} = useUser();
+  const {editInfo, editCredentials} = useUser();
 
   const UpdateProfileForm = useFormik({
     initialValues: {
@@ -45,6 +45,10 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
     },
     onSubmit: values => {
       editInfo(values)
+
+      // Temporary: will be transferred to another form
+      editCredentials({email:values.email, password:values.password})
+
       closeModal()
     }
   })
