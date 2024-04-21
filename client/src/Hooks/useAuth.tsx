@@ -141,4 +141,57 @@ const useRegister = () => {
     return { loading, register, isEmailUnique };
 };
 
-export { useLogin, useLogout, useRegister };
+const usePasswordReset = () => {
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const forgetPassword = async (email: string) => {
+        setLoading(true);
+
+        try {
+            await axios
+                .post(`/user/password/forgot`, {email:email})
+                .then((response: any) => {
+                    toast.success("Password reset link sent to email");
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 2000);
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const resetPassword = async (password: string, hash: string) => {
+        setLoading(true);
+
+        console.log({
+            password: password,
+            hash: hash
+        })
+
+        try {
+            await axios
+                .post(`/user/password/reset`, {
+                    password: password,
+                    hash: hash
+                })
+                .then((response: any) => {
+                    toast.success("Password reset successful");
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 2000);
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { loading, forgetPassword, resetPassword };
+}
+
+export { useLogin, useLogout, useRegister, usePasswordReset };
