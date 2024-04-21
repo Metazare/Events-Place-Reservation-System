@@ -65,7 +65,7 @@ export default function Login() {
             error={LoginForm.touched.password && LoginForm.errors.password !== undefined}
             errorMessages={LoginForm.errors.password}
           />
-          <a href='/forgotpassword'  target="_blank" className='cursor-pointer opacity-50 hover:opacity-100 text-[13px]'  style={{transition:"all .3s ease-in-out"}}>Forgot Password?</a>
+          <a href='/forgetpassword' target="_blank" rel="noreferrer" className='cursor-pointer opacity-50 hover:opacity-100 text-[13px]'  style={{transition:"all .3s ease-in-out"}}>Forgot Password?</a>
           <Button fullWidth variant="contained" onClick={()=>{LoginForm.handleSubmit()}} sx={{ marginTop:"1em", background:"#144273", color: "white", borderRadius:"10px"}}>
             Login
           </Button>
