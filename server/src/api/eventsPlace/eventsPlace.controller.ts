@@ -61,8 +61,10 @@ export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateE
         images
     });
 
-    // Save the amenities
-    await updateAmenities(eventsPlace, amenities as UpdateAmenity[]);
+    if (amenities instanceof Array) {
+        // Save the amenities
+        await updateAmenities(eventsPlace, amenities as UpdateAmenity[]);
+    }
 
     res.sendStatus(201);
 };
