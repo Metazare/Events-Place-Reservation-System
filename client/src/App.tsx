@@ -11,7 +11,8 @@ import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import Chat from './Pages/Chat/Chat';
 import Profile from './Pages/UserProfile/Profile';
-import ForgotPassword from './Pages/ForgotPassword';
+import ResetPassword from './Pages/ResetPassword';
+import ForgetPassword from './Pages/ForgetPassword';
 
 import ViewEventsPlace from './Pages/EventsPlace/ViewEventsPlace';
 // Test
@@ -26,7 +27,8 @@ function App() {
     <Routes>
         <Route element={<Base />} >
           <Route path="/" element={<Default/>} />
-          <Route path="/forgotpassword" element={<ForgotPassword/>} />
+          <Route path="/forgetpassword" element={<ForgetPassword/>} />
+          <Route path="/resetpassword/:hash" element={<ResetPassword/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/chat" element={<Chat/>} />
@@ -36,7 +38,6 @@ function App() {
         </Route>
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
         <Route path="/test/toast" element={<TestToast/>} />
-        {/* <Route path="/test/notification" element={<TestNotification socket={socket}/>} /> */}
 
     </Routes>
   );

@@ -1,17 +1,20 @@
 
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import OTPComponent from 'src/Components/OTPComponent';
-import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 // Components
 import CardBaseLoginRegister from 'src/Layouts/CardBaseLoginRegister';
 import TextField from 'src/Components/TextField';
 import {  Button} from '@mui/material';
 
 // Hooks
-export default function ForgotPassword() {
-  const [OTPResult, setOTPResult] = useState(false)
-  const ForgotPasswordForm = useFormik({
+import { usePasswordReset } from 'src/Hooks/useAuth';
+
+export default function ResetPassword() {
+  const {hash} = useParams();
+  const { resetPassword } = usePasswordReset();
+
+  const ResetPasswordForm = useFormik({
     initialValues: {
       newPassword: '',
       confirmPassword: ''
@@ -24,47 +27,43 @@ export default function ForgotPassword() {
       return error;
     },
     onSubmit: values => {
-      
-      alert("success")
+      resetPassword(values.newPassword, hash ?? '');
     }
   })
+
   return (
     <div className='grow w-full flex justify-center items-center p-4'>
-      {OTPResult?
         <CardBaseLoginRegister title={"Forgot Password"} subTitle={"Enter Verification Code"}>
           <div className='flex flex-col items-start gap-2'>
             <TextField 
               attr={{
                 placeholder:"New Password",
                 name:"newPassword",
-                values:ForgotPasswordForm.values.newPassword,
+                values:ResetPasswordForm.values.newPassword,
               }}
               label="Password" 
               type="password" 
-              handleChange={ForgotPasswordForm.handleChange}
-              error={ForgotPasswordForm.touched.newPassword && ForgotPasswordForm.errors.newPassword !== undefined}
-              errorMessages={ForgotPasswordForm.errors.newPassword}
+              handleChange={ResetPasswordForm.handleChange}
+              error={ResetPasswordForm.touched.newPassword && ResetPasswordForm.errors.newPassword !== undefined}
+              errorMessages={ResetPasswordForm.errors.newPassword}
             />
             <TextField 
               attr={{
                 placeholder:"Confirm Password",
                 name:"confirmPassword",
-                values:ForgotPasswordForm.values.confirmPassword,
+                values:ResetPasswordForm.values.confirmPassword,
               }}
               label="Confirm Password" 
               type="password" 
-              handleChange={ForgotPasswordForm.handleChange}
-              error={ForgotPasswordForm.touched.confirmPassword && ForgotPasswordForm.errors.confirmPassword !== undefined}
-              errorMessages={ForgotPasswordForm.errors.confirmPassword}
+              handleChange={ResetPasswordForm.handleChange}
+              error={ResetPasswordForm.touched.confirmPassword && ResetPasswordForm.errors.confirmPassword !== undefined}
+              errorMessages={ResetPasswordForm.errors.confirmPassword}
             />
-            <Button fullWidth variant="contained" onClick={()=>{ForgotPasswordForm.handleSubmit()}} sx={{ marginTop:"2em", background:"#144273", color: "white", borderRadius:"10px"}}>
+            <Button fullWidth variant="contained" onClick={()=>{ResetPasswordForm.handleSubmit()}} sx={{ marginTop:"2em", background:"#144273", color: "white", borderRadius:"10px"}}>
               Confirm
             </Button>
           </div>
         </CardBaseLoginRegister>
-        :
-        <OTPComponent setStatus={setOTPResult}/>
-      }
     </div>
   )
 }
