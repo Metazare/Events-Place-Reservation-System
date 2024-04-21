@@ -85,7 +85,7 @@ export default function Register() {
                 attr={{
                   placeholder:"John Michael",
                   name:"firstName",
-                  values:RegisterForm.values.firstName,
+                  value:RegisterForm.values.firstName,
                 }}
                 label="First Name" 
                 type="text" 
@@ -97,7 +97,7 @@ export default function Register() {
                 attr={{
                   placeholder:"M",
                   name:"middleName",
-                  values:RegisterForm.values.middleName,
+                  value:RegisterForm.values.middleName,
                 }}
                 label="Middle Name" 
                 type="text" 
@@ -119,7 +119,7 @@ export default function Register() {
                 attr={{
                   placeholder:"Rowel",
                   name:"lastName",
-                  values:RegisterForm.values.lastName,
+                  value:RegisterForm.values.lastName,
                 }}
                 label="Last Name" 
                 type="text" 
@@ -131,7 +131,7 @@ export default function Register() {
                 attr={{
                   placeholder:"Jr.",
                   name:"suffixName",
-                  values:RegisterForm.values.suffixName,
+                  value:RegisterForm.values.suffixName,
                 }}
                 label="Suffix" 
                 type="text" 
@@ -153,7 +153,7 @@ export default function Register() {
                 attr={{
                   placeholder:"email@gmail.com",
                   name:"email",
-                  values:RegisterForm.values.email,
+                  value:RegisterForm.values.email,
                 }}
                 label="Email" 
                 type="text" 
@@ -165,7 +165,7 @@ export default function Register() {
                 attr={{
                   placeholder:"09152312322",
                   name:"contact",
-                  values:RegisterForm.values.contact,
+                  value:RegisterForm.values.contact,
                 }}
                 label="Contact Number" 
                 type="text" 
@@ -187,7 +187,7 @@ export default function Register() {
                 attr={{
                   placeholder:"Password",
                   name:"password",
-                  values:RegisterForm.values.password,
+                  value:RegisterForm.values.password,
                 }}
                 label="Password" 
                 type="password" 
@@ -199,7 +199,7 @@ export default function Register() {
                 attr={{
                   placeholder:"Confirm Password",
                   name:"confirmPassword",
-                  values:RegisterForm.values.confirmPassword,
+                  value:RegisterForm.values.confirmPassword,
                 }}
                 label="Confirm Password" 
                 type="password" 

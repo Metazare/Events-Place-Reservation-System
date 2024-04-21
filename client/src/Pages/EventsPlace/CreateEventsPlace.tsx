@@ -103,7 +103,7 @@ function CreateEventsPlace() {
                   attr={{
                     placeholder:"Event Name",
                     name:"eventName",
-                    values:CreateEventformik.values.eventName,
+                    value:CreateEventformik.values.eventName,
                   }}
                   label="Event Name" 
                   type="text" 
@@ -125,7 +125,7 @@ function CreateEventsPlace() {
                     attr={{
                       placeholder:"Event Location",
                       name:"eventLocation",
-                      values:CreateEventformik.values.eventLocation,
+                      value:CreateEventformik.values.eventLocation,
                     }}
                     label="Event Location" 
                     type="text" 
@@ -138,7 +138,7 @@ function CreateEventsPlace() {
                     attr={{
                       placeholder:"Event Capacity",
                       name:"eventCapacity",
-                      values:CreateEventformik.values.eventCapacity,
+                      value:CreateEventformik.values.eventCapacity,
                     }}
                     label="Event Capacity" 
                     type="number" 
@@ -150,7 +150,7 @@ function CreateEventsPlace() {
                     attr={{
                       placeholder:"Event Price",
                       name:"eventPrice",
-                      values:CreateEventformik.values.eventPrice,
+                      value:CreateEventformik.values.eventPrice,
                     }}
                     label="Event Price" 
                     type="number" 
@@ -251,7 +251,7 @@ function AddAmenities({value,setAmenities}:{value:any,setAmenities:any}) {
       attr={{
         placeholder:"Name",
         name:"name",
-        values:AddAmenitiesformik.values.name,
+        value:AddAmenitiesformik.values.name,
       }}
       label="Name" 
       type="text" 
@@ -271,7 +271,7 @@ function AddAmenities({value,setAmenities}:{value:any,setAmenities:any}) {
       attr={{
         placeholder:"Price",
         name:"rate",
-        values:AddAmenitiesformik.values.rate,
+        value:AddAmenitiesformik.values.rate,
       }}
       label="Price" 
       type="number" 
