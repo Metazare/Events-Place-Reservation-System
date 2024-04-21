@@ -14,6 +14,10 @@ const useOTPGenerator = () => {
             subject: "Events Place Marikina OTP Code",
             content: `Your OTP code is: ${generatedOTP}`,
         });
+
+        console.log(generatedOTP);
+
+        return generatedOTP;
     };
 
     const compareOTP = (inputOTP: string) => {
