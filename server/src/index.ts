@@ -21,13 +21,9 @@ import reservationRoute from './api/reservation/reservation.route';
 import userRoute from './api/user/user.route';
 import emailRoute from './api/email/email.route';
 
-import { createNotification } from './api/notification/notification.controller';
-import { CreateNotification } from './api/notification/notification.types';
-
 // Utilities
 import { app, server } from './socket/socket';
 import { NotFound } from './utilities/errors';
-import connectToMongoDB from './database/connectToMongoDB';
 import envs from './utilities/envs';
 
 // Environment Variables
