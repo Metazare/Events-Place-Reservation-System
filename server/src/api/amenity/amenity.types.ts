@@ -35,8 +35,3 @@ export interface AmenityPopulatedDocument extends AmenityDocument {
 export type RawAmenity = Omit<Amenity, 'amenityId' | 'eventsPlace'>;
 
 export type UpdateAmenity = RawAmenity & Optional<Amenity, 'amenityId'>;
-
-export type ReserveAmenity = {
-    amenityId: string;
-    quantity: number;
-}
