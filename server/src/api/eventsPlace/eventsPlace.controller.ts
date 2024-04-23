@@ -10,7 +10,8 @@ import { CheckData } from '../../utilities/checkData';
 import { NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
 import eventsPlaceModel from './eventsPlace.model';
 import { updateAmenities } from '../amenity/amenity.controller';
-import { UpdateAmenity } from '../amenity/amenity.types';
+import { AmenityDocument, UpdateAmenity } from '../amenity/amenity.types';
+import amenityModel from '../amenity/amenity.model';
 
 export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateEventsPlace>, res) => {
     if (!req.user) throw new Unauthorized();
@@ -88,7 +89,31 @@ export const getEventsPlace: RequestHandler = async (req: QueryRequest<GetEvents
 
     const eventsPlaces: EventsPlaceDocument[] = await eventsPlaceModel.find(eventsPlaceQuery, { host: 0 }).exec();
 
-    res.json(eventsPlaces);
+    // Create an array of promises for searching each of the events places' amenities
+    const amenitySearches = eventsPlaces.map(
+        (eventsPlace) =>
+            new Promise(async (resolve) => {
+                // Search the amenities of the events place
+                const amenities: AmenityDocument[] = await amenityModel.find({ eventsPlace: eventsPlace._id }).exec();
+
+                // Get only the necessary details of the amenities
+                const eventsPlaceAmenities: Pick<AmenityDocument, 'amenityId' | 'name' | 'rate' | 'amenityType'>[] =
+                    amenities.map((amenity) => ({
+                        amenityId: amenity.amenityId,
+                        name: amenity.name,
+                        rate: amenity.rate,
+                        amenityType: amenity.amenityType
+                    }));
+
+                // Resolve the events place with its amenities
+                resolve({ ...eventsPlace.toJSON(), amenities: eventsPlaceAmenities });
+            })
+    );
+
+    // Execute the searches concurrently
+    const eventsPlacesWithAmenities = await Promise.all(amenitySearches);
+
+    res.json(eventsPlacesWithAmenities);
 };
 
 export const editEventsPlace: RequestHandler = async (req: BodyRequest<EditEventsPlace>, res) => {
