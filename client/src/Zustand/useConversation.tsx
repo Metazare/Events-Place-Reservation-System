@@ -1,4 +1,4 @@
-import create from "zustand";
+import {create} from "zustand";
 
 interface ConversationState {
   selectedConversation: any; // Adjust the type according to your conversation object structure

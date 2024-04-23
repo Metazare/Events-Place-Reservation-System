@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 import Base from './Layouts/Base/Base';
 
 // Pages
-import Default from './Pages/LandingPage/Default';
+import Default from './Pages/LandingPage/LandingPage';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import Chat from './Pages/Chat/Chat';

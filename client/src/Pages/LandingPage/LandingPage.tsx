@@ -13,7 +13,7 @@ export default function LandingPage() {
         <div className='flex max-w-[500px] w-full gap-1 items-center bg-[white] rounded-full pr-3 '>
           <input name='search' id='search' type="text" className=' grow outline-none p-4 bg-[transparent]' placeholder='Search...'/>
           <IconButton aria-label="" onClick={()=>{}}>
-            <SearchIcon sx={{opacity:".9"}} onClick={()=>{alert()}}/>
+            <SearchIcon sx={{opacity:".9"}} />
           </IconButton>
         </div>
         <Tooltip title="Filter">
