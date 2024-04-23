@@ -29,20 +29,23 @@ function App() {
     <Routes>
         <Route element={<Base />} >
           <Route path="/" element={<Default/>} />
-          <Route path="/forgetpassword" element={<ForgetPassword/>} />
-          <Route path="/resetpassword/:hash" element={<ResetPassword/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
-          <Route path="/chat" element={<Chat/>} />
-          <Route path="/profile" element={<Profile/>} />
+          <Route path="/forgetpassword" element={<ForgetPassword/>} />
+          <Route path="/resetpassword/:hash" element={<ResetPassword/>} />
+
           <Route path="/create" element={<CreateEventsPlace/>} />
-          <Route path="/profile/:userId" element={<Profile/>} />
           <Route path="/view/:id" element={<ViewEventsPlace/>} />
+
           <Route path="/listing" element={<MyListings/>} />
+
+          <Route path="/profile" element={<Profile/>} />
+          <Route path="/profile/:userId" element={<Profile/>} />
+
+          <Route path="/chat" element={<Chat/>} />
         </Route>
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
         <Route path="/test/toast" element={<TestToast/>} />
-
     </Routes>
   );
 }
