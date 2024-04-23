@@ -1,6 +1,6 @@
 import { Schema, Types, model } from 'mongoose';
 import { id } from '../../utilities/ids';
-import { ReservationDocument, ReservationStatus } from './reservation.types';
+import { PaymentStatus, ReservationDocument, ReservationStatus } from './reservation.types';
 
 const reservationSchema = new Schema(
     {
@@ -24,6 +24,10 @@ const reservationSchema = new Schema(
             ref: 'EventsPlace',
             required: true
         },
+        guestCount: {
+            type: Number,
+            required: true
+        },
         amenities: [
             {
                 amenityId: {
@@ -31,6 +35,10 @@ const reservationSchema = new Schema(
                     required: true
                 },
                 quantity: {
+                    type: Number,
+                    required: true
+                },
+                rate: {
                     type: Number,
                     required: true
                 }
@@ -47,12 +55,19 @@ const reservationSchema = new Schema(
             }
         },
         status: {
-            type: String,
-            enum: {
-                values: Object.values(ReservationStatus),
-                message: '{VALUE} is not supported'
+            type: {
+                payment: {
+                    type: String,
+                    enum: Object.values(PaymentStatus),
+                    default: PaymentStatus.UNPAID
+                },
+                reservation: {
+                    type: String,
+                    enum: Object.values(ReservationStatus),
+                    default: ReservationStatus.PENDING
+                }
             },
-            default: ReservationStatus.PENDING
+            required: true
         }
     },
     {
