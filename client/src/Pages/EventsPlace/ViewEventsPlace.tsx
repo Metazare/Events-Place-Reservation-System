@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import { useParams } from 'react-router-dom';
 
 // Imported Components
 import Container from '@mui/material/Container'
@@ -14,7 +15,23 @@ import Rating from '@mui/material/Rating';
 import ReviewCard from 'src/Components/ReviewCard';
 import AmenitiesCard from 'src/Components/AmenitiesCard';
 
-export default function ViewEventsPlace({data}:{data?:any}) {
+// Hooks
+import useEventsPlace from 'src/Hooks/useEventsPlace';
+
+export default function ViewEventsPlace({data: passedData}:{data?:any}) {
+  const {id} = useParams<{id:string}>();
+  const {data,loading,error,getEventsPlace} = useEventsPlace();
+
+  useEffect(()=>{
+    if(!passedData){
+      if (id)
+        getEventsPlace(id);
+    }
+  },[])
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error</p>
+
   return (
     <Container maxWidth="lg" sx={{flexGrow:"1",display:"flex",flexDirection:"column",gap:"2em",alignItems:"start",padding:"2em 1em"}}>
       {!data&&
@@ -23,10 +40,10 @@ export default function ViewEventsPlace({data}:{data?:any}) {
           <p>Go Back</p>
         </div>
       }
-      
+
       <div className='w-full'>
         <div className='flex text-[#303030] items-start'>
-          <h3 className='text-[27px] grow font-medium'>{data?.name}</h3>
+          <h3 className='text-[27px] grow font-medium'>{passedData?.name || data?.[0]?.name}</h3>
           <IconButton  sx={{marginTop:".1em"}} onClick={()=>{}}>
             <ReportIcon sx={{fontSize:"27px"}} />
           </IconButton>
@@ -37,11 +54,11 @@ export default function ViewEventsPlace({data}:{data?:any}) {
         </div>
       </div>
       <div className='flex flex-col md:flex-row  aspect-video w-full gap-4'>
-        {data? <>
-            <div className='grow h-full rounded' style={{background:`url("${data.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+        {passedData? <>
+            <div className='grow h-full rounded' style={{background:`url("${passedData.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
             <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
-              <div className='grow rounded' style={{background:`url("${data.images[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-              <div className='grow rounded' style={{background:`url("${data.images[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+              <div className='grow rounded' style={{background:`url("${passedData.images[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+              <div className='grow rounded' style={{background:`url("${passedData.images[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
             </div>
           </>
           :<>
@@ -59,13 +76,13 @@ export default function ViewEventsPlace({data}:{data?:any}) {
           <div className='border-b border-[black]/10 pb-[2.5em]'>
             <h6  className='text-[20px] font-semibold mb-3'>About this place</h6>
             <p className='text-justify'>
-              {data?.description}
+              {passedData?.description || data?.[0]?.description}
             </p>
           </div>
           <div className='border-b border-[black]/10 pb-[2.5em]'>
             <h6  className='text-[20px] font-semibold mb-3'>What this place can offer</h6>
             <div className='grid gap-3' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-              {data?.amenities.map((data,index)=>(
+              {(passedData?.amenities || data?.[0]?.amenities)?.map((data,index)=>(
                 <AmenitiesCard data={data} key={index}/>
               ))}
             </div>
@@ -94,6 +111,11 @@ export default function ViewEventsPlace({data}:{data?:any}) {
       </div>
       <div className='border-t mt-4 flex flex-col-reverse gap-12 md:gap-0 pt-[2.5em] border-[black]/10 w-full md:grid' style={{gridTemplateColumns:"1fr .5fr"}}>
         <div className='grid gap-4' style={{gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))"}}>
+          <ReviewCard/>
+          <ReviewCard/>
+          <ReviewCard/>
+          <ReviewCard/>
+          <ReviewCard/>
           <ReviewCard/>
           <ReviewCard/>
           <ReviewCard/>

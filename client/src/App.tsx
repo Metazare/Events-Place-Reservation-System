@@ -37,7 +37,7 @@ function App() {
           <Route path="/profile" element={<Profile/>} />
           <Route path="/create" element={<CreateEventsPlace/>} />
           <Route path="/profile/:userId" element={<Profile/>} />
-          <Route path="/view" element={<ViewEventsPlace/>} />
+          <Route path="/view/:id" element={<ViewEventsPlace/>} />
           <Route path="/listing" element={<MyListings/>} />
         </Route>
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
