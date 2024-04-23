@@ -66,7 +66,7 @@ export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateE
         await updateAmenities(eventsPlace, amenities as UpdateAmenity[]);
     }
 
-    res.sendStatus(201);
+    res.json({ eventsPlaceId: eventsPlace.eventsPlaceId });
 };
 
 export const getEventsPlace: RequestHandler = async (req: QueryRequest<GetEventsPlace>, res) => {
