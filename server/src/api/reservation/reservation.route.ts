@@ -1,4 +1,4 @@
-import { createReservation, getReservations, updateReservationStatus } from "./reservation.controller";
+import { cancelReservation, createReservation, getReservations, payReservation } from "./reservation.controller";
 import { Router } from "express";
 import asynchronousHandler from "../../middlewares/asynchronousHandler";
 import authenticate from "../../middlewares/authenticate";
@@ -11,6 +11,8 @@ router.use(authenticate);
 
 router.post('/', asynchronousHandler(createReservation));
 
-router.patch('/', asynchronousHandler(updateReservationStatus));
+router.patch('/pay', asynchronousHandler(payReservation));
+
+router.patch('/cancel', asynchronousHandler(cancelReservation));
 
 export default router;
