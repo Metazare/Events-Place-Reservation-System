@@ -1,6 +1,4 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import io from 'socket.io-client';
 
 // Layouts
 import Base from './Layouts/Base/Base';
@@ -17,35 +15,30 @@ import ViewEventsPlace from './Pages/EventsPlace/ViewEventsPlace';
 import MyListings from './Pages/EventsPlace/MyListings';
 import CreateEventsPlace from './Pages/EventsPlace/CreateEventsPlace';
 
-// Test
-import TestHelpdesk from './Test/TestHelpdesk';
-import TestNotification from './Test/TestNotification';
-import TestToast from './Test/TestToast';
-
-// const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:4000');
+// Hooks
+import { ProtectedRoute } from './Hooks/useAuth';
 
 function App() {
   return (
     <Routes>
         <Route element={<Base />} >
           <Route path="/" element={<Default/>} />
+          
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgetpassword" element={<ForgetPassword/>} />
           <Route path="/resetpassword/:hash" element={<ResetPassword/>} />
 
-          <Route path="/create" element={<CreateEventsPlace/>} />
           <Route path="/view/:id" element={<ViewEventsPlace/>} />
-
-          <Route path="/listing" element={<MyListings/>} />
-
-          <Route path="/profile" element={<Profile/>} />
           <Route path="/profile/:userId" element={<Profile/>} />
 
-          <Route path="/chat" element={<Chat/>} />
+          <Route element={<ProtectedRoute allowedRoles={["admin"]}/>}>
+            <Route path="/create" element={<CreateEventsPlace/>} />
+            <Route path="/listing" element={<MyListings/>} />
+            <Route path="/profile" element={<Profile/>} />
+            <Route path="/chat" element={<Chat/>} />
+          </Route>
         </Route>
-        <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
-        <Route path="/test/toast" element={<TestToast/>} />
     </Routes>
   );
 }

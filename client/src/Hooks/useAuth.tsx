@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
 import axios from './useAxios';
 
@@ -208,4 +208,14 @@ const usePasswordReset = () => {
     return { loading, forgetPassword, resetPassword };
 }
 
-export { useLogin, useLogout, useRegister, usePasswordReset };
+const ProtectedRoute = ({ allowedRoles }) => {
+    const { authUser } = useAuthContext();
+
+    return (
+        authUser
+            ? <Outlet/>   
+            : <Navigate to="/login"/>
+    );
+};
+
+export { useLogin, useLogout, useRegister, usePasswordReset, ProtectedRoute };
