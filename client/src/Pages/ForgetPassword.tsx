@@ -34,7 +34,7 @@ export default function ForgetPassword() {
               attr={{
                 placeholder:"Email",
                 name:"email",
-                values:ResetPasswordForm.values.email,
+                value:ResetPasswordForm.values.email,
               }}
               label="Email" 
               type="email" 

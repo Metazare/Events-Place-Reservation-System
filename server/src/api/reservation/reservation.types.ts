@@ -1,7 +1,6 @@
-import { Document, Types } from "mongoose";
-import { EventsPlaceDocument, EventsPlacePopulatedDocument } from "../eventsPlace/eventsPlace.types";
-import { UserDocument } from "../user/user.types";
-import { ReserveAmenity } from "../amenity/amenity.types";
+import { Document, Types } from 'mongoose';
+import { EventsPlaceDocument, EventsPlacePopulatedDocument } from '../eventsPlace/eventsPlace.types';
+import { UserDocument } from '../user/user.types';
 
 export enum ReservationStatus {
     PENDING = 'pending',
@@ -10,14 +9,34 @@ export enum ReservationStatus {
     CANCELED = 'canceled'
 }
 
+export enum PaymentStatus {
+    PAID = 'paid',
+    UNPAID = 'unpaid'
+}
+
+export type Duration = {
+    start: Date;
+    end: Date;
+};
+
+export type ReservationAmenity = {
+    amenityId: string;
+    quantity: number;
+    rate: number;
+};
+
 export interface Reservation {
     reservationId: string;
     renter: Types.ObjectId | Record<string, unknown>;
     host: Types.ObjectId | Record<string, unknown>;
     eventsPlace: Types.ObjectId | Record<string, unknown>;
-    amenities: ReserveAmenity[];
+    amenities: ReservationAmenity[];
+    guestCount: number;
     duration: Duration;
-    status: ReservationStatus;
+    status: {
+        payment: PaymentStatus;
+        reservation: ReservationStatus;
+    };
 }
 
 export interface ReservationDocument extends Reservation, Document {
@@ -38,12 +57,11 @@ export interface ReservationPopulatedDocument extends ReservationDocument {
 
 export type CreateReservation = {
     eventsPlaceId: string;
-    amenities: ReserveAmenity[];
+    amenities: {
+        amenityId: string;
+        quantity: number;
+    }[];
+    guestCount: number;
     startDate: number;
     days: number;
-}
-
-export type Duration = {
-    start: Date;
-    end: Date;
-}
+};

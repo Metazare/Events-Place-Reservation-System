@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import useRequest from './useRequest';
 
 enum AmenityType {
@@ -7,15 +6,7 @@ enum AmenityType {
   PER_QUANTITY = 'per quantity'
 }
 
-enum EventsPlaceType {
-  RESORT = 'resort',
-  HOTEL = 'hotel',
-  FUNCTION_ROOM = 'function room'
-}
-
 interface Amenity {
-  amenityId: string;
-  eventsPlace: Record<string, unknown>;
   name: string;
   amenityType: AmenityType;
   rate: number;
@@ -24,7 +15,7 @@ interface Amenity {
 interface EventsPlaceData {
   name: string;
   description: string;
-  placeType: EventsPlaceType;
+  placeType: string;
   location: string;
   rate: number;
   maxCapacity: number;
@@ -75,7 +66,7 @@ function useEventsPlace() {
     getEventsPlace,
     createEventsPlace,
     updateEventsPlace,
-    deleteEventsPlace,
+    deleteEventsPlace
   };
 }
 
