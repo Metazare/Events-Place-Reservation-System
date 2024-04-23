@@ -57,7 +57,7 @@ export default function OTPComponent({setStatus, email}:PropsType) {
           <TextField 
             attr={{
               name:"otpCode",
-              values:otpCodeForm.values.otpCode,
+              value:otpCodeForm.values.otpCode,
               maxLength:"6"
             }}
             label="OTP Code" 

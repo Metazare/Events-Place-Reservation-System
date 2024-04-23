@@ -45,7 +45,7 @@ export default function Login() {
             attr={{
               placeholder:"email@gmail.com",
               name:"email",
-              values:LoginForm.values.email,
+              value:LoginForm.values.email,
             }}
             label="Email" 
             type="text" 
@@ -57,7 +57,7 @@ export default function Login() {
             attr={{
               placeholder:"Password",
               name:"password",
-              values:LoginForm.values.password,
+              value:LoginForm.values.password,
             }}
             label="Password" 
             type="password" 

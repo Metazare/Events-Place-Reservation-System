@@ -15,6 +15,11 @@ interface RegisterData {
     role: string;
 }
 
+interface RegisterHostData {
+    license: string;
+    description: string;
+}
+
 interface LoginData {
     email: string;
     password: string;
@@ -117,10 +122,6 @@ const useRegister = () => {
     };
 
     const register = async (data: RegisterData) => {
-        if (!handleInputErrors(data)) {
-            return; // Exit early if there are input errors
-        }
-
         setLoading(true);
 
         try {
@@ -131,14 +132,27 @@ const useRegister = () => {
             });
 
         } catch (error: any) {
-            console.log(error)
             toast.error(error.response?.data?.message);
         } finally {
             setLoading(false);
         }
     };
 
-    return { loading, register, isEmailUnique };
+    const registerHost = async (data: RegisterHostData) => {
+        setLoading(true);
+
+        try {
+            await axios.post(`/auth/register/host`, data).then((response: any) => {
+                toast.success("Host registration successful");
+            });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { loading, register, isEmailUnique, registerHost };
 };
 
 const usePasswordReset = () => {

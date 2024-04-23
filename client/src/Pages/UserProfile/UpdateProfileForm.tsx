@@ -18,7 +18,6 @@ interface PropsType {
 }
 export default function UpdateProfileForm({closeModal, data}:PropsType) {
   const {editInfo, editCredentials} = useUser();
-
   const UpdateProfileForm = useFormik({
     initialValues: {
       firstName: data[0]?.name?.first || '',
@@ -69,7 +68,7 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
             attr={{
               placeholder:"John Michael",
               name:"firstName",
-              values:UpdateProfileForm.values.firstName,
+              value:UpdateProfileForm.values.firstName,
             }}
             label="First Name" 
             type="text" 
@@ -81,7 +80,7 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
             attr={{
               placeholder:"M",
               name:"middleName",
-              values:UpdateProfileForm.values.middleName,
+              value:UpdateProfileForm.values.middleName,
             }}
             label="Middle Name" 
             type="text" 
@@ -103,7 +102,7 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
             attr={{
               placeholder:"Rowel",
               name:"lastName",
-              values:UpdateProfileForm.values.lastName,
+              value:UpdateProfileForm.values.lastName,
             }}
             label="Last Name" 
             type="text" 
@@ -115,7 +114,7 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
             attr={{
               placeholder:"Jr.",
               name:"suffixName",
-              values:UpdateProfileForm.values.suffixName,
+              value:UpdateProfileForm.values.suffixName,
             }}
             label="Suffix" 
             type="text" 
@@ -137,7 +136,7 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
             attr={{
               placeholder:"email@gmail.com",
               name:"email",
-              values:UpdateProfileForm.values.email,
+              value:UpdateProfileForm.values.email,
               disabled:true
             }}
             label="Email" 
@@ -150,7 +149,7 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
             attr={{
               placeholder:"09152312322",
               name:"contact",
-              values:UpdateProfileForm.values.contact,
+              value:UpdateProfileForm.values.contact,
             }}
             label="Contact Number" 
             type="text" 
@@ -172,7 +171,7 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
             attr={{
               placeholder:"Password",
               name:"password",
-              values:UpdateProfileForm.values.password,
+              value:UpdateProfileForm.values.password,
             }}
             label="Password" 
             type="password" 
@@ -184,7 +183,7 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
             attr={{
               placeholder:"Confirm Password",
               name:"confirmPassword",
-              values:UpdateProfileForm.values.confirmPassword,
+              value:UpdateProfileForm.values.confirmPassword,
             }}
             label="Confirm Password" 
             type="password" 
