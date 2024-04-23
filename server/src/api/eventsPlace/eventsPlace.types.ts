@@ -1,6 +1,5 @@
-import { Amenity, RawAmenity, UpdateAmenity } from '../amenity/amenity.types';
+import { RawAmenity, UpdateAmenity } from '../amenity/amenity.types';
 import { Document, Types } from 'mongoose';
-import { Optional } from 'express';
 import { UserDocument } from '../user/user.types';
 
 export enum EventsPlaceType {
