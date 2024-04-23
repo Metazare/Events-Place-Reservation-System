@@ -55,21 +55,20 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
       </div>
       <div className='flex flex-col md:flex-row  aspect-video w-full gap-4'>
         {passedData? <>
-            <div className='grow h-full rounded' style={{background:`url("${passedData.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+          <div className='grow h-full rounded' style={{background:`url("${passedData.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
             <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
               <div className='grow rounded' style={{background:`url("${passedData.images[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
               <div className='grow rounded' style={{background:`url("${passedData.images[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
             </div>
           </>
           :<>
-          <div className='grow h-full rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"contain",backgroundPosition:"center"}}/>
+          <div className='grow h-full rounded' style={{background:`url("${data?.[0]?.images?.[0]}") no-repeat`,backgroundSize:"contain",backgroundPosition:"center"}}/>
             <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
-              <div className='grow rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-              <div className='grow rounded' style={{background:`url("https://assets.architecturaldigest.in/photos/65b2aecf269da4a0ee6c9b40/master/w_1600%2Cc_limit/atr.royalmansion-bedroom2-mr.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+              <div className='grow rounded' style={{background:`url("${data?.[0]?.images?.[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+              <div className='grow rounded' style={{background:`url("${data?.[0]?.images?.[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
             </div>
           </>
         }
-        
       </div>
       <div className='w-full flex md:grid gap-5' style={{gridTemplateColumns:"1fr .6fr"}}>
         <div className='grow flex flex-col gap-[2.5em]'>
