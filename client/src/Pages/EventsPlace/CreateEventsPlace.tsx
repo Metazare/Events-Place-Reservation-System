@@ -15,7 +15,6 @@ import SelectField from 'src/Components/SelectField';
 import AmenitiesCard from 'src/Components/AmenitiesCard';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewEventsPlace from './ViewEventsPlace';
-import { Add } from '@mui/icons-material';
 const steps = [
   'Basic Information',
   'Amenities',
@@ -31,11 +30,12 @@ function CreateEventsPlace() {
       eventLocation: '',
       eventCapacity: '',
       eventPrice: '',
+      placeType: '',
       amenities:[],
       images:[],
     },
     validate: values => {
-      let errors:{eventName?:string, eventDescription?:string, eventLocation?:string, eventCapacity?:string, eventPrice?:string,images?:any} = {};
+      let errors:{eventName?:string,placeType?:string, eventDescription?:string, eventLocation?:string, eventCapacity?:string, eventPrice?:string,images?:any} = {};
       switch(activeStep){
         case 0:
           if(!values.eventName) errors.eventName = "Event Name is required"
@@ -43,10 +43,10 @@ function CreateEventsPlace() {
           if(!values.eventLocation) errors.eventLocation = "Event Location is required"
           if(!values.eventCapacity) errors.eventCapacity = "Event Capacity is required"
           if(!values.eventPrice) errors.eventPrice = "Event Price is required"
+          if(!values.placeType) errors.placeType = "Event Price is required"
           break;
         case 1:
           // if(values.amenities.length) errors.eventName = "Event Name is required"
-          
           break;
         case 2:
           if(values.images.length < 3) errors.images = "Image must be atleast 3"
@@ -121,7 +121,8 @@ function CreateEventsPlace() {
                   error={CreateEventformik.touched.eventDescription && CreateEventformik.errors.eventDescription !== undefined}
                   errorMessages={CreateEventformik.errors.eventDescription}
                 />
-                <TextField 
+                <div className='md:flex gap-5'>
+                  <TextField 
                     attr={{
                       placeholder:"Event Location",
                       name:"eventLocation",
@@ -133,18 +134,29 @@ function CreateEventsPlace() {
                     error={CreateEventformik.touched.eventLocation && CreateEventformik.errors.eventLocation !== undefined}
                     errorMessages={CreateEventformik.errors.eventLocation}
                   />
-                <div className='md:flex gap-5'>
                   <TextField 
-                    attr={{
-                      placeholder:"Event Capacity",
-                      name:"eventCapacity",
-                      values:CreateEventformik.values.eventCapacity,
-                    }}
-                    label="Event Capacity" 
-                    type="number" 
+                      attr={{
+                        placeholder:"Event Capacity",
+                        name:"eventCapacity",
+                        values:CreateEventformik.values.eventCapacity,
+                      }}
+                      label="Event Capacity" 
+                      type="number" 
+                      handleChange={CreateEventformik.handleChange}
+                      error={CreateEventformik.touched.eventCapacity && CreateEventformik.errors.eventCapacity !== undefined}
+                      errorMessages={CreateEventformik.errors.eventCapacity}
+                    />
+                </div>
+                
+                <div className='md:flex gap-5'>
+                  
+                  <SelectField 
+                    name='type'
+                    label="Place Type" 
+                    options={[{label:"Resort", value:"resort"},{label:"Hotel", value:"hotel"},{label:"Function Room", value:"functionRoom"}]}
                     handleChange={CreateEventformik.handleChange}
-                    error={CreateEventformik.touched.eventCapacity && CreateEventformik.errors.eventCapacity !== undefined}
-                    errorMessages={CreateEventformik.errors.eventCapacity}
+                    error={CreateEventformik.touched.placeType && CreateEventformik.errors.placeType !== undefined}
+                    errorMessages={CreateEventformik.errors.placeType}
                   />
                   <TextField 
                     attr={{
