@@ -5,9 +5,9 @@ import authenticate from "../../middlewares/authenticate";
 
 const router = Router();
 
-router.get('/', asynchronousHandler(getReservations));
-
 router.use(authenticate);
+
+router.get('/:accessUser', asynchronousHandler(getReservations));
 
 router.post('/', asynchronousHandler(createReservation));
 
