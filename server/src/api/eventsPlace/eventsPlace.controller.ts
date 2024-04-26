@@ -87,7 +87,7 @@ export const getEventsPlace: RequestHandler = async (req: QueryRequest<GetEvents
         eventsPlaceQuery.eventsPlaceId = eventsPlaceId;
     }
 
-    const eventsPlaces: EventsPlaceDocument[] = await eventsPlaceModel.find(eventsPlaceQuery, { host: 0 }).exec();
+    const eventsPlaces: EventsPlaceDocument[] = await eventsPlaceModel.find(eventsPlaceQuery).populate('host').exec();
 
     // Create an array of promises for searching each of the events places' amenities
     const amenitySearches = eventsPlaces.map(

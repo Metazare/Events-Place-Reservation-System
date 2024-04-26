@@ -65,3 +65,28 @@ export type CreateReservation = {
     startDate: number;
     days: number;
 };
+
+export type GetReservation = {
+    reservationId?: string;
+    eventsPlaceId?: string;
+};
+
+export enum ReservationUser {
+    HOST = 'host',
+    RENTER = 'renter'
+}
+
+export type ReservationUserParam = {
+    reservationUser: ReservationUser;
+};
+
+export type ReservationQuery = {
+    renter?: UserDocument['_id'];
+    host?: UserDocument['_id'];
+    eventsPlace?: EventsPlaceDocument['_id'];
+    reservationId?: string;
+}
+
+export type CancelReservation = {
+    reservationId: string;
+}
