@@ -151,7 +151,8 @@ function CreateEventsPlace() {
                   error={CreateEventformik.touched.description && CreateEventformik.errors.description !== undefined}
                   errorMessages={CreateEventformik.errors.description}
                 />
-                <TextField 
+                <div className='md:flex gap-5'>
+                  <TextField 
                     attr={{
                       placeholder:"Event Location",
                       name:"location",
@@ -163,18 +164,29 @@ function CreateEventsPlace() {
                     error={CreateEventformik.touched.location && CreateEventformik.errors.location !== undefined}
                     errorMessages={CreateEventformik.errors.location}
                   />
-                <div className='md:flex gap-5'>
                   <TextField 
-                    attr={{
-                      placeholder:"Event Capacity",
-                      name:"maxCapacity",
-                      value:CreateEventformik.values.maxCapacity,
-                    }}
-                    label="Event Capacity" 
-                    type="number" 
+                      attr={{
+                        placeholder:"Event Capacity",
+                        name:"eventCapacity",
+                        values:CreateEventformik.values.maxCapacity,
+                      }}
+                      label="Event Capacity" 
+                      type="number" 
+                      handleChange={CreateEventformik.handleChange}
+                      error={CreateEventformik.touched.maxCapacity && CreateEventformik.errors.maxCapacity !== undefined}
+                      errorMessages={CreateEventformik.errors.maxCapacity}
+                    />
+                </div>
+                
+                <div className='md:flex gap-5'>
+                  
+                  <SelectField 
+                    name='type'
+                    label="Place Type" 
+                    options={[{label:"Resort", value:"resort"},{label:"Hotel", value:"hotel"},{label:"Function Room", value:"function room"}]}
                     handleChange={CreateEventformik.handleChange}
-                    error={CreateEventformik.touched.maxCapacity && CreateEventformik.errors.maxCapacity !== undefined}
-                    errorMessages={CreateEventformik.errors.maxCapacity}
+                    error={CreateEventformik.touched.placeType && CreateEventformik.errors.placeType !== undefined}
+                    errorMessages={CreateEventformik.errors.placeType}
                   />
                   <TextField 
                     attr={{
