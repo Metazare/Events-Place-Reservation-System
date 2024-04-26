@@ -22,6 +22,7 @@ import userRoute from './api/user/user.route';
 import emailRoute from './api/email/email.route';
 
 // Utilities
+import connectToMongoDB from "./database/connectToMongoDB";
 import { app, server } from './socket/socket';
 import { NotFound } from './utilities/errors';
 import envs from './utilities/envs';
@@ -47,10 +48,12 @@ app.use('/chat', chatRoute);
 app.use((_req, _res, next) => next(new NotFound()));
 app.use(errorHandler);
 
-mongoose
-    .connect(MONGO_URI)
-    .then(() => {
-        console.log('Connected to database');
-        app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-    })
-    .catch(console.error);
+server.listen(PORT, () => {
+	mongoose
+        .connect(MONGO_URI)
+        .then(() => {
+            console.log('Connected to database');
+            console.log(`Listening on port ${PORT}`);
+        })
+        .catch(console.error);
+});
