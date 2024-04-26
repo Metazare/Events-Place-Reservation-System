@@ -7,7 +7,6 @@ import Base from './Layouts/Base/Base';
 import Default from './Pages/LandingPage/LandingPage';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
-import Chat from './Pages/Chat/Chat';
 import Profile from './Pages/UserProfile/Profile';
 import ResetPassword from './Pages/ResetPassword';
 import ForgetPassword from './Pages/ForgetPassword';
@@ -17,6 +16,9 @@ import CreateEventsPlace from './Pages/EventsPlace/CreateEventsPlace';
 
 // Hooks
 import { ProtectedRoute } from './Hooks/useAuth';
+
+// Test
+import TestChat from './Test/TestChat';
 
 function App() {
   return (
@@ -36,9 +38,10 @@ function App() {
             <Route path="/create" element={<CreateEventsPlace/>} />
             <Route path="/listing" element={<MyListings/>} />
             <Route path="/profile" element={<Profile/>} />
-            <Route path="/chat" element={<Chat/>} />
           </Route>
         </Route>
+
+        <Route path="/testchat" element={<TestChat/>} />
     </Routes>
   );
 }
