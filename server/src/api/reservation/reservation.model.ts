@@ -11,12 +11,12 @@ const reservationSchema = new Schema(
         },
         renter: {
             type: Types.ObjectId,
-            ref: 'EventsPlace',
+            ref: 'User',
             required: true
         },
         host: {
             type: Types.ObjectId,
-            ref: 'Host',
+            ref: 'User',
             required: true
         },
         eventsPlace: {

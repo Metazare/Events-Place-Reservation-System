@@ -11,7 +11,7 @@ const eventsPlaceSchema = new Schema(
         },
         host: {
             type: Types.ObjectId,
-            ref: 'Host',
+            ref: 'User',
             required: true
         },
         name: {
