@@ -13,7 +13,7 @@ export default function AmenitiesCard({data}:Props) {
         <h6 className='text-[15]'>{data.name}</h6>
       </div>
       <div className='flex justify-between items-end'>
-        <p>₱{data.rate} {data.amenityType ==="perDay"&&"per day"} {data.amenityType ==="perQuantity"&&"each"}</p>
+        <p>₱{data.rate} {data.amenityType ==="per day"&&"per day"} {data.amenityType ==="per quantity"&&"each"}</p>
         <CheckCircleIcon sx={{fontSize:"27px"}}/>
       </div>
       <div className='absolute top-0 left-0 w-full h-full bg-secondary z-[-1]'/>

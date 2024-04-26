@@ -167,7 +167,7 @@ function CreateEventsPlace() {
                   <TextField 
                       attr={{
                         placeholder:"Event Capacity",
-                        name:"eventCapacity",
+                        name:"maxCapacity",
                         values:CreateEventformik.values.maxCapacity,
                       }}
                       label="Event Capacity" 
@@ -277,7 +277,7 @@ function AddAmenities({value,setAmenities}:{value:any,setAmenities:any}) {
       let errors:{name?:string,amenityType?:string,price?:string} = {};
       if(!values.name) errors.name = "name is required"
       if(!values.rate) errors.price = "price is required"
-      if(!values.amenityType) errors.amenityType = "name is required"
+      if(!values.amenityType) errors.amenityType = "type is required"
       return errors;
     },
     onSubmit: (values) => {
@@ -304,7 +304,7 @@ function AddAmenities({value,setAmenities}:{value:any,setAmenities:any}) {
       errorMessages={AddAmenitiesformik.errors.name}
     />
     <SelectField 
-      name='type'
+      name='amenityType'
       label="Type" 
       options={[{label:"One Time", value:"one time"},{label:"Per Day", value:"per day"},{label:"Per Quantity", value:"per quantity"}]}
       handleChange={AddAmenitiesformik.handleChange}
