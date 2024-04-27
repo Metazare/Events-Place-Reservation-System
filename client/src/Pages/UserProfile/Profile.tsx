@@ -9,7 +9,7 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import useModal from 'src/Hooks/useModal'
 import UpdateProfileForm from './UpdateProfileForm'
-
+import Layout from './Layout'
 // Hooks
 import useUser from 'src/Hooks/useUser'
 import { useAuthContext } from 'src/Context/AuthContext'
@@ -49,7 +49,7 @@ export default function Profile() {
               <p className='text-[10px] font-[500] opacity-65'>Contact Number</p>
             </div>
             {(userId === undefined && authUser) || (userId === authUser?.userId) ? (
-              <Button variant="outlined" color="primary" sx={{width:"100%",marginTop:"25px"}} onClick={()=>{setOpenModal(<UpdateProfileForm closeModal={closeModal} data={data}/>)}}>
+              <Button variant="outlined" color="primary" sx={{width:"100%",marginTop:"25px"}} onClick={()=>{setOpenModal(<Layout closeModal={closeModal} data={data}/>)}}>
                 Update Profile
               </Button>
             ) : null}
