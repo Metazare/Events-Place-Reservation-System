@@ -44,11 +44,11 @@ function CreateEventsPlace() {
   const [activeStep, setActiveStep] = React.useState(2);
   const CreateEventformik = useFormik({
     initialValues: {
-      eventName: '',
-      eventDescription: '',
-      eventLocation: '',
-      eventCapacity: '',
-      eventPrice: '',
+      name: '',
+      description: '',
+      location: '',
+      maxCapacity: '',
+      rate: '',
       placeType: 'Resort',
       amenities:[],
       images:[],
