@@ -44,12 +44,12 @@ function CreateEventsPlace() {
   const [activeStep, setActiveStep] = React.useState(2);
   const CreateEventformik = useFormik({
     initialValues: {
-      name: '',
-      description: '',
-      location: '',
-      maxCapacity: '',
-      rate: '',
-      placeType: 'resort',
+      eventName: '',
+      eventDescription: '',
+      eventLocation: '',
+      eventCapacity: '',
+      eventPrice: '',
+      placeType: 'Resort',
       amenities:[],
       images:[],
     },
@@ -151,7 +151,8 @@ function CreateEventsPlace() {
                   error={CreateEventformik.touched.description && CreateEventformik.errors.description !== undefined}
                   errorMessages={CreateEventformik.errors.description}
                 />
-                <TextField 
+                <div className='md:flex gap-5'>
+                  <TextField 
                     attr={{
                       placeholder:"Event Location",
                       name:"location",
@@ -163,7 +164,6 @@ function CreateEventsPlace() {
                     error={CreateEventformik.touched.location && CreateEventformik.errors.location !== undefined}
                     errorMessages={CreateEventformik.errors.location}
                   />
-                <div className='md:flex gap-5'>
                   <TextField 
                     attr={{
                       placeholder:"Event Capacity",
