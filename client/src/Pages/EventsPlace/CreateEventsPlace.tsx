@@ -30,7 +30,7 @@ function CreateEventsPlace() {
       eventLocation: '',
       eventCapacity: '',
       eventPrice: '',
-      placeType: '',
+      placeType: 'Resort',
       amenities:[],
       images:[],
     },
