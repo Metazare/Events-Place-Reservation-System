@@ -16,7 +16,7 @@ import ForgetPassword from './Pages/ForgetPassword';
 import ViewEventsPlace from './Pages/EventsPlace/ViewEventsPlace';
 import MyListings from './Pages/EventsPlace/MyListings';
 import CreateEventsPlace from './Pages/EventsPlace/CreateEventsPlace';
-
+import HostRegister from './Pages/Register/HostRegister';
 // Test
 import TestHelpdesk from './Test/TestHelpdesk';
 import TestNotification from './Test/TestNotification';
@@ -39,6 +39,7 @@ function App() {
           <Route path="/profile/:userId" element={<Profile/>} />
           <Route path="/view" element={<ViewEventsPlace/>} />
           <Route path="/listing" element={<MyListings/>} />
+          <Route path="/becomeahost" element={<HostRegister/>} />
         </Route>
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
         <Route path="/test/toast" element={<TestToast/>} />

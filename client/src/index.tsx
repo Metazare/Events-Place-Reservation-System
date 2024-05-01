@@ -23,7 +23,7 @@ root.render(
             </Routes>
           {/* </SocketContextProvider> */}
         </AuthContextProvider>
-      </GoogleOAuthProvider>;
+      </GoogleOAuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

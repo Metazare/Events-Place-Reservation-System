@@ -76,9 +76,6 @@ export default function Login() {
             <p className='text-[10px] opacity-50'>or continue with</p>
             <hr className='grow opacity-50'/>
           </div>
-
-          
-          
           <div className=' w-full flex justify-center mt-2' >
             <GoogleLogin
               onSuccess={credentialResponse => {
