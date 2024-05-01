@@ -16,6 +16,7 @@ import ForgetPassword from './Pages/ForgetPassword';
 import ViewEventsPlace from './Pages/EventsPlace/ViewEventsPlace';
 import MyListings from './Pages/EventsPlace/MyListings';
 import CreateEventsPlace from './Pages/EventsPlace/CreateEventsPlace';
+import UpdateEventsPlace from './Pages/EventsPlace/UpdateEventsPlace';
 import HostRegister from './Pages/Register/HostRegister';
 // Test
 import TestHelpdesk from './Test/TestHelpdesk';
@@ -36,6 +37,7 @@ function App() {
           <Route path="/chat" element={<Chat/>} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/create" element={<CreateEventsPlace/>} />
+          <Route path="/update" element={<UpdateEventsPlace/>} />
           <Route path="/profile/:userId" element={<Profile/>} />
           <Route path="/view" element={<ViewEventsPlace/>} />
           <Route path="/listing" element={<MyListings/>} />

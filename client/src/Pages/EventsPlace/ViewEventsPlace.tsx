@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Container from '@mui/material/Container'
 import StarIcon from '@mui/icons-material/Star';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -10,8 +10,14 @@ import ChatIcon from '@mui/icons-material/Chat';
 import Avatar from '@mui/material/Avatar'
 import ReviewCard from 'src/Components/ReviewCard';
 import Rating from '@mui/material/Rating';
-export default function ViewEventsPlace({data}:{data?:any}) {
+import { useFormik } from 'formik';
+import ReservationForm from './ReservationForm';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { useNavigate } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip'
 
+export default function ViewEventsPlace({data}:{data?:any}) {
+  const navigate = useNavigate();
   const SampleAmenitie: AmenityType[] = [
     {
       id:"1",
@@ -38,7 +44,20 @@ export default function ViewEventsPlace({data}:{data?:any}) {
       rate:100
     }
   ]
-  console.log(data)
+  const [isHost,setIsHost] = useState(true)  ;
+  const ReservationFormik = useFormik({
+    initialValues: {
+
+    },
+    validate: (values) => {
+      const errors:{ [key:string]:string}  = {};
+      return errors;
+    },
+    onSubmit: (values) => {
+      
+    },
+  })
+
   return (
     <Container maxWidth="lg" sx={{flexGrow:"1",display:"flex",flexDirection:"column",gap:"2em",alignItems:"start",padding:"2em 1em"}}>
       {!data&&
@@ -51,9 +70,20 @@ export default function ViewEventsPlace({data}:{data?:any}) {
       <div className='w-full'>
         <div className='flex text-[#303030] items-start'>
           <h3 className='text-[27px] grow font-medium'>Eagles Nest, Luxury Villa, Koh Yao Noi</h3>
-          <IconButton  sx={{marginTop:".1em"}} onClick={()=>{}}>
-            <ReportIcon sx={{fontSize:"27px"}} />
-          </IconButton>
+          
+          {isHost?
+            <Tooltip title="Update">
+              <IconButton  sx={{marginTop:".1em"}} onClick={()=>{navigate('/update')}}>
+                <BorderColorIcon sx={{fontSize:"27px"}} />
+              </IconButton>
+            </Tooltip>:
+            <Tooltip title="Report">
+              <IconButton  sx={{marginTop:".1em"}} onClick={()=>{}}>
+                <ReportIcon sx={{fontSize:"27px"}} />
+              </IconButton>
+            </Tooltip>
+            
+          }
         </div>
         <div className='flex gap-2 items-center color-[#303030]'>
           <StarIcon sx={{fontSize:"15 px"}}/>
@@ -116,8 +146,9 @@ export default function ViewEventsPlace({data}:{data?:any}) {
           </div>
         </div>
         <div className='hidden md:block'>
-          <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white] min-h-[400px]'>
-            
+          <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white] min-h-[400px] p-4 flex flex-col gap-3'>
+            <h5 className=' mb-1'><span className='text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
+            <ReservationForm ReservationFormik={ReservationFormik}/>
           </div>
         </div>
       </div>
@@ -171,3 +202,4 @@ export default function ViewEventsPlace({data}:{data?:any}) {
     </Container>
   )
 }
+
