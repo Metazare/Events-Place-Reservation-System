@@ -20,6 +20,7 @@ export interface User {
         passwordResetHash?: string;
     };
     contact: string;
+    isAdmin?: boolean;
     photo?: string;
     description?: string;
     license?: string;

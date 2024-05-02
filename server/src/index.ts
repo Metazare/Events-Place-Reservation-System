@@ -22,6 +22,7 @@ import userRoute from './api/user/user.route';
 
 import { createNotification } from './api/notification/notification.controller';
 import { CreateNotification } from './api/notification/notification.types';
+import { createAdminAccount } from './api/user/user.controller';
 
 // Utilities
 import { app, server } from './socket/socket';
@@ -51,8 +52,7 @@ app.use(errorHandler);
 
 mongoose
     .connect(MONGO_URI)
-    .then(() => {
-        console.log('Connected to database');
-        app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-    })
+    .then(() => console.log('Connected to database'))
+    .then(createAdminAccount)
+    .then(() => app.listen(PORT, () => console.log(`Listening on port ${PORT}`)))
     .catch(console.error);
