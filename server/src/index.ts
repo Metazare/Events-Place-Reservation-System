@@ -18,6 +18,7 @@ import eventsPlaceRoute from './api/eventsPlace/eventsPlace.route';
 import helpdeskRoute from './api/helpdesk/helpdesk.route';
 import notificationRoute from './api/notification/notification.route';
 import reservationRoute from './api/reservation/reservation.route';
+import reviewRoute from './api/review/review.route';
 import userRoute from './api/user/user.route';
 
 import { createNotification } from './api/notification/notification.controller';
@@ -39,13 +40,14 @@ app.use(express.json());
 app.use(helmet());
 
 app.use('/auth', authRoute);
-app.use('/user', userRoute);
 app.use('/eventsplace', eventsPlaceRoute);
 app.use('/reservation', reservationRoute);
+app.use('/user', userRoute);
 app.use(authenticate);
+app.use('/chat', chatRoute);
 app.use('/helpdesk', helpdeskRoute);
 app.use('/notification', notificationRoute);
-app.use('/chat', chatRoute);
+app.use('/review', reviewRoute);
 
 app.use((_req, _res, next) => next(new NotFound()));
 app.use(errorHandler);
