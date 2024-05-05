@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode } from "react";
+import {create} from 'zustand';
 
 interface AuthUser {
-    _id: string;
+    userId: string;
     firstName: string;
     middleName?: string;
     lastName: string;
@@ -20,10 +21,23 @@ interface AuthUser {
 
 interface AuthContextType {
     authUser: AuthUser | null;
-    setAuthUser: React.Dispatch<React.SetStateAction<AuthUser | null>>;
+    setAuthUser: (newAuthUser: AuthUser | null) => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const useAuthStore = create<AuthContextType>((set) => ({
+    authUser: localStorage.getItem('chat-user')
+        ? JSON.parse(localStorage.getItem('chat-user')!)
+        : null,
+    setAuthUser: (newAuthUser: AuthUser | null) => {
+        set({ authUser: newAuthUser });
+        localStorage.setItem('chat-user', JSON.stringify(newAuthUser));
+    },
+}));
+
+const AuthContext = createContext<AuthContextType>({
+    authUser: null,
+    setAuthUser: () => {},
+});
 
 export const useAuthContext = (): AuthContextType => {
     const context = useContext(AuthContext);
@@ -38,13 +52,8 @@ interface AuthContextProviderProps {
 }
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps): JSX.Element => {
-    const [authUser, setAuthUser] = useState<AuthUser | null>(() => {
-        const storedUser = localStorage.getItem("chat-user");
-        return storedUser ? JSON.parse(storedUser) : null;
-    });
-
     return (
-        <AuthContext.Provider value={{ authUser, setAuthUser }}>
+        <AuthContext.Provider value={useAuthStore()}>
             {children}
         </AuthContext.Provider>
     );

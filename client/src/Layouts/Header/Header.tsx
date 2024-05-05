@@ -12,13 +12,13 @@ export default function Header() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const Login = true;
+  const Login = false;
 
   return (
     <AppBar position="static" sx={{background:"#144273"}}>
       <Container maxWidth="xl" >
         <Toolbar disableGutters sx={{gap:"1em"}}>
-          <Box display="flex" sx={{flexGrow:1}}>
+          <Box display="flex" sx={{flexGrow:1}} onClick={()=>{navigate("/")}}>
             <img src={Logo} width={"100px"} alt="" className='cursor-pointer' draggable={false}/>
           </Box>
           {Login?
@@ -67,11 +67,22 @@ export default function Header() {
                       Profile
                     </Typography>
                   </MenuItem>
+                  <MenuItem onClick={()=>{
+                    navigate("/listing")
+                    handleCloseUserMenu()
+                  }}>
+                    <Typography textAlign="center">
+                      My Listings
+                    </Typography>
+                  </MenuItem>
                 </Menu>
               </Box>
             </>:<>
-              <Button variant="contained" sx={{background:"white",color:"#144273",padding:".5em 2em",":hover":{color:"white"}}} onClick={()=>{navigate("/login")}}>
-                Login
+              <Button variant="text" sx={{color:"white"}} onClick={()=>{navigate("/login")}}>
+                login
+              </Button>
+              <Button variant="contained" sx={{background:"white",color:"#144273",padding:".5em 2em",":hover":{color:"white"}}} onClick={()=>{navigate("/register")}}>
+                Get Started
               </Button>
             </>
           }

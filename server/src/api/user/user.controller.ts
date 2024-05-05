@@ -94,7 +94,7 @@ export const forgotPassword: RequestHandler = async (req: BodyRequest<ForgotPass
     await sendEmail({
         to: email,
         subject: 'Password Reset',
-        content: `This is your reset link: ${envs.RESET_PASSWORD_UI_ENDPOINT}/${passwordResetHash}`
+        content: `This is your reset link: ${envs.CORS_ORIGIN}/${envs.RESET_PASSWORD_UI_ENDPOINT}/${passwordResetHash}`
     });
 
     res.sendStatus(200);

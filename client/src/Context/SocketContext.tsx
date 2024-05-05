@@ -30,7 +30,7 @@ export const SocketContextProvider = ({ children }: SocketContextProviderProps):
     if (authUser) {
       const newSocket = io(process.env.REACT_APP_API_URL || 'http://localhost:4000', {
         query: {
-          userId: authUser._id,
+          userId: authUser.userId,
         },
       });
 

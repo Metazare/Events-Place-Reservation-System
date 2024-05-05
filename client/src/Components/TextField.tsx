@@ -21,7 +21,7 @@ export default function TextField({label,type,attr,error,errorMessages,handleCha
       <div className={`w-full p-2 rounded-xl border-2 flex items-center gap-2 ${error ? "border-[#ff1d1ddc]" : "border-[#D9D9D9]"}`}>
         <input
           {...attr}
-          className={`grow bg-[transparent] outline-none   text-[#292929]`} 
+          className={`grow bg-[transparent] outline-none  w-full  text-[#292929]`} 
           type={type==="password"? isVisible?"text":"password" : type} 
           onChange={handleChange}
         />
@@ -29,9 +29,9 @@ export default function TextField({label,type,attr,error,errorMessages,handleCha
           <IconButton aria-label="" sx={{opacity:".5",width:"15px",height:"15px"}} onClick={()=>{setisVisible(!isVisible)}}>
           {
             isVisible? 
-                <VisibilityIcon/>
+              <VisibilityOffIcon/>
               :
-                <VisibilityOffIcon/>
+              <VisibilityIcon/>
           }
           </IconButton>
         </>}

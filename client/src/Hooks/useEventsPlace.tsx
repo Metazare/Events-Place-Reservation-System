@@ -1,23 +1,26 @@
-import { useState } from 'react';
 import useRequest from './useRequest';
 
-interface EventsPlaceData {
-  id?: string;
-  name?: string;
-  description?: string;
-  type?: string;
-  location?: string;
-  rate?: number;
-  maxCapacity?: number;
-  amenities?: AmenitiesData[];
-  images?: string[];
-  hostId?: string;
+enum AmenityType {
+  ONE_TIME = 'one time',
+  PER_DAY = 'per day',
+  PER_QUANTITY = 'per quantity'
 }
 
-interface AmenitiesData{
-  id?: string;
-  name?: string;
-  rate?: string;
+interface Amenity {
+  name: string;
+  amenityType: AmenityType;
+  rate: number;
+}
+
+interface EventsPlaceData {
+  name: string;
+  description: string;
+  placeType: string;
+  location: string;
+  rate: number;
+  maxCapacity: number;
+  images: string[];
+  amenities: Amenity[]
 }
 
 function useEventsPlace() {
@@ -26,7 +29,10 @@ function useEventsPlace() {
   const getEventsPlace = (id: string) => {
     makeRequest({
       method: 'get',
-      url: `/eventsplace/${id}`,
+      url: `/eventsplace`,
+      params: { 
+        eventsPlaceId: id 
+      },
     });
   };
 
@@ -60,7 +66,7 @@ function useEventsPlace() {
     getEventsPlace,
     createEventsPlace,
     updateEventsPlace,
-    deleteEventsPlace,
+    deleteEventsPlace
   };
 }
 

@@ -20,15 +20,12 @@ import notificationRoute from './api/notification/notification.route';
 import reservationRoute from './api/reservation/reservation.route';
 import reviewRoute from './api/review/review.route';
 import userRoute from './api/user/user.route';
-
-import { createNotification } from './api/notification/notification.controller';
-import { CreateNotification } from './api/notification/notification.types';
+import emailRoute from './api/email/email.route';
 import { createAdminAccount } from './api/user/user.controller';
 
 // Utilities
 import { app, server } from './socket/socket';
 import { NotFound } from './utilities/errors';
-import connectToMongoDB from './database/connectToMongoDB';
 import envs from './utilities/envs';
 
 // Environment Variables
@@ -40,6 +37,7 @@ app.use(express.json());
 app.use(helmet());
 
 app.use('/auth', authRoute);
+app.use('/email', emailRoute);
 app.use('/eventsplace', eventsPlaceRoute);
 app.use('/reservation', reservationRoute);
 app.use('/user', userRoute);

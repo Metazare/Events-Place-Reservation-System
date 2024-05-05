@@ -15,7 +15,7 @@ interface MessageProps {
 const Message: React.FC<MessageProps> = ({ message }) => {
   const { authUser } = useAuthContext();
   const { selectedConversation } = useConversation();
-  const fromMe = message.senderId === authUser?._id;
+  const fromMe = message.senderId === authUser?.userId;
   const formattedTime = extractTime(message.timestamp);
   const chatClassName = fromMe ? "chat-end" : "chat-start";
   const profilePic = fromMe ? authUser?.photo : selectedConversation?.photo;

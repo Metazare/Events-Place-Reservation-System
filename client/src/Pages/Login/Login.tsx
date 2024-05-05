@@ -38,14 +38,14 @@ export default function Login() {
   })
   
   return (
-    <div className='grow w-full flex justify-center items-center'>
+    <div className='grow w-full flex justify-center items-center p-4'>
       <CardBaseLoginRegister title={"Welcome Back!"} subTitle={"Log in to access your account."}>
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col items-start gap-2'>
           <TextField 
             attr={{
               placeholder:"email@gmail.com",
               name:"email",
-              values:LoginForm.values.email,
+              value:LoginForm.values.email,
             }}
             label="Email" 
             type="text" 
@@ -57,7 +57,7 @@ export default function Login() {
             attr={{
               placeholder:"Password",
               name:"password",
-              values:LoginForm.values.password,
+              value:LoginForm.values.password,
             }}
             label="Password" 
             type="password" 
@@ -65,14 +65,14 @@ export default function Login() {
             error={LoginForm.touched.password && LoginForm.errors.password !== undefined}
             errorMessages={LoginForm.errors.password}
           />
-
-          <Button variant="contained" onClick={()=>{LoginForm.handleSubmit()}} sx={{ marginTop:"1em", background:"#144273", color: "white", borderRadius:"10px"}}>
+          <a href='/forgetpassword' target="_blank" rel="noreferrer" className='cursor-pointer opacity-50 hover:opacity-100 text-[13px]'  style={{transition:"all .3s ease-in-out"}}>Forgot Password?</a>
+          <Button fullWidth variant="contained" onClick={()=>{LoginForm.handleSubmit()}} sx={{ marginTop:"1em", background:"#144273", color: "white", borderRadius:"10px"}}>
             Login
           </Button>
           <p className='text-[13px] mt-[10px]'><span className='opacity-50'>Don’t have an account yet? </span> <span className='opacity-100 cursor-pointer text-primary font-[500]' onClick={()=>{navigate("/register")}}>Register now!</span></p>
-          <div className='mt-[.5em] flex gap-5 items-center'>
+          <div className='mt-[.5em] flex gap-5 items-center w-full'>
             <hr className='grow opacity-50'/>
-            <p className='opacity-50'>or continue with</p>
+            <p className='text-[10px] opacity-50'>or continue with</p>
             <hr className='grow opacity-50'/>
           </div>
 
