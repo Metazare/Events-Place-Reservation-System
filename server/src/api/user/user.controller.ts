@@ -134,3 +134,27 @@ export const resetPassword: RequestHandler = async (req: BodyRequest<ResetPasswo
 
     res.sendStatus(204);
 }
+
+export const createAdminAccount = async () => {
+    // Check if there is already saved admin account
+    const user: UserDocument | null = await UserModel.findOne({ isAdmin: true }).exec();
+    if (user) {
+        return;
+    }
+
+    const { ADMIN_EMAIL, ADMIN_PASSWORD } = envs;
+
+    // If there is no admin account yet, create one
+    await UserModel.create({
+        name: {
+            first: 'Admin',
+            last: 'User'
+        },
+        credentials: {
+            email: ADMIN_EMAIL,
+            password: ADMIN_PASSWORD
+        },
+        isAdmin: true,
+        contact: '09180566477'
+    });
+}
