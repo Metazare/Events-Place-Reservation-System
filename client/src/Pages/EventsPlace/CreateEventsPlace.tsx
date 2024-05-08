@@ -41,7 +41,7 @@ function CreateEventsPlace() {
 
   const {uploadFile} = useFirebase();
 
-  const [activeStep, setActiveStep] = React.useState(2);
+  const [activeStep, setActiveStep] = React.useState(0);
   const CreateEventformik = useFormik({
     initialValues: {
       name: '',
