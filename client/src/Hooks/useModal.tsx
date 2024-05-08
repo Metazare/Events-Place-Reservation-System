@@ -31,7 +31,6 @@ function useModal() {
     transform: 'translate(-50%, -50%)',
     bgcolor: 'background.paper',
     boxShadow: 24,
-    p:"1.5em 1.5em",
     borderRadius:"15px"
   };
   const [openModal,setOpenModal] = useState<JSX.Element|"closed">("closed");
