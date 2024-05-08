@@ -1,63 +1,49 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Container from '@mui/material/Container'
 import StarIcon from '@mui/icons-material/Star';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ReportIcon from '@mui/icons-material/Report';
 import IconButton from '@mui/material/IconButton'
-import AmenitiesCard from 'src/Components/AmenitiesCard';
-import { AmenityType } from 'src/Hooks/useTypes';
 import ChatIcon from '@mui/icons-material/Chat';
 import Avatar from '@mui/material/Avatar'
 import ReviewCard from 'src/Components/ReviewCard';
 import Rating from '@mui/material/Rating';
-import { useFormik } from 'formik';
 import ReservationForm from './ReservationForm';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip'
-
 export default function ViewEventsPlace({data}:{data?:any}) {
   const navigate = useNavigate();
-  const SampleAmenitie: AmenityType[] = [
-    {
-      id:"1",
-      name:"Complementary Drinks",
-      amenityType:"perQuantity",
-      rate:100
-    },
-    {
-      id:"2",
-      name:"Complementary Drinks",
-      amenityType:"perDay",
-      rate:100
-    },
-    {
-      id:"3",
-      name:"Complementary Drinks",
-      amenityType:"oneTime",
-      rate:100
-    },
-    {
-      id:"4",
-      name:"Complementary Drinks",
-      amenityType:"oneTime",
-      rate:100
-    }
-  ]
-  const [isHost,setIsHost] = useState(true)  ;
-  const ReservationFormik = useFormik({
-    initialValues: {
+  
+  const [isHost,setIsHost] = useState(true) ;
 
-    },
-    validate: (values) => {
-      const errors:{ [key:string]:string}  = {};
-      return errors;
-    },
-    onSubmit: (values) => {
-      
-    },
-  })
-
+  const SampleEventsPlaceData = {
+    amenities:[
+      {
+        id:"1",
+        name:"Complementary Drinks",
+        amenityType:"perQuantity",
+        rate:100
+      },
+      {
+        id:"2",
+        name:"Complementary Drinks",
+        amenityType:"perDay",
+        rate:100
+      },
+      {
+        id:"3",
+        name:"Complementary Drinks",
+        amenityType:"oneTime",
+        rate:100
+      },
+    ]
+  }
+  
+  const {AmenitiesList,ReservationFormComp,setData} = ReservationForm();
+  useEffect(()=>{
+    setData(SampleEventsPlaceData)
+  },[])
   return (
     <Container maxWidth="lg" sx={{flexGrow:"1",display:"flex",flexDirection:"column",gap:"2em",alignItems:"start",padding:"2em 1em"}}>
       {!data&&
@@ -92,7 +78,7 @@ export default function ViewEventsPlace({data}:{data?:any}) {
       </div>
       <div className='flex flex-col md:flex-row  aspect-video w-full gap-4'>
         {data? <>
-            <div className='grow h-full rounded' style={{background:`url("${data.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+            <div className='grow h-full rounded' style={{background:`url("${data.images[0]}") no-repeat`, backgroundSize:"contain",backgroundPosition:"center"}}/>
             <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
               <div className='grow rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
               <div className='grow rounded' style={{background:`url("https://assets.architecturaldigest.in/photos/65b2aecf269da4a0ee6c9b40/master/w_1600%2Cc_limit/atr.royalmansion-bedroom2-mr.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
@@ -123,11 +109,7 @@ export default function ViewEventsPlace({data}:{data?:any}) {
           </div>
           <div className='border-b border-[black]/10 pb-[2.5em]'>
             <h6  className='text-[20px] font-semibold mb-3'>What this place can offer</h6>
-            <div className='grid gap-3' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-              {SampleAmenitie.map((data,index)=>(
-                <AmenitiesCard data={data} key={index}/>
-              ))}
-            </div>
+            <AmenitiesList/>
           </div>
           <div className='mt-[1em]'>
             <div className='flex justify-between items-center'>
@@ -146,9 +128,9 @@ export default function ViewEventsPlace({data}:{data?:any}) {
           </div>
         </div>
         <div className='hidden md:block'>
-          <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white] min-h-[400px] p-4 flex flex-col gap-3'>
-            <h5 className=' mb-1'><span className='text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
-            <ReservationForm ReservationFormik={ReservationFormik}/>
+          <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
+            <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
+            <ReservationFormComp/>
           </div>
         </div>
       </div>
