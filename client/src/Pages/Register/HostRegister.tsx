@@ -53,7 +53,7 @@ export default function HostRegister() {
             />
           </div>
           <div className=' grow'>
-            <h6 className={`mb-2  font-[500] ${HostRegisterFormik.touched.images && HostRegisterFormik.errors.images &&"text-[red]"}`}>Upload Image</h6>
+            <h6 className={`mb-2  font-[500] ${HostRegisterFormik.touched.images && HostRegisterFormik.errors.images &&"text-[red]"}`}>Upload License</h6>
             <div className='flex'>
               <input type="file" name="images" id="file" className="hidden"  multiple
                 onChange={(e:any)=>{
