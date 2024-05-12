@@ -62,8 +62,8 @@ export default function Invoice() {
                 <p className='font-semibold'>8 Guests</p>
               </div>
             </div>
-            <div className=' border-y border-[black]/10'>
-              <Timeline/>
+            <div className=' border-y py-4 border-[black]/10'>
+              <Timeline isCard={true}/>
             </div>
             <div className='flex justify-between items-center pt-4'>
               <p className='text-[18px] text-[black]/50'>Total</p>

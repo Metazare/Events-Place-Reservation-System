@@ -43,8 +43,8 @@ export default function BecomeHost() {
     initialValues:{
       isAgree:false
     },validate:(values)=>{
-      let error:{isAgree?:Boolean} = {};
-        if(values.isAgree === false) error.isAgree = "Please read and agree with the policy and terms"
+      let error:{isAgree?:string} = {};
+      if(!values.isAgree) error.isAgree = "Please agree to the policy and terms & condition"
       return error;
     },
     onSubmit:(values)=>{
@@ -60,7 +60,7 @@ export default function BecomeHost() {
             <span className='text-[#0071BC]  font-bold'>hosting dreams</span> into reality effortlessly <br className='hidden md:block' />
             with <span className='text-[#0071BC]  font-bold'>Events Place.</span>
           </h6>
-          <img src={ImageBuilding} clas alt="Qoute" className=' mt-[5em] w-full max-w-[700px]'/>
+          <img src={ImageBuilding}  alt="Qoute" className=' mt-[5em] w-full max-w-[700px]'/>
           <div className='relative flex  px-[4em] justify-center mt-[9em]'>
             <img src={QuoteImg} className='absolute bottom-[20%] left-0 z-[-1]' alt="" />
             <p className='text-center text-[28px] text-[black]/50 z-1'>
@@ -100,7 +100,7 @@ export default function BecomeHost() {
         </div>
         <p className='text-[red] pl-3'>{formik.touched.isAgree && formik.errors.isAgree !== undefined&&formik.errors.isAgree}</p>
         <div className='w-full flex justify-center mt-[2em]'>
-          <Button variant="contained" onClick={formik.handleSubmit} sx={{background:"#144273",padding:"1em 3em"}}>
+          <Button variant="contained" onClick={()=>{formik.handleSubmit()}} sx={{background:"#144273",padding:"1em 3em"}}>
             Become a Host now!
           </Button>
         </div>
