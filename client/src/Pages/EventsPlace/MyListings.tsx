@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react'
+import React, {useState } from 'react'
 import Container from '@mui/material/Container'
 import EventCard from 'src/Components/EventCard'
 import Chip from '@mui/material/Chip';
@@ -8,7 +8,51 @@ import { set } from 'date-fns';
 import ReservationCard from 'src/Components/ReservationCard';
 export default function MyListings() {
   const [toOpen,setToOpen] = useState("Upcoming")
-  const [isHost,setIsHost] = useState(true)
+  const [isHost,setIsHost] = useState(false)
+  const SampleData = [
+    {
+      title:"Event Title",
+      date:"2021-10-10",
+      time:"10:00 AM",
+      status:"Upcoming"
+    },
+    {
+      title:"Event Title",
+      date:"2021-10-10",
+      time:"10:00 AM",
+      status:"Upcoming"
+    },
+    {
+      title:"Event Title",
+      date:"2021-10-10",
+      time:"10:00 AM",
+      status:"Upcoming"
+    },
+    {
+      title:"Event Title",
+      date:"2021-10-10",
+      time:"10:00 AM",
+      status:"Upcoming"
+    },
+    {
+      title:"Event Title",
+      date:"2021-10-10",
+      time:"10:00 AM",
+      status:"Upcoming"
+    },
+    {
+      title:"Event Title",
+      date:"2021-10-10",
+      time:"10:00 AM",
+      status:"Upcoming"
+    },
+    {
+      title:"Event Title",
+      date:"2021-10-10",
+      time:"10:00 AM",
+      status:"Upcoming"
+    },
+  ]
   const MenuContent:any = {
     host:[
       {
@@ -118,7 +162,7 @@ export default function MyListings() {
             title:"Event Title",
             date:"2021-10-10",
             time:"10:00 AM",
-            status:"Upcoming"
+            status:"To Rate"
           },
           {
             title:"Event Title",
@@ -165,6 +209,35 @@ export default function MyListings() {
       },
       {
         label:"Completed",
+        data:[
+          {
+            title:"Event Title",
+            date:"2021-10-10",
+            time:"10:00 AM",
+            status:"Upcoming"
+          },
+          {
+            title:"Event Title",
+            date:"2021-10-10",
+            time:"10:00 AM",
+            status:"Upcoming"
+          },
+          {
+            title:"Event Title",
+            date:"2021-10-10",
+            time:"10:00 AM",
+            status:"Upcoming"
+          },
+          {
+            title:"Event Title",
+            date:"2021-10-10",
+            time:"10:00 AM",
+            status:"Upcoming"
+          }
+        ]
+      },
+      {
+        label:"Cancelled",
         data:[
           {
             title:"Event Title",
@@ -259,7 +332,7 @@ function EventCardList({isHost,data,edit,setData}: {isHost:boolean,data:any,edit
         isHost?
           edit? <EventCard data={[]} type={"manage"} key={index}/>: <ReservationCard key={index} /> 
           :
-          <EventCard  data={[]} type='booked' key={index}/>
+          <EventCard  data={data} type='booked' key={index}/>
       ))}
     </div>
   </>

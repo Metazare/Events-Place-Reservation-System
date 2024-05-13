@@ -9,7 +9,7 @@ import Tooltip from '@mui/material/Tooltip'
 
 type PropsType = {
   data:any,
-  type: "view" | "booked" | "manage"
+  type: "view" | "booked" | "manage" 
 }
 export default function EventCard({data,type}: PropsType) {
   const navigate = useNavigate();

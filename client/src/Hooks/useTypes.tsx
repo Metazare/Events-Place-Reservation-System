@@ -13,3 +13,16 @@ export interface ReviewType{
   comment:string,
   date:string,
 }
+export interface ReservationType{
+  reservationId: string;
+  renter: string;
+  host: string;
+  eventsPlace: string;
+  amenities: AmenityType[];
+  guestCount: number;
+  date:Date[];
+  status: {
+    payment: "paid" | "unpaid";
+    reservation: "pending" | "reserved" | "failed" | "canceled";
+  };
+}

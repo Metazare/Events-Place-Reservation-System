@@ -22,6 +22,16 @@ import Invoice from './Pages/EventsPlace/Invoice';
 import HelpDesk from './Pages/HelpDesk';
 import BecomeHost from './Pages/BecomeHost';
 import DeleteEventsPlace from './Pages/EventsPlace/DeleteEventsPlace';
+import AdminBase from './Layouts/Base/AdminBase';
+
+
+// Admin
+import Renters from './Pages/Admin/Renters';
+import Hosts from './Pages/Admin/Hosts';
+import EventsPlace from './Pages/Admin/EventsPlace';
+import ReservationLogs from './Pages/Admin/ReservationLogs';
+import Report from './Pages/Admin/Report';
+
 // Test
 import TestHelpdesk from './Test/TestHelpdesk';
 import TestNotification from './Test/TestNotification';
@@ -50,6 +60,13 @@ function App() {
           <Route path="/invoice" element={<Invoice/>} />
           <Route path="/helpdesk" element={<HelpDesk/>} />
           <Route path="/becomehost" element={<BecomeHost/>} />
+        </Route>
+        <Route element={<AdminBase />} >
+          <Route path="/admin/renters" element={<Renters/>} />
+          <Route path="/admin/hosts" element={<Hosts/>} />
+          <Route path="/admin/eventsplace" element={<EventsPlace/>} />
+          <Route path="/admin/reservationlogs" element={<ReservationLogs/>} />
+          <Route path="/admin/report" element={<Report/>} />
         </Route>
         <Route path="/test/helpdesk" element={<TestHelpdesk/>} />
         <Route path="/test/toast" element={<TestToast/>} />
