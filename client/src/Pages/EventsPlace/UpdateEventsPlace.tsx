@@ -36,7 +36,7 @@ function UpdateEventsPlace() {
   const {uploadFile} = useFirebase();
 
   const [activeStep, setActiveStep] = React.useState(0);
-  const CreateEventformik = useFormik({
+  const UpdateFormik = useFormik({
     initialValues: {
       name: '',
       description: '',
@@ -127,71 +127,71 @@ function UpdateEventsPlace() {
                   attr={{
                     placeholder:"Event Name",
                     name:"name",
-                    value:CreateEventformik.values.name,
+                    value:UpdateFormik.values.name,
                   }}
                   label="Event Name" 
                   type="text" 
-                  handleChange={CreateEventformik.handleChange}
-                  error={CreateEventformik.touched.name && CreateEventformik.errors.name !== undefined}
-                  errorMessages={CreateEventformik.errors.name}
+                  handleChange={UpdateFormik.handleChange}
+                  error={UpdateFormik.touched.name && UpdateFormik.errors.name !== undefined}
+                  errorMessages={UpdateFormik.errors.name}
                 />
                 <TextArea 
-                  value={CreateEventformik.values.description}
+                  value={UpdateFormik.values.description}
                   name='description'
                   label="Event Description" 
-                  handleChange={CreateEventformik.handleChange}
+                  handleChange={UpdateFormik.handleChange}
                   cols={20} // specify the number of columns
                   rows={5} // specify the number of rows
-                  error={CreateEventformik.touched.description && CreateEventformik.errors.description !== undefined}
-                  errorMessages={CreateEventformik.errors.description}
+                  error={UpdateFormik.touched.description && UpdateFormik.errors.description !== undefined}
+                  errorMessages={UpdateFormik.errors.description}
                 />
                 <div className='md:flex gap-5'>
                   <TextField 
                     attr={{
                       placeholder:"Event Location",
                       name:"location",
-                      value:CreateEventformik.values.location,
+                      value:UpdateFormik.values.location,
                     }}
                     label="Event Location" 
                     type="text" 
-                    handleChange={CreateEventformik.handleChange}
-                    error={CreateEventformik.touched.location && CreateEventformik.errors.location !== undefined}
-                    errorMessages={CreateEventformik.errors.location}
+                    handleChange={UpdateFormik.handleChange}
+                    error={UpdateFormik.touched.location && UpdateFormik.errors.location !== undefined}
+                    errorMessages={UpdateFormik.errors.location}
                   />
                   <TextField 
                     attr={{
                       placeholder:"Event Capacity",
                       name:"maxCapacity",
-                      value:CreateEventformik.values.maxCapacity,
+                      value:UpdateFormik.values.maxCapacity,
                     }}
                     label="Event Capacity" 
                     type="number" 
-                    handleChange={CreateEventformik.handleChange}
-                    error={CreateEventformik.touched.maxCapacity && CreateEventformik.errors.maxCapacity !== undefined}
-                    errorMessages={CreateEventformik.errors.maxCapacity}
+                    handleChange={UpdateFormik.handleChange}
+                    error={UpdateFormik.touched.maxCapacity && UpdateFormik.errors.maxCapacity !== undefined}
+                    errorMessages={UpdateFormik.errors.maxCapacity}
                   />
                   <TextField 
                     attr={{
                       placeholder:"Event Price",
                       name:"rate",
-                      value:CreateEventformik.values.rate,
+                      value:UpdateFormik.values.rate,
                     }}
                     label="Event Price" 
                     type="number" 
-                    handleChange={CreateEventformik.handleChange}
-                    error={CreateEventformik.touched.rate && CreateEventformik.errors.rate !== undefined}
-                    errorMessages={CreateEventformik.errors.rate}
+                    handleChange={UpdateFormik.handleChange}
+                    error={UpdateFormik.touched.rate && UpdateFormik.errors.rate !== undefined}
+                    errorMessages={UpdateFormik.errors.rate}
                   />
                 </div>
-                <ButtonNavigate ActiveStep={activeStep} setActiveStep={setActiveStep} submitFunction={CreateEventformik.handleSubmit} />
+                <ButtonNavigate ActiveStep={activeStep} setActiveStep={setActiveStep} submitFunction={UpdateFormik.handleSubmit} />
               </div>}
               {activeStep === 1 && <div className='flex flex-col gap-4'>
-                <AddAmenities  value={CreateEventformik.values.amenities} setAmenities={CreateEventformik}/>
+                <AddAmenities  value={UpdateFormik.values.amenities} setAmenities={UpdateFormik}/>
                 <div className='grid gap-4 mt-[3em] ' style={{gridTemplateColumns:"repeat(auto-fill, minmax(250px, 1fr))"}}>
-                  {CreateEventformik.values.amenities.map((amenity:any, index:number) => (
+                  {UpdateFormik.values.amenities.map((amenity:any, index:number) => (
                     <div key={index} className='relative amenitiesCard' onClick={()=>{
-                      // let myArray = [...CreateEventformik.values.amenities]
-                      CreateEventformik.setFieldValue("amenities", CreateEventformik.values.amenities.filter((item, i) => i !== index))
+                      // let myArray = [...UpdateFormik.values.amenities]
+                      UpdateFormik.setFieldValue("amenities", UpdateFormik.values.amenities.filter((item, i) => i !== index))
                     }}>
                       <AmenitiesCard data={amenity}/>
                       <div className='position top-[50%] left-[50%] absolute  z-140 w-full h-full bg-[black]/30 rounded-xl  justify-center items-center deleteHover '  style={{transform:"translate(-50%,-50%)"}}>
@@ -200,7 +200,7 @@ function UpdateEventsPlace() {
                     </div>
                   ))}
                 </div>
-                <ButtonNavigate ActiveStep={activeStep} setActiveStep={setActiveStep}  submitFunction={CreateEventformik.handleSubmit}/>
+                <ButtonNavigate ActiveStep={activeStep} setActiveStep={setActiveStep}  submitFunction={UpdateFormik.handleSubmit}/>
               </div>}
               {activeStep === 2 && <div className='flex flex-col gap-4'>
                 <div className='flex'>
@@ -210,8 +210,8 @@ function UpdateEventsPlace() {
                         const filesArray = await Promise.all(
                           Array.from(e.target.files).map((file: any) => uploadFile(file, 'events_place_marikina'))
                         );
-                        CreateEventformik.setFieldValue("images", [
-                          ...CreateEventformik.values.images,
+                        UpdateFormik.setFieldValue("images", [
+                          ...UpdateFormik.values.images,
                           ...filesArray
                         ]);
                       }
@@ -222,11 +222,11 @@ function UpdateEventsPlace() {
                     <p>Click to add image</p>
                   </label>
                 </div>
-                {CreateEventformik.touched.images && CreateEventformik.errors.images && <p className='text-[#ff1d1ddc] text-[12px] mt-2'> {CreateEventformik.errors.images}</p>}
+                {UpdateFormik.touched.images && UpdateFormik.errors.images && <p className='text-[#ff1d1ddc] text-[12px] mt-2'> {UpdateFormik.errors.images}</p>}
                 <div className='grid gap-4 mt-5' style={{gridTemplateColumns:"repeat(auto-fill, minmax(250px, 1fr))"}} >
-                  {CreateEventformik.values.images.map((image:any, index:number) => (
+                  {UpdateFormik.values.images.map((image:any, index:number) => (
                     <div key={index} className='relative amenitiesCard' onClick={()=>{
-                      CreateEventformik.setFieldValue("images", CreateEventformik.values.images.filter((item, i) => i !== index))
+                      UpdateFormik.setFieldValue("images", UpdateFormik.values.images.filter((item, i) => i !== index))
                     }}>
                       <div className='rounded-xl aspect-card'  style={{background:`url("${image}") no-repeat`,backgroundSize:"contain",backgroundPosition:"center"}}/>
                       <div className='position top-[50%] left-[50%] absolute  z-140 w-full h-full bg-[black]/30 rounded-xl  justify-center items-center deleteHover ' style={{transform:"translate(-50%,-50%)"}}>
@@ -235,11 +235,11 @@ function UpdateEventsPlace() {
                     </div>
                   ))}
                 </div>
-                <ButtonNavigate ActiveStep={activeStep} setActiveStep={setActiveStep} submitFunction={CreateEventformik.handleSubmit}/>
+                <ButtonNavigate ActiveStep={activeStep} setActiveStep={setActiveStep} submitFunction={UpdateFormik.handleSubmit}/>
               </div>}
               {activeStep === 3 && <div className='flex flex-col gap-4'>
-                <ButtonNavigate ActiveStep={activeStep} setActiveStep={setActiveStep}  submitFunction={CreateEventformik.handleSubmit}/>
-                <ViewEventsPlace data={CreateEventformik.values}/>
+                <ButtonNavigate ActiveStep={activeStep} setActiveStep={setActiveStep}  submitFunction={UpdateFormik.handleSubmit}/>
+                <ViewEventsPlace data={UpdateFormik.values}/>
               </div>}
             </div>
           )}

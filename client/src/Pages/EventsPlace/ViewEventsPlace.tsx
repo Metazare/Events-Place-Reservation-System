@@ -110,7 +110,14 @@ export default function ViewEventsPlace({data}:{data?:any}) {
           <div className='border-b border-[black]/10 pb-[2.5em]'>
             <h6  className='text-[20px] font-semibold mb-3'>What this place can offer</h6>
             <AmenitiesList/>
+            <div className=' md:hidden mt-10'>
+              <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
+                <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
+                <ReservationFormComp/>
+              </div>
+            </div>
           </div>
+          
           <div className='mt-[1em]'>
             <div className='flex justify-between items-center'>
               <div className='flex gap-3 items-center'>

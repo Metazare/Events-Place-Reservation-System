@@ -254,12 +254,12 @@ export default function MyListings() {
 
 function EventCardList({isHost,data,edit,setData}: {isHost:boolean,data:any,edit:boolean,setData:any}){
   return<>
-    <div className='grid gap-3 mb-7' style={isHost && !(isHost && edit)?{gridTemplateColumns:"repeat(auto-fill, minmax(250px, 1fr))"}:{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
+    <div className={`grid  mb-7`} style={isHost && !(isHost && edit)?{gridTemplateColumns:"repeat(auto-fill, minmax(250px, 1fr))",gap:"1em"}:{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))",gap:"1.5em"}}>
       {data.map((data,index)=>(
         isHost?
-          edit? <EventCard key={index}/>: <ReservationCard key={index} /> 
+          edit? <EventCard data={[]} type={"manage"} key={index}/>: <ReservationCard key={index} /> 
           :
-          <EventCard  key={index}/>
+          <EventCard  data={[]} type='booked' key={index}/>
       ))}
     </div>
   </>

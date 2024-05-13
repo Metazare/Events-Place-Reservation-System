@@ -21,6 +21,7 @@ import HostRegister from './Pages/Register/HostRegister';
 import Invoice from './Pages/EventsPlace/Invoice';
 import HelpDesk from './Pages/HelpDesk';
 import BecomeHost from './Pages/BecomeHost';
+import DeleteEventsPlace from './Pages/EventsPlace/DeleteEventsPlace';
 // Test
 import TestHelpdesk from './Test/TestHelpdesk';
 import TestNotification from './Test/TestNotification';
@@ -41,6 +42,7 @@ function App() {
           <Route path="/profile" element={<Profile/>} />
           <Route path="/create" element={<CreateEventsPlace/>} />
           <Route path="/update" element={<UpdateEventsPlace/>} />
+          <Route path="/delete" element={<DeleteEventsPlace/>} />
           <Route path="/profile/:userId" element={<Profile/>} />
           <Route path="/view" element={<ViewEventsPlace/>} />
           <Route path="/listing" element={<MyListings/>} />
