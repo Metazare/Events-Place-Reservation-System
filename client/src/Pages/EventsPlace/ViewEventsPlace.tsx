@@ -136,7 +136,7 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
                 <AmenitiesCard data={data} key={index}/>
               ))}
             </div>
-            <AmenitiesList/>
+            {/* <AmenitiesList/> */}
             <div className=' md:hidden mt-10'>
               <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
                 <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
@@ -148,9 +148,9 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
           <div className='mt-[1em]'>
             <div className='flex justify-between items-center'>
               <div className='flex gap-3 items-center'>
-                <Avatar variant="circular" src="" alt="Wew" sx={{ width: '55px', height: '55px' }} />
+                <Avatar variant="circular" src={passedData?.photo || data?.[0]?.host?.photo} alt="Wew" sx={{ width: '55px', height: '55px' }} />
                 <div>
-                  <h6 className='text-[20px] leading-[23px] font-semibold'>John Doe</h6>
+                  <h6 className='text-[20px] leading-[23px] font-semibold'>{passedData?.host || data?.[0]?.host?.name?.first + " " + data?.[0]?.host?.name?.last} </h6>
                   <p className='text-[14px] leading-[13px] font-semibold opacity-65'>Host</p>
                 </div>
               </div>
@@ -158,58 +158,18 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
                 <ChatIcon sx={{fontSize:"35px"}}/>
               </IconButton>
             </div>
-            <p className='mt-[1em] text-justify'>"Meet our Events Host Extraordinaire! With a knack for creating unforgettable experiences, our host ensures every event is seamlessly executed. From welcoming guests with warmth to orchestrating activities with finesse, they guarantee a memorable occasion for all attendees. Trust our Events Host to infuse charm, professionalism, and enthusiasm into every event, leaving guests with lasting impressions and cherished memories."event is seamlessly executed. From welcoming guests with warmth to orchestrating activities with finesse, they guarantee a memorable occasion for all attendees. Trust our Events Host to infuse charm, professionalism, and enthusiasm into every event, leaving guests with lasting impressions and cherished memories."</p>
+            <p className='mt-[1em] text-justify'>{passedData?.description || data?.[0]?.host?.description}</p>
           </div>
         </div>
         <div className='hidden md:block'>
           <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
-            <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
+            <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{passedData?.rate || data?.[0]?.rate}</span> <span>per day</span></h5>
             <ReservationFormComp/>
           </div>
         </div>
       </div>
       <div className='border-t mt-4 flex flex-col-reverse gap-12 md:gap-0 pt-[2.5em] border-[black]/10 w-full md:grid' style={{gridTemplateColumns:"1fr .5fr"}}>
         <div className='grid gap-4' style={{gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))"}}>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
           <ReviewCard/>
         </div>
         <div>
