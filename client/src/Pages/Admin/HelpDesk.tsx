@@ -5,13 +5,15 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Link } from 'react-router-dom';
 import useSearch from 'src/Hooks/useSearch';
 import IconButton from '@mui/material/IconButton'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
+import useModal from 'src/Hooks/useModal';
+import HelpDeskModal from 'src/Components/HelpDeskModal';
 export default function HelpDesk() {
+  const {ModalComponent,setOpenModal,closeModal} = useModal();
   const {SearchComponent} = useSearch();
   return <>
     <div className='flex justify-start items-center gap-4'>
@@ -47,10 +49,10 @@ export default function HelpDesk() {
             <TableCell align="left">Oct 25, 2023 - 10:23 am </TableCell>
             <TableCell align="left">
               <div className='flex gap-2'>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" onClick={()=>{setOpenModal(<HelpDeskModal closeModal={closeModal} toRespond={false}/>)}} sx={{background:"white",color:"gray",":hover":{background:"white"}}}>
                   View Report
                 </Button>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={()=>{setOpenModal(<HelpDeskModal closeModal={closeModal} toRespond={true}/>)}}>
                   Respond
                 </Button>
               </div>
@@ -59,5 +61,6 @@ export default function HelpDesk() {
         </TableBody>
       </Table>
     </TableContainer>
+    {ModalComponent()}
   </>
 }

@@ -4,15 +4,27 @@ import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography'
-import Link from '@mui/material/Link';
 import Logo from '../../Images/Logo/Colored.png'
 import CircleIcon from '@mui/icons-material/Circle';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useNavigate } from 'react-router-dom';
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
+import useMenu from 'src/Hooks/useMenu';
 export default function AdminBase() {
+  const {menuVariables,setMenuVariables,MenuComp,MenuItemComp,handleClose} = useMenu();
   const navigate = useNavigate();
   const pathSegments = window.location.pathname.split('/').filter(segment => segment !== '');
+  const ProfileMenu = () => {
+    return<>
+      <MenuItemComp handleClick={()=>{}}>
+        <p>Change Password</p>
+      </MenuItemComp>
+      <MenuItemComp handleClick={()=>{}}>
+        <p>Logout</p>
+      </MenuItemComp>
+    </>
+  }
+
   return (
     <div className='min-h-[100vh] flex md:grid' style={{gridTemplateColumns:"250px 1fr"}}>
       <div className='bg-[white] shadow-md hidden md:flex flex-col '>
@@ -36,12 +48,16 @@ export default function AdminBase() {
             <h5 className='text-[20px] font-bold text-[#2D74B4]'>Dashboard</h5>
             <Breadcrumbs aria-label="breadcrumb">
               {pathSegments.map((segment, index) => {
-                return <Typography variant="body1" color="initial" sx={{opacity:".5","::first-letter":{textTransform:"uppercase"},fontSize:{md:"unset",xs:"15px"},marginTop:"-4px"}}>{segment}</Typography>
+                return <Typography variant="body1" key={index} color="initial" sx={{opacity:".5","::first-letter":{textTransform:"uppercase"},fontSize:{md:"unset",xs:"15px"},marginTop:"-4px"}}>{segment}</Typography>
               })}
             </Breadcrumbs>
           </div>
           <div>
-            <IconButton aria-label="" onClick={()=>{}}>
+            <IconButton aria-label="" 
+              onClick={(e)=>{
+                setMenuVariables({...menuVariables,anchorEl:e.currentTarget,content:<ProfileMenu/>})
+              }}
+            >
               <Avatar variant="circular" src="" alt="" sx={{ width: '40px', height: '40px' }} />
             </IconButton>
           </div>
@@ -50,6 +66,7 @@ export default function AdminBase() {
           <Outlet/>
         </div>
       </div>
+      {MenuComp()}
     </div>
   )
 }
