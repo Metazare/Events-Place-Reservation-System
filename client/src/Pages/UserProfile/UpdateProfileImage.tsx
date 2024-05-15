@@ -19,7 +19,6 @@ export default function UpdateProfileImage({closeModal, data}:PropsType) {
       image: data[0]?.image || ''
     },
     onSubmit: values => {
-      console.log(values.image)
       editInfo({
         firstName: data[0]?.name?.first || '',
         middleName: data[0]?.name?.middle || '',
@@ -38,7 +37,6 @@ export default function UpdateProfileImage({closeModal, data}:PropsType) {
       onChange={async (e)=>{
         if(e.target.files) {
           const fileUrl = await uploadFile(e.target.files[0], 'events_place_marikina');
-          console.log(fileUrl)
           UpdateImage.setFieldValue("image",fileUrl)
         }
       }}

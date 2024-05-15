@@ -45,7 +45,7 @@ export default function Header() {
                       setAnchorElUser(event.currentTarget);
                     }} sx={{ p: 0 }}
                   >
-                    <Avatar alt="UserProfile" src="/static/images/avatar/2.jpg" sx={{width:"30px",height:"30px"}}/>
+                    <Avatar alt="UserProfile" src={authUser?authUser?.photo :"/static/images/avatar/2.jpg"} sx={{width:"30px",height:"30px"}}/>
                   </IconButton>
                 </Tooltip>
                 <Menu
