@@ -48,11 +48,11 @@ function App() {
           <Route path="/host" element={<BecomeHost/>} />
           <Route path="/host/register" element={<HostRegister/>} />
 
-          <Route path="/create" element={<CreateEventsPlace/>} />
-          <Route path="/update" element={<UpdateEventsPlace/>} />
-          <Route path="/delete" element={<DeleteEventsPlace/>} />
-          <Route path="/view/:id" element={<ViewEventsPlace/>} />
-          
+          <Route path="/eventsplace/create" element={<CreateEventsPlace/>} />
+          <Route path="/eventsplace/update" element={<UpdateEventsPlace/>} />
+          <Route path="/eventsplace/delete" element={<DeleteEventsPlace/>} />
+          <Route path="/eventsplace/view/:id" element={<ViewEventsPlace/>} />
+
           <Route path="/listing" element={<MyListings/>} />
           <Route path="/invoice" element={<Invoice/>} />
           <Route path="/helpdesk" element={<HelpDesk/>} />
