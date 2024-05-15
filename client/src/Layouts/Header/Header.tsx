@@ -7,14 +7,17 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from 'src/Context/AuthContext'
+import { useLogout } from 'src/Hooks/useAuth';
 
 export default function Header() {
   const navigate = useNavigate()
   const {authUser} = useAuthContext();
+  const {logout} = useLogout();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
   const Login = authUser ? true : false;
 
   return (
@@ -76,6 +79,15 @@ export default function Header() {
                   }}>
                     <Typography textAlign="center">
                       My Listings
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={()=>{
+                    logout()
+                    navigate("/")
+                    handleCloseUserMenu()
+                  }}>
+                    <Typography textAlign="center">
+                      Logout
                     </Typography>
                   </MenuItem>
                 </Menu>
