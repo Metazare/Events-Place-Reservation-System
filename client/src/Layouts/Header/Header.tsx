@@ -14,11 +14,10 @@ export default function Header() {
   const {authUser} = useAuthContext();
   const {logout} = useLogout();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const Login = authUser ? true : false;
 
   return (
     <AppBar position="static" sx={{background:"#144273"}}>
@@ -27,7 +26,7 @@ export default function Header() {
           <Box display="flex" sx={{flexGrow:1}} onClick={()=>{navigate("/")}}>
             <img src={Logo} width={"100px"} alt="" className='cursor-pointer' draggable={false}/>
           </Box>
-          {Login?
+          {authUser?
             <>
               <Button variant="outlined" sx={{borderColor:"white",opacity:".9",borderRadius:"15px",padding:".4em 1.5em",color:"white", ":hover":{borderColor:"white"}}}>
                 Renter Mode
