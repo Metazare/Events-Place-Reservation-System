@@ -49,7 +49,7 @@ function App() {
           <Route path="/host/register" element={<HostRegister/>} />
 
           <Route path="/eventsplace/create" element={<CreateEventsPlace/>} />
-          <Route path="/eventsplace/update" element={<UpdateEventsPlace/>} />
+          <Route path="/eventsplace/update/:id" element={<UpdateEventsPlace/>} />
           <Route path="/eventsplace/delete" element={<DeleteEventsPlace/>} />
           <Route path="/eventsplace/view/:id" element={<ViewEventsPlace/>} />
 

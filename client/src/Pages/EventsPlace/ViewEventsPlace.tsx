@@ -23,54 +23,27 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip'
 
+import { useAuthContext } from 'src/Context/AuthContext';
+
 export default function ViewEventsPlace({data: passedData}:{data?:any}) {
   const {id} = useParams<{id:string}>();
   const navigate = useNavigate();
   const {data,loading,error,getEventsPlace} = useEventsPlace();
+  const {authUser} = useAuthContext();
 
-  
-
-  const [isHost,setIsHost] = useState(true) ;
-
-  const SampleEventsPlaceData = {
-    amenities:[
-      {
-        id:"1",
-        name:"Complementary Drinks",
-        amenityType:"perQuantity",
-        rate:100
-      },
-      {
-        id:"2",
-        name:"Complementary Drinks",
-        amenityType:"perDay",
-        rate:100
-      },
-      {
-        id:"3",
-        name:"Complementary Drinks",
-        amenityType:"oneTime",
-        rate:100
-      },
-    ]
-  }
-  
   const {AmenitiesList,ReservationFormComp,setData} = ReservationForm();
-  
-  useEffect(()=>{
-    setData(SampleEventsPlaceData)
-  },[])
 
   useEffect(()=>{
     if(!passedData){
       if (id)
         getEventsPlace(id);
     }
+
+    setData(passedData || data?.[0] || [{}]);
   },[])
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
-
 
   return (
     <Container maxWidth="lg" sx={{flexGrow:"1",display:"flex",flexDirection:"column",gap:"2em",alignItems:"start",padding:"2em 1em"}}>
@@ -85,9 +58,9 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
         <div className='flex text-[#303030] items-start'>
           <h3 className='text-[27px] grow font-medium'>{passedData?.name || data?.[0]?.name}</h3>
           
-          {isHost?
+          {data?.[0]?.host?.userId === authUser?.userId?
             <Tooltip title="Update">
-              <IconButton  sx={{marginTop:".1em"}} onClick={()=>{navigate('/update')}}>
+              <IconButton  sx={{marginTop:".1em"}} onClick={()=>{navigate('/eventsplace/update/'+data[0]?.eventsPlaceId)}}>
                 <BorderColorIcon sx={{fontSize:"27px"}} />
               </IconButton>
             </Tooltip>:
@@ -131,12 +104,7 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
           </div>
           <div className='border-b border-[black]/10 pb-[2.5em]'>
             <h6  className='text-[20px] font-semibold mb-3'>What this place can offer</h6>
-            <div className='grid gap-3' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-              {(passedData?.amenities || data?.[0]?.amenities)?.map((data,index)=>(
-                <AmenitiesCard data={data} key={index}/>
-              ))}
-            </div>
-            {/* <AmenitiesList/> */}
+            <AmenitiesList/> 
             <div className=' md:hidden mt-10'>
               <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
                 <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
