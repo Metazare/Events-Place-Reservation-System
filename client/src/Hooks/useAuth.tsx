@@ -94,6 +94,7 @@ const useRegister = () => {
     const { login } = useLogin(); 
     const [loading, setLoading] = useState(false);
     const { setAuthUser } = useAuthContext();
+    const navigate = useNavigate();
 
     const handleInputErrors = (data: RegisterData): boolean => {
         const { firstName, lastName, contact, email, password} = data;
@@ -129,6 +130,7 @@ const useRegister = () => {
                 login({ email: data.email, password: data.password });
                 localStorage.setItem("user", JSON.stringify(response.data));
                 setAuthUser(response.data);
+                navigate('/profile');
             });
 
         } catch (error: any) {
