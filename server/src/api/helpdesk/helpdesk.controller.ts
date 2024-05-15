@@ -14,7 +14,7 @@ export const createHelpdeskReport: RequestHandler = async (req: BodyRequest<Help
     checker.checkType(report, 'string', 'report');
 
     await Helpdesk.create({
-        userId: user._id,
+        user: user._id,
         eventsPlace,
         report,
     });
