@@ -73,7 +73,7 @@ function App() {
             <Route path="/admin/eventsplace" element={<EventsPlace/>} />
             <Route path="/admin/reservationlogs" element={<ReservationLogs/>} />
             <Route path="/admin/transactions" element={<TransactionLogs/>} />
-            <Route path="/admin/report" element={<Report/>} />
+            {/* <Route path="/admin/report" element={<Report/>} /> */}
           </Route>
         </Route>
 
