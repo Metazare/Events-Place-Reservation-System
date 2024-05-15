@@ -31,6 +31,8 @@ import Report from './Pages/Admin/Report';
 // Hooks
 import { ProtectedRoute } from './Hooks/useAuth';
 
+import TestReservation from './Test/TestReservation';
+
 function App() {
   return (
     <Routes>
@@ -67,6 +69,8 @@ function App() {
             <Route path="/admin/report" element={<Report/>} />
           </Route>
         </Route>
+
+        <Route path="/test/reservation" element={<TestReservation/>} />
     </Routes>
   );
 }
