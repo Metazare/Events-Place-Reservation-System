@@ -5,7 +5,7 @@ import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button'
 import SideBarMenu from 'src/Components/SideBarMenu'
 import { set } from 'date-fns';
-import ReservationCard from 'src/Components/ReservationCard';
+import ReservationCard from '../../Components/ReservationCard';
 export default function MyListings() {
   const [toOpen,setToOpen] = useState("Upcoming")
   const [isHost,setIsHost] = useState(false)

@@ -10,7 +10,8 @@ import useSearch from 'src/Hooks/useSearch';
 import IconButton from '@mui/material/IconButton'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Avatar from '@mui/material/Avatar'
-export default function ReservationLogs() {
+import Button from '@mui/material/Button'
+export default function HelpDesk() {
   const {SearchComponent} = useSearch();
   return <>
     <div className='flex justify-start items-center gap-4'>
@@ -25,9 +26,9 @@ export default function ReservationLogs() {
           <TableRow>
             <TableCell align="left">ID</TableCell>
             <TableCell align="left">Usename</TableCell>
-            <TableCell align="left">Event Place ID</TableCell>
+            <TableCell align="left">Subject</TableCell>
             <TableCell align="left">Date</TableCell>
-            <TableCell align="left">Status</TableCell>
+            <TableCell align="left">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -42,9 +43,18 @@ export default function ReservationLogs() {
                 <p>Username</p>
               </div>
             </TableCell>
-            <TableCell align="left">eventsID</TableCell>
-            <TableCell align="left">Oct 25, 2023</TableCell>
-            <TableCell align="left"><span className='font-semibold'>Upcomming</span></TableCell>
+            <TableCell align="left">Sample Title</TableCell>
+            <TableCell align="left">Oct 25, 2023 - 10:23 am </TableCell>
+            <TableCell align="left">
+              <div className='flex gap-2'>
+                <Button variant="contained" color="primary">
+                  View Report
+                </Button>
+                <Button variant="contained" color="primary">
+                  Respond
+                </Button>
+              </div>
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

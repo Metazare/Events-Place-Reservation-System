@@ -10,7 +10,7 @@ import useSearch from 'src/Hooks/useSearch';
 import IconButton from '@mui/material/IconButton'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Avatar from '@mui/material/Avatar'
-export default function ReservationLogs() {
+export default function Report() {
   const {SearchComponent} = useSearch();
   return <>
     <div className='flex justify-start items-center gap-4'>
@@ -25,8 +25,9 @@ export default function ReservationLogs() {
           <TableRow>
             <TableCell align="left">ID</TableCell>
             <TableCell align="left">Usename</TableCell>
-            <TableCell align="left">Event Place ID</TableCell>
             <TableCell align="left">Date</TableCell>
+            <TableCell align="left">Event Place ID</TableCell>
+            <TableCell align="left">Host</TableCell>
             <TableCell align="left">Status</TableCell>
           </TableRow>
         </TableHead>
@@ -42,9 +43,15 @@ export default function ReservationLogs() {
                 <p>Username</p>
               </div>
             </TableCell>
-            <TableCell align="left">eventsID</TableCell>
-            <TableCell align="left">Oct 25, 2023</TableCell>
-            <TableCell align="left"><span className='font-semibold'>Upcomming</span></TableCell>
+            <TableCell align="left">Oct 25, 2023 - 10:23 am </TableCell>
+            <TableCell align="left">#423w1233</TableCell>
+            <TableCell align="left">
+              <div className='flex gap-2 items-center'>
+                <Avatar variant="circular" src="" alt="Sample" sx={{ width: '30px', height: '30px' }} />
+                <p>Username</p>
+              </div>
+            </TableCell>
+            <TableCell align="left"><span className='font-semibold'>Processing</span></TableCell>
           </TableRow>
         </TableBody>
       </Table>

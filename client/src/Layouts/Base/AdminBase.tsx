@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 export default function AdminBase() {
   const navigate = useNavigate();
+  const pathSegments = window.location.pathname.split('/').filter(segment => segment !== '');
   return (
     <div className='min-h-[100vh] flex md:grid' style={{gridTemplateColumns:"250px 1fr"}}>
       <div className='bg-[white] shadow-md hidden md:flex flex-col '>
@@ -24,7 +25,9 @@ export default function AdminBase() {
           <MenuItem icon={<CircleIcon sx={{fontSize:"15px",marginLeft:"5px"}}/>} title={"Hosts"}  active={window.location.pathname === "/admin/hosts"} clickHandle={()=>{navigate("/admin/hosts")}}/>
           <MenuItem icon={<CircleIcon sx={{fontSize:"15px",marginLeft:"5px"}}/>} title={"Events Place"}  active={window.location.pathname === "/admin/eventsplace"} clickHandle={()=>{navigate("/admin/eventsplace")}}/>
           <MenuItem icon={<CircleIcon sx={{fontSize:"15px",marginLeft:"5px"}}/>} title={"Reservation Logs"}  active={window.location.pathname === "/admin/reservationlogs"} clickHandle={()=>{navigate("/admin/reservationlogs")}}/>
-          <MenuItem icon={<FlagCircleIcon />} title={"Reprot"}  active={window.location.pathname === "/admin/report"} clickHandle={()=>{navigate("/admin/report")}}/>
+          <MenuItem icon={<FlagCircleIcon />} title={"Report"} active={false} clickHandle={()=>{}} />
+          <MenuItem icon={<CircleIcon sx={{fontSize:"15px",marginLeft:"5px"}}/>} title={"Transaction Logs"}  active={window.location.pathname === "/admin/transactions"} clickHandle={()=>{navigate("/admin/transactions")}}/>
+          <MenuItem icon={<CircleIcon sx={{fontSize:"15px",marginLeft:"5px"}}/>} title={"Help Desk"}  active={window.location.pathname === "/admin/helpdesk"} clickHandle={()=>{navigate("/admin/helpdesk")}}/>
         </div>
       </div>
       <div className='grow'>
@@ -32,10 +35,9 @@ export default function AdminBase() {
           <div>
             <h5 className='text-[20px] font-bold text-[#2D74B4]'>Dashboard</h5>
             <Breadcrumbs aria-label="breadcrumb">
-              <Link underline="hover" color="inherit" href="/">
-                Create Event
-              </Link>
-              <Typography  className='text-primary'></Typography>
+              {pathSegments.map((segment, index) => {
+                return <Typography variant="body1" color="initial" sx={{opacity:".5","::first-letter":{textTransform:"uppercase"},fontSize:{md:"unset",xs:"15px"},marginTop:"-4px"}}>{segment}</Typography>
+              })}
             </Breadcrumbs>
           </div>
           <div>
