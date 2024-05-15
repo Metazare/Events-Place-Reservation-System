@@ -6,13 +6,16 @@ import Logo from '../../Images/Logo/White.png'
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from 'react-router-dom';
 
+import { useAuthContext } from 'src/Context/AuthContext'
+
 export default function Header() {
   const navigate = useNavigate()
+  const {authUser} = useAuthContext();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const Login = false;
+  const Login = authUser ? true : false;
 
   return (
     <AppBar position="static" sx={{background:"#144273"}}>
