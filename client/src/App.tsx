@@ -21,7 +21,6 @@ import BecomeHost from './Pages/BecomeHost';
 import DeleteEventsPlace from './Pages/EventsPlace/DeleteEventsPlace';
 import AdminBase from './Layouts/Base/AdminBase';
 
-
 // Admin
 import Renters from './Pages/Admin/Renters';
 import Hosts from './Pages/Admin/Hosts';
@@ -32,52 +31,42 @@ import Report from './Pages/Admin/Report';
 // Hooks
 import { ProtectedRoute } from './Hooks/useAuth';
 
-// Test
-import TestChat from './Test/TestChat';
-
 function App() {
   return (
     <Routes>
         <Route element={<Base />} >
           <Route path="/" element={<Default/>} />
-          
+
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgetpassword" element={<ForgetPassword/>} />
           <Route path="/resetpassword/:hash" element={<ResetPassword/>} />
-          
-          {/* <Route path="/chat" element={<Chat/>} /> */}
+
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/profile/:userId" element={<Profile/>} />
+
+          <Route path="/host" element={<BecomeHost/>} />
+          <Route path="/host/register" element={<HostRegister/>} />
+
           <Route path="/create" element={<CreateEventsPlace/>} />
           <Route path="/update" element={<UpdateEventsPlace/>} />
           <Route path="/delete" element={<DeleteEventsPlace/>} />
-          <Route path="/profile/:userId" element={<Profile/>} />
-          <Route path="/view" element={<ViewEventsPlace/>} />
+          <Route path="/view/:id" element={<ViewEventsPlace/>} />
+          
           <Route path="/listing" element={<MyListings/>} />
-          <Route path="/becomehost/register" element={<HostRegister/>} />
           <Route path="/invoice" element={<Invoice/>} />
           <Route path="/helpdesk" element={<HelpDesk/>} />
-          <Route path="/becomehost" element={<BecomeHost/>} />
         </Route>
-
-        <Route element={<AdminBase />} >
-          <Route path="/admin/renters" element={<Renters/>} />
-          <Route path="/admin/hosts" element={<Hosts/>} />
-          <Route path="/admin/eventsplace" element={<EventsPlace/>} />
-          <Route path="/admin/reservationlogs" element={<ReservationLogs/>} />
-          <Route path="/admin/report" element={<Report/>} />
-        </Route>
-
-        <Route path="/view/:id" element={<ViewEventsPlace/>} />
-        <Route path="/profile/:userId" element={<Profile/>} />
 
         <Route element={<ProtectedRoute allowedRoles={["admin"]}/>}>
-          <Route path="/create" element={<CreateEventsPlace/>} />
-          <Route path="/listing" element={<MyListings/>} />
-          <Route path="/profile" element={<Profile/>} />
+          <Route element={<AdminBase />} >
+            <Route path="/admin/renters" element={<Renters/>} />
+            <Route path="/admin/hosts" element={<Hosts/>} />
+            <Route path="/admin/eventsplace" element={<EventsPlace/>} />
+            <Route path="/admin/reservationlogs" element={<ReservationLogs/>} />
+            <Route path="/admin/report" element={<Report/>} />
+          </Route>
         </Route>
-
-        <Route path="/testchat/:userId" element={<TestChat/>} />
     </Routes>
   );
 }
