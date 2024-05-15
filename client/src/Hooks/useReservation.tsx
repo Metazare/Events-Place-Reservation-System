@@ -2,12 +2,14 @@ import { useState } from 'react';
 import useRequest from './useRequest';
 
 interface ReservationData {
-  id?: string;
-  renterId?: string;
-  hostId?: string;
-  eventsPlaceId?: string;
-  status?: string;
-  timestamp?: string;
+  eventsPlaceId: string;
+  amenities: {
+      amenityId: string;
+      quantity: number;
+  }[];
+  guestCount: number;
+  startDate: number;
+  days: number;
 }
 
 function useReservation() {
