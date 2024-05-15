@@ -1,7 +1,7 @@
 export interface AmenityType{
   id:string,
   name:string,
-  amenityType: "oneTime" | "perDay" | "perQuantity",
+  amenityType: "one time" | "per day" | "per quantity",
   rate:number,
 }
 export interface ReviewType{

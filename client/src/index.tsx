@@ -7,6 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './Styles/main.scss'
 import { AuthContextProvider } from "./Context/AuthContext";
+import { SocketContextProvider } from "./Context/SocketContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,12 +17,12 @@ root.render(
     <BrowserRouter>
       <GoogleOAuthProvider clientId="775684727138-f5rg9sobok9jp63n2pgg1pgnv4c15k9r.apps.googleusercontent.com">
         <AuthContextProvider>
-          {/* <SocketContextProvider> */}
+          <SocketContextProvider>
             <Toaster />
             <Routes>
               <Route path="/*" element={<App/>}/>
             </Routes>
-          {/* </SocketContextProvider> */}
+          </SocketContextProvider>
         </AuthContextProvider>
       </GoogleOAuthProvider>
     </BrowserRouter>

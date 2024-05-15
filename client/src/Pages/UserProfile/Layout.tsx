@@ -1,11 +1,10 @@
 import React,{useState} from 'react'
 import UpdateProfileForm from './UpdateProfileForm'
-import UpdatePassword from './UpdatePassword'
-import UpdateEmail from './UpdateEmail'
 import UpdateProfileImage from './UpdateProfileImage'
 import Divider from 'src/Components/Divider'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close';
+import UpdateCredentials from './UpdateCredentials'
 interface PropsType {
   closeModal:() => void
   data: any
@@ -20,11 +19,10 @@ export default function Layout({closeModal, data}:PropsType) {
           <CloseIcon/>
         </IconButton>
       </div>
-      <Divider value={divider} setValue={setDivider} items={["Basic Information","Email","Password","Profile Image"]}/>
+      <Divider value={divider} setValue={setDivider} items={["Basic Information","Credentials","Profile Image"]}/>
 
       {divider === "Basic Information" && <UpdateProfileForm closeModal={closeModal} data={data}/>}
-      {divider === "Email" && <UpdateEmail closeModal={closeModal} data={data}/>}
-      {divider === "Password" && <UpdatePassword closeModal={closeModal} data={data}/>}
+      {divider === "Credentials" && <UpdateCredentials closeModal={closeModal} data={data}/>}
       {divider === "Profile Image" && <UpdateProfileImage closeModal={closeModal} data={data}/>}
 
     </div>

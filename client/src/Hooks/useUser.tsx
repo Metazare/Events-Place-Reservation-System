@@ -1,4 +1,6 @@
 import useRequest from './useRequest';
+import toast from "react-hot-toast";
+import axios from './useAxios';
 
 interface UserData {
     firstName: string;
@@ -44,6 +46,17 @@ function useUser() {
         data: content,
         });
     };
+    
+    const getUserInfo = async (userId: string): Promise<any>  => {
+        try {
+            const response = await axios.get(`/user?userId=${userId}`);
+            return response.data[0];
+        } 
+        catch (error: any) {
+            toast.error(error.response?.data?.message);
+            return null;
+        } 
+    }
 
     return {
         data,
@@ -51,7 +64,8 @@ function useUser() {
         error,
         getUser,
         editInfo,
-        editCredentials
+        editCredentials,
+        getUserInfo
     };
 }
 

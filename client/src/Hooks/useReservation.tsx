@@ -1,27 +1,40 @@
 import { useState } from 'react';
 import useRequest from './useRequest';
 
-interface ReservationData {
-  id?: string;
-  renterId?: string;
-  hostId?: string;
-  eventsPlaceId?: string;
-  status?: string;
-  timestamp?: string;
+interface CreateReservationData {
+  eventsPlaceId: string;
+  amenities: {
+      amenityId: string;
+      quantity: number;
+  }[];
+  guestCount: number;
+  startDate: number;
+  days: number;
 }
+
+interface UpdateReservationData {
+  
+}
+
+interface GetReservationData {
+  userType: string;
+  reservationId?: string;
+  eventsPlaceId?: string;
+}
+
 
 function useReservation() {
   const { data, loading, error, makeRequest } = useRequest();
 
-  const getReservation = (content: ReservationData) => {
+  const getReservation = (content: GetReservationData) => {
     makeRequest({
       method: 'get',
-      url: `/reservation`,
+      url: `/reservation/`+content.userType,
       params: content || {},
     });
   };
 
-  const createReservation = (content: ReservationData) => {
+  const createReservation = (content: CreateReservationData) => {
     makeRequest({
       method: 'post',
       url: '/reservation',
@@ -29,7 +42,7 @@ function useReservation() {
     });
   };
 
-  const updateReservation = (id: string, content: ReservationData) => {
+  const updateReservation = (id: string, content: UpdateReservationData) => {
     makeRequest({
       method: 'patch',
       url: `/reservation/${id}`,

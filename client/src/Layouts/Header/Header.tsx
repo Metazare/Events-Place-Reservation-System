@@ -6,13 +6,18 @@ import Logo from '../../Images/Logo/White.png'
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from 'react-router-dom';
 
+import { useAuthContext } from 'src/Context/AuthContext'
+import { useLogout } from 'src/Hooks/useAuth';
+
 export default function Header() {
   const navigate = useNavigate()
+  const {authUser} = useAuthContext();
+  const {logout} = useLogout();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const Login = false;
 
   return (
     <AppBar position="static" sx={{background:"#144273"}}>
@@ -21,7 +26,7 @@ export default function Header() {
           <Box display="flex" sx={{flexGrow:1}} onClick={()=>{navigate("/")}}>
             <img src={Logo} width={"100px"} alt="" className='cursor-pointer' draggable={false}/>
           </Box>
-          {Login?
+          {authUser?
             <>
               <Button variant="outlined" sx={{borderColor:"white",opacity:".9",borderRadius:"15px",padding:".4em 1.5em",color:"white", ":hover":{borderColor:"white"}}}>
                 Renter Mode
@@ -40,7 +45,7 @@ export default function Header() {
                       setAnchorElUser(event.currentTarget);
                     }} sx={{ p: 0 }}
                   >
-                    <Avatar alt="UserProfile" src="/static/images/avatar/2.jpg" sx={{width:"30px",height:"30px"}}/>
+                    <Avatar alt="UserProfile" src={authUser?authUser?.photo :"/static/images/avatar/2.jpg"} sx={{width:"30px",height:"30px"}}/>
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -75,6 +80,15 @@ export default function Header() {
                       My Listings
                     </Typography>
                   </MenuItem>
+                  <MenuItem onClick={()=>{
+                    logout()
+                    navigate("/")
+                    handleCloseUserMenu()
+                  }}>
+                    <Typography textAlign="center">
+                      Logout
+                    </Typography>
+                  </MenuItem>
                 </Menu>
               </Box>
             </>:<>
@@ -86,7 +100,6 @@ export default function Header() {
               </Button>
             </>
           }
-          
         </Toolbar>
       </Container>
     </AppBar>

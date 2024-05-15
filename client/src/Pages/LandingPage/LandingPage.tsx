@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from '@mui/material/Container'
 import Image from '../../Images/pattern.png'
 import SearchIcon from '@mui/icons-material/Search';
@@ -6,7 +6,21 @@ import IconButton from '@mui/material/IconButton'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import Tooltip from '@mui/material/Tooltip'
 import EventCard from 'src/Components/EventCard';
+
+// Hooks
+import useEventsPlace from 'src/Hooks/useEventsPlace';
+
 export default function LandingPage() {
+
+  const {data,loading,error,getEventsPlace} = useEventsPlace();
+
+  useEffect(()=>{
+    getEventsPlace('');
+  },[])
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error</p>
+
   return (
     <div className='grow'>
       <div className='relative h-[250px] w-full gap-5 LandingPageHeader flex justify-center items-center z-1 p-4' style={{background:`url(${Image})`}}>
@@ -25,25 +39,11 @@ export default function LandingPage() {
       <Container maxWidth="lg" sx={{padding:"1.5em"}}>
         <h5 className='text-[17] mb-4 font-bold opacity-70'>Recommended Places</h5>
         <div className='grid gap-5 mb-7' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
+          {data?.map((place:any)=><EventCard key={place._id} data={place} type="view"/>)}
         </div>
         <h5 className='text-[17] mb-4 font-bold opacity-70'>New Added Places</h5>
         <div className='grid gap-5' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
-          <EventCard data={[]} type='view'/>
+          {data?.map((place:any)=><EventCard key={place._id} data={place} type="view"/>)}
         </div>
       </Container>
     </div>

@@ -74,7 +74,7 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
     const { user, body } = req;
     if (!user) throw new Unauthorized();
 
-    const { eventsPlaceId, amenities, startDate, days } = body;
+    const { eventsPlaceId, amenities, startDate, days, guestCount } = body;
     const checker = new CheckData();
 
     checker.checkType(eventsPlaceId, 'string', 'eventsPlaceId');
@@ -134,7 +134,12 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
         host: eventsPlace.host,
         eventsPlace: eventsPlace._id,
         amenities: availableAmenities,
-        duration: { start, end }
+        duration: { start, end },
+        guestCount: guestCount,
+        status: {
+            payment: PaymentStatus.UNPAID,
+            reservation: ReservationStatus.PENDING
+        }
     });
 
     setTimeout(() => {

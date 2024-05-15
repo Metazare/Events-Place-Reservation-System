@@ -18,7 +18,7 @@ export default function Invoice() {
       <div className='flex flex-col-reverse gap-4 md:grid mt-[2em]' style={{gridTemplateColumns:"1fr .5fr"}}>
         <div className='flex flex-col gap-4 items-start '>
           <EventHeader/>
-          <a href='/view' className='px-4 py-2 bg-[white] rounded-lg hover:bg-[#e6e6e6] cursor-pointer'>
+          <a href='/eventsplace/view/insertidhere' className='px-4 py-2 bg-[white] rounded-lg hover:bg-[#e6e6e6] cursor-pointer'>
             View Event Place
           </a>
           <div className='p-5 flex gap-4 items-center bg-[white] rounded-xl w-full '>

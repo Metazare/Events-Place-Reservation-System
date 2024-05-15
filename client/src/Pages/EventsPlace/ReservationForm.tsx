@@ -125,9 +125,9 @@ export default function ReservationForm(){
   }
   const AmenitiesList = () => {
     return <>
-      {Data.amenities!==undefined && Data.amenities.length > 0 &&
+      {Data?.amenities!==undefined && Data?.amenities?.length > 0 &&
         <div className='grid gap-4' style={{gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))"}}>
-          {Data?.amenities.map((data:AmenityType,index)=>(
+          {Data?.amenities?.map((data:AmenityType,index)=>(
             <AmenitiesCard data={data} key={index} 
               isSelected={true} 
               click={()=>{
