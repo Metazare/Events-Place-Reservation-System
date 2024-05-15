@@ -1,6 +1,4 @@
 import 'dotenv/config';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
@@ -22,7 +20,6 @@ import userRoute from './api/user/user.route';
 import emailRoute from './api/email/email.route';
 
 // Utilities
-import connectToMongoDB from "./database/connectToMongoDB";
 import { app, server } from './socket/socket';
 import { NotFound } from './utilities/errors';
 import envs from './utilities/envs';
@@ -48,12 +45,10 @@ app.use('/chat', chatRoute);
 app.use((_req, _res, next) => next(new NotFound()));
 app.use(errorHandler);
 
-server.listen(PORT, () => {
-	mongoose
-        .connect(MONGO_URI)
-        .then(() => {
-            console.log('Connected to database');
-            console.log(`Listening on port ${PORT}`);
-        })
-        .catch(console.error);
-});
+mongoose
+    .connect(MONGO_URI)
+    .then(() => {
+        console.log('Connected to database');
+        server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+    })
+    .catch(console.error);

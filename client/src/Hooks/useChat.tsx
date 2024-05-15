@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import axios from './useAxios';
 import toast from "react-hot-toast";
+import { useSocketContext } from '../Context/SocketContext';
 
 export default function useChat() {
 
@@ -42,9 +44,23 @@ export default function useChat() {
       } 
     }
 
+    // const useListenMessages = () => {
+    //   const { socket } = useSocketContext();
+    //   // const { messages, setMessages } = useConversation();
+
+    //   useEffect(() => {
+    //     socket?.on("newMessage", (newMessage) => {
+    //       newMessage.shouldShake = true;
+    //       // setMessages([...messages, newMessage]);
+    //     });
+
+    //     return () => socket?.off("newMessage");
+    //   }, [socket, setMessages, messages]);
+    // };
+
   return {
     getConversations,
     getMessages,
-    sendMessage,
+    sendMessage
   };
 }

@@ -41,7 +41,7 @@ function App() {
           </Route>
         </Route>
 
-        <Route path="/testchat" element={<TestChat/>} />
+        <Route path="/testchat/:userId" element={<TestChat/>} />
     </Routes>
   );
 }

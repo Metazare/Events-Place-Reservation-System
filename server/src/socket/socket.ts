@@ -2,6 +2,9 @@ import { Server } from "socket.io";
 import http from "http";
 import express, { Application } from "express";
 import envs from './../utilities/envs';
+
+import { sendMessage } from "../api/chat/message.controller";
+
 const { PORT, MONGO_URI, CORS_ORIGIN } = envs;
 
 const app: Application = express();
@@ -30,8 +33,15 @@ io.on("connection", (socket) => {
     const userId: string = socket.handshake.query.userId as string;
     if (userId !== "undefined") userSocketMap[userId] = socket.id;
 
+    console.log(userId);
+
     // io.emit() is used to send events to all the connected clients
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
+    socket.on('chat', async (req: CreateMessage) => {
+        await sendMessage(req);
+        io.emit('chat', req);
+    });
 
     // socket.on() is used to listen to the events. can be used both on client and server side
     socket.on("disconnect", () => {
