@@ -20,3 +20,16 @@ export interface ReviewDocument extends Review, Document {
 export interface ReviewPopulatedDocument extends ReviewDocument {
     eventsPlace: ReviewPopulatedDocument;
 }
+
+/* REQUESTS */
+
+export type CreateReview = {
+    rating: number;
+    eventsPlaceId: string;
+    comment?: string;
+}
+
+export type GetReviews = {
+    eventsPlaceId?: string;
+    reviewId?: string;
+}
