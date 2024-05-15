@@ -27,7 +27,6 @@ export default function HostRegister() {
       return errors;
     },
     onSubmit: (values) => {
-      console.log(values)
       registerHost({
         description: values.description,
         license: values.images
@@ -67,9 +66,6 @@ export default function HostRegister() {
             <h6 className={`mb-2  font-[500] ${HostRegisterFormik.touched.images && HostRegisterFormik.errors.images &&"text-[red]"}`}>Upload License</h6>
             <div className='flex'>
               <input type="file" name="images" id="file" className="hidden"  multiple
-                // onChange={(e:any)=>{
-                //   HostRegisterFormik.setFieldValue("images",URL.createObjectURL(e.target.files[0]))
-                // }}
                 onChange={async (e)=>{
                   if(e.target.files) {
                     const fileUrl = await uploadFile(e.target.files[0], 'events_place_marikina');
