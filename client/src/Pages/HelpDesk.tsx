@@ -6,7 +6,17 @@ import { useFormik } from 'formik';
 import TextField from 'src/Components/TextField';
 import TextArea from 'src/Components/TextArea';
 import Button from '@mui/material/Button'
+
+
+import useHelpdesk from '../Hooks/useHelpdesk';
+
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
 export default function HelpDesk() {
+  const {createReport} = useHelpdesk();
+  const navigate = useNavigate();
+
   const HelpDeskFormik = useFormik({
     initialValues: {
       date:new Date(),
@@ -18,7 +28,13 @@ export default function HelpDesk() {
       return errors;
     },
     onSubmit: (values) => {
-      console.log(values)
+      createReport({
+        report: values.message
+      });
+      toast.success("Report sent successfully!");
+            setTimeout(() => {
+                navigate('/profile');
+            }, 2000);
     }
   })
   return (
