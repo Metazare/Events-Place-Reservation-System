@@ -74,8 +74,6 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
     const { user, body } = req;
     if (!user) throw new Unauthorized();
 
-    console.log(req.body);
-
     const { eventsPlaceId, amenities, startDate, days, guestCount } = body;
     const checker = new CheckData();
 
