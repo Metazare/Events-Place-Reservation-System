@@ -17,11 +17,11 @@ export default function TextField({label,type,attr,error,errorMessages,handleCha
   const[isVisible,setisVisible] = useState(false) 
   return (
     <div className='w-full'>
-      <p className={`mb-2 text-[] font-[500] ${error?"text-[#ff1d1ddc]":"text-[#646464]"}`}>{label}</p>
+      <p className={`mb-2  font-[500] ${error?"text-[#ff1d1ddc]":"text-[#646464]"}`}>{label}</p>
       <div className={`w-full p-2 rounded-xl border-2 flex items-center gap-2 ${error ? "border-[#ff1d1ddc]" : "border-[#D9D9D9]"}`}>
         <input
           {...attr}
-          className={`grow bg-[transparent] outline-none   text-[#292929]`} 
+          className={`grow bg-[transparent] outline-none  w-full  text-[#292929]`} 
           type={type==="password"? isVisible?"text":"password" : type} 
           onChange={handleChange}
         />

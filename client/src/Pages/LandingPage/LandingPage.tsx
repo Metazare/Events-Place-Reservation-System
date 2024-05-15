@@ -39,11 +39,11 @@ export default function LandingPage() {
       <Container maxWidth="lg" sx={{padding:"1.5em"}}>
         <h5 className='text-[17] mb-4 font-bold opacity-70'>Recommended Places</h5>
         <div className='grid gap-5 mb-7' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-          {data?.map((place:any)=><EventCard key={place._id} data={place}/>)}
+          {data?.map((place:any)=><EventCard key={place._id} data={place} type="view"/>)}
         </div>
         <h5 className='text-[17] mb-4 font-bold opacity-70'>New Added Places</h5>
         <div className='grid gap-5' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-          {data?.map((place:any)=><EventCard key={place._id} data={place}/>)}
+          {data?.map((place:any)=><EventCard key={place._id} data={place} type="view"/>)}
         </div>
       </Container>
     </div>

@@ -11,5 +11,7 @@ export default cleanEnv(process.env, {
     RESET_PASSWORD_UI_ENDPOINT: str(),
     MONGO_URI: str(),
     NODEMAILER_EMAIL: str(),
-    NODEMAILER_PASSWORD: str()
+    NODEMAILER_PASSWORD: str(),
+    ADMIN_EMAIL: str(),
+    ADMIN_PASSWORD: str()
 });

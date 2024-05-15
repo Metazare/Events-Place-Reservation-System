@@ -36,6 +36,7 @@ const userSchema = new Schema(
             },
             required: true
         },
+        isAdmin: { type: Boolean, default: false },
         contact: { type: String, required: true },
         photo: String,
         description: String,
@@ -47,7 +48,7 @@ const userSchema = new Schema(
         toJSON: {
             transform(_doc, ret) {
                 const {
-                    _id,
+                    _id, isAdmin,
                     credentials: { email },
                     name: { first, middle, last, suffix },
                     ...rest

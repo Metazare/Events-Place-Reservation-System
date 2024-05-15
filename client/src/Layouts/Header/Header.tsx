@@ -12,7 +12,7 @@ export default function Header() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const Login = true;
+  const Login = false;
 
   return (
     <AppBar position="static" sx={{background:"#144273"}}>
@@ -78,8 +78,11 @@ export default function Header() {
                 </Menu>
               </Box>
             </>:<>
-              <Button variant="contained" sx={{background:"white",color:"#144273",padding:".5em 2em",":hover":{color:"white"}}} onClick={()=>{navigate("/login")}}>
-                Login
+              <Button variant="text" sx={{color:"white"}} onClick={()=>{navigate("/login")}}>
+                login
+              </Button>
+              <Button variant="contained" sx={{background:"white",color:"#144273",padding:".5em 2em",":hover":{color:"white"}}} onClick={()=>{navigate("/register")}}>
+                Get Started
               </Button>
             </>
           }

@@ -18,9 +18,48 @@ import AmenitiesCard from 'src/Components/AmenitiesCard';
 // Hooks
 import useEventsPlace from 'src/Hooks/useEventsPlace';
 
+import ReservationForm from './ReservationForm';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { useNavigate } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip'
+
 export default function ViewEventsPlace({data: passedData}:{data?:any}) {
   const {id} = useParams<{id:string}>();
+  const navigate = useNavigate();
   const {data,loading,error,getEventsPlace} = useEventsPlace();
+
+  
+
+  const [isHost,setIsHost] = useState(true) ;
+
+  const SampleEventsPlaceData = {
+    amenities:[
+      {
+        id:"1",
+        name:"Complementary Drinks",
+        amenityType:"perQuantity",
+        rate:100
+      },
+      {
+        id:"2",
+        name:"Complementary Drinks",
+        amenityType:"perDay",
+        rate:100
+      },
+      {
+        id:"3",
+        name:"Complementary Drinks",
+        amenityType:"oneTime",
+        rate:100
+      },
+    ]
+  }
+  
+  const {AmenitiesList,ReservationFormComp,setData} = ReservationForm();
+  
+  useEffect(()=>{
+    setData(SampleEventsPlaceData)
+  },[])
 
   useEffect(()=>{
     if(!passedData){
@@ -31,6 +70,7 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
+
 
   return (
     <Container maxWidth="lg" sx={{flexGrow:"1",display:"flex",flexDirection:"column",gap:"2em",alignItems:"start",padding:"2em 1em"}}>
@@ -44,9 +84,20 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
       <div className='w-full'>
         <div className='flex text-[#303030] items-start'>
           <h3 className='text-[27px] grow font-medium'>{passedData?.name || data?.[0]?.name}</h3>
-          <IconButton  sx={{marginTop:".1em"}} onClick={()=>{}}>
-            <ReportIcon sx={{fontSize:"27px"}} />
-          </IconButton>
+          
+          {isHost?
+            <Tooltip title="Update">
+              <IconButton  sx={{marginTop:".1em"}} onClick={()=>{navigate('/update')}}>
+                <BorderColorIcon sx={{fontSize:"27px"}} />
+              </IconButton>
+            </Tooltip>:
+            <Tooltip title="Report">
+              <IconButton  sx={{marginTop:".1em"}} onClick={()=>{}}>
+                <ReportIcon sx={{fontSize:"27px"}} />
+              </IconButton>
+            </Tooltip>
+            
+          }
         </div>
         <div className='flex gap-2 items-center color-[#303030]'>
           <StarIcon sx={{fontSize:"15 px"}}/>
@@ -85,7 +136,15 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
                 <AmenitiesCard data={data} key={index}/>
               ))}
             </div>
+            <AmenitiesList/>
+            <div className=' md:hidden mt-10'>
+              <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
+                <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
+                <ReservationFormComp/>
+              </div>
+            </div>
           </div>
+          
           <div className='mt-[1em]'>
             <div className='flex justify-between items-center'>
               <div className='flex gap-3 items-center'>
@@ -103,8 +162,9 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
           </div>
         </div>
         <div className='hidden md:block'>
-          <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white] min-h-[400px]'>
-            
+          <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
+            <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
+            <ReservationFormComp/>
           </div>
         </div>
       </div>
@@ -163,3 +223,4 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
     </Container>
   )
 }
+

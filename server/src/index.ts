@@ -16,8 +16,10 @@ import eventsPlaceRoute from './api/eventsPlace/eventsPlace.route';
 import helpdeskRoute from './api/helpdesk/helpdesk.route';
 import notificationRoute from './api/notification/notification.route';
 import reservationRoute from './api/reservation/reservation.route';
+import reviewRoute from './api/review/review.route';
 import userRoute from './api/user/user.route';
 import emailRoute from './api/email/email.route';
+import { createAdminAccount } from './api/user/user.controller';
 
 // Utilities
 import { app, server } from './socket/socket';
@@ -34,21 +36,21 @@ app.use(helmet());
 
 app.use('/auth', authRoute);
 app.use('/email', emailRoute);
-app.use('/user', userRoute);
 app.use('/eventsplace', eventsPlaceRoute);
 app.use('/reservation', reservationRoute);
+app.use('/user', userRoute);
 app.use(authenticate);
+app.use('/chat', chatRoute);
 app.use('/helpdesk', helpdeskRoute);
 app.use('/notification', notificationRoute);
-app.use('/chat', chatRoute);
+app.use('/review', reviewRoute);
 
 app.use((_req, _res, next) => next(new NotFound()));
 app.use(errorHandler);
 
 mongoose
     .connect(MONGO_URI)
-    .then(() => {
-        console.log('Connected to database');
-        server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-    })
+    .then(() => console.log('Connected to database'))
+    .then(createAdminAccount)
+    .then(() => server.listen(PORT, () => console.log(`Listening on port ${PORT}`)))
     .catch(console.error);

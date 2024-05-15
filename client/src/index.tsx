@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Toaster } from 'react-hot-toast';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -15,14 +15,16 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthContextProvider>
-				<SocketContextProvider>
-          <Toaster />
-          <Routes>
-            <Route path="/*" element={<App/>}/>
-          </Routes>
-				</SocketContextProvider>
-			</AuthContextProvider>
+      <GoogleOAuthProvider clientId="775684727138-f5rg9sobok9jp63n2pgg1pgnv4c15k9r.apps.googleusercontent.com">
+        <AuthContextProvider>
+          <SocketContextProvider>
+            <Toaster />
+            <Routes>
+              <Route path="/*" element={<App/>}/>
+            </Routes>
+          </SocketContextProvider>
+        </AuthContextProvider>
+      </GoogleOAuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
