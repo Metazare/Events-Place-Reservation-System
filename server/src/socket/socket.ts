@@ -38,10 +38,10 @@ io.on("connection", (socket) => {
     // io.emit() is used to send events to all the connected clients
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
-    socket.on('chat', async (req: CreateMessage) => {
-        await sendMessage(req);
-        io.emit('chat', req);
-    });
+    // socket.on('chat', async (req: CreateMessage) => {
+    //     await sendMessage(req);
+    //     io.emit('chat', req);
+    // });
 
     // socket.on() is used to listen to the events. can be used both on client and server side
     socket.on("disconnect", () => {
