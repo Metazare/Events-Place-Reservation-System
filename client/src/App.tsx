@@ -28,7 +28,6 @@ import EventsPlace from './Pages/Admin/EventsPlace';
 import ReservationLogs from './Pages/Admin/ReservationLogs';
 import TransactionLogs from './Pages/Admin/TransactionLogs';
 import HelpDeskAdmin from './Pages/Admin/HelpDesk';
-// import Report from './Pages/Admin/Report';
 
 // Hooks
 import { ProtectedRoute } from './Hooks/useAuth';
@@ -73,7 +72,7 @@ function App() {
             <Route path="/admin/eventsplace" element={<EventsPlace/>} />
             <Route path="/admin/reservationlogs" element={<ReservationLogs/>} />
             <Route path="/admin/transactions" element={<TransactionLogs/>} />
-            {/* <Route path="/admin/report" element={<Report/>} /> */}
+            <Route path="/admin/helpdesk" element={<HelpDeskAdmin/>} />
           </Route>
         </Route>
 
