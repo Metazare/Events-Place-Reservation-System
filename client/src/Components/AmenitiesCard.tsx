@@ -6,13 +6,13 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 type Props = {
   data:AmenityType,
   isSelected?:boolean,
-  click?:()=>void
+  clickHandler?:()=>void
 }
-export default function AmenitiesCard({data,isSelected,click}:Props) {
+export default function AmenitiesCard({data,isSelected,clickHandler}:Props) {
   return (
-    <div className='relative flex flex-col overflow-hidden min-h-[100px] rounded-xl text-[white] cursor-pointer p-2' style={{background:`url(${Pattern})`,backgroundSize:"contain"}} onClick={click}>
+    <div className='relative flex flex-col overflow-hidden min-h-[100px] rounded-xl text-[white] cursor-pointer p-2' style={{background:`url(${Pattern})`,backgroundSize:"contain"}} onClick={clickHandler}>
       <div className='grow'>
-        <h6 className='text-[15]'>{data.name}</h6>
+        <h6 className='text-[19] font-semibold'>{data.name}</h6>
       </div>
       <div className='flex justify-between items-end'>
         <p>₱{data.rate} {data.amenityType ==="per day"&&"per day"} {data.amenityType ==="per quantity"&&"each"}</p>

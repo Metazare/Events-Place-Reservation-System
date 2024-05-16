@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import TextField from 'src/Components/TextField';
 import { useFormik } from 'formik';
 import AmenitiesCard from 'src/Components/AmenitiesCard';
@@ -10,19 +10,18 @@ import DatePicker from 'src/Components/DatePicker';
 import DateRange from 'src/Components/DateRange';
 import useDates from 'src/Hooks/useDates';
 import PaymentModal from './PaymentModal';
+
 export default function ReservationForm(){
   const {setOpenModal,ModalComponent,closeModal} = useModal();
   const {getDatesToArray} = useDates()
   const [selectedDate, setSelectedDate] = useState<string>("Single Day");
-  const [Data, setData] = useState<any>("sample");
-
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
     key: 'selection'
   })
   const [datePicker, setDatePicker] = useState(new Date())
-
+  const[EventsPlaceData,setEventsPlaceData] = useState<any>({})
   const ReservationFormik = useFormik({
     initialValues: {
       guestsNumber:1,
@@ -43,7 +42,6 @@ export default function ReservationForm(){
       setOpenModal(<PaymentModal/>)
     },
   })
-
   function getDate(){
     if(selectedDate === "Single Day"){
       return getDatesToArray(datePicker,datePicker)
@@ -52,7 +50,9 @@ export default function ReservationForm(){
     }
   }
 
-  
+    useEffect(()=>{
+      console.log(EventsPlaceData)
+    },[EventsPlaceData])
   const ReservationFormComp = () => {
     return <>
     <div className='w-full flex rounded-full border border-[black]/10'>
@@ -125,20 +125,25 @@ export default function ReservationForm(){
   }
   const AmenitiesList = () => {
     return <>
-      {Data?.amenities!==undefined && Data?.amenities?.length > 0 &&
-        <div className='grid gap-4' style={{gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))"}}>
-          {Data?.amenities?.map((data:AmenityType,index)=>(
-            <AmenitiesCard data={data} key={index} 
-              isSelected={true} 
-              click={()=>{
-                data !== null && ReservationFormik.setFieldValue("amenitiesList",[...ReservationFormik.values.amenitiesList,{id:data.id}])
+      <div className='grid gap-4' style={{gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))"}}>
+        {EventsPlaceData?.amenities?.map((data:any,index)=>{
+          let isSelected = ReservationFormik.values.amenitiesList.find((amenity:any)=>amenity.amenityId === data.amenityId) !== undefined;
+          return <AmenitiesCard data={data} key={index} 
+              isSelected={isSelected} 
+              clickHandler={()=>{
+                if(isSelected){
+                  ReservationFormik.setFieldValue("amenitiesList",ReservationFormik.values.amenitiesList.filter((amenity:any)=>amenity.amenityId !== data.amenityId))
+                }
+                else{
+                  ReservationFormik.setFieldValue("amenitiesList", [...ReservationFormik.values.amenitiesList,{ amenityId: data.amenityId, quantity: 1 }])
+                }
+                // data !== null && ReservationFormik.setFieldValue("amenitiesList",ReservationFormik.setFieldValue("amenitiesList", [...ReservationFormik.values.amenitiesList,{ amenityId: data.amenityId, quantity: 1 }]))
               }}
             />
-          ))}
-        </div> 
-      }
+        })}
+      </div> 
     </>
   }
   
-  return {AmenitiesList,ReservationFormComp,setData}
+  return {AmenitiesList,ReservationFormComp,setEventsPlaceData}
 }

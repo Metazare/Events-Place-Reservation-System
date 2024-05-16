@@ -30,17 +30,29 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
   const navigate = useNavigate();
   const {data,loading,error,getEventsPlace} = useEventsPlace();
   const {authUser} = useAuthContext();
+  const {AmenitiesList,ReservationFormComp,setEventsPlaceData} = ReservationForm();
 
-  const {AmenitiesList,ReservationFormComp,setData} = ReservationForm();
+
+  // useEffect(()=>{
+  //   if(!passedData){
+  //     if (id)
+  //       getEventsPlace(id);
+  //   }
+  // },[])
 
   useEffect(()=>{
-    if(!passedData){
+    if(passedData){
+      setEventsPlaceData(passedData)
+    }else{
       if (id)
         getEventsPlace(id);
     }
-
-    setData(passedData || data?.[0] || [{}]);
   },[])
+  useEffect(()=>{
+    if(data){
+      setEventsPlaceData(data[0])
+    }
+  },[data])
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
@@ -79,14 +91,14 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
       </div>
       <div className='flex flex-col md:flex-row  aspect-video w-full gap-4'>
         {passedData? <>
-          <div className='grow h-full rounded' style={{background:`url("${passedData.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+            <div className='grow h-full rounded' style={{background:`url("${passedData.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
             <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
               <div className='grow rounded' style={{background:`url("${passedData.images[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
               <div className='grow rounded' style={{background:`url("${passedData.images[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
             </div>
           </>
           :<>
-          <div className='grow h-full rounded' style={{background:`url("${data?.[0]?.images?.[0]}") no-repeat`,backgroundSize:"contain",backgroundPosition:"center"}}/>
+          <div className='grow h-full rounded' style={{background:`url("${data?.[0]?.images?.[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
             <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
               <div className='grow rounded' style={{background:`url("${data?.[0]?.images?.[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
               <div className='grow rounded' style={{background:`url("${data?.[0]?.images?.[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
