@@ -8,12 +8,20 @@ import ChatIcon from '@mui/icons-material/Chat';
 import EventIcon from '@mui/icons-material/Event';
 import PeopleIcon from '@mui/icons-material/People';
 import Timeline from 'src/Components/Timeline';
+import GoBackComp from 'src/Components/GoBackComp';
+import Button from '@mui/material/Button'
+import StarRateIcon from '@mui/icons-material/StarRate';
+import useModal from 'src/Hooks/useModal';
+import CancelReservation from 'src/Components/CancelReservation';
+import RateComponent from 'src/Components/RateComponent';
 export default function Invoice() {
+  // Reserved,To Rate, Cancelled  
+  let status="To Rate";
+  const {setOpenModal,ModalComponent,closeModal} = useModal();
   return (
     <Container maxWidth="lg" className='grow py-7'>
-      <div className=' flex items-center gap-2 cursor-[pointer] opacity-70 hover:opacity-100'>
-        <ArrowBackIcon sx={{fontSize:"25px"}}/>
-        <p>Go Back</p>
+      <div className='flex justify-start'>
+        <GoBackComp/>
       </div>
       <div className='flex flex-col-reverse gap-4 md:grid mt-[2em]' style={{gridTemplateColumns:"1fr .5fr"}}>
         <div className='flex flex-col gap-4 items-start '>
@@ -49,7 +57,9 @@ export default function Invoice() {
             <div className='flex items-start justify-between'>
               <h6 className='text-[18px] leading-[19px] font-bold '>Reservation <br />Details</h6>
               <div className='bg-[#144273] py-1 px-4 rounded-xl'>
-                <p className='text-[white] text-[14px]'>Upcomming</p>
+                <p className='text-[white] text-[14px]'>
+                  {status}
+                </p>
               </div>
             </div>
             <div className='flex justify-between items-center mt-8 pb-4'>
@@ -65,14 +75,31 @@ export default function Invoice() {
             <div className=' border-y py-4 border-[black]/10'>
               <Timeline isCard={true}/>
             </div>
-            <div className='flex justify-between items-center pt-4'>
+            <div className='flex justify-between items-center pt-4 mb-4'>
               <p className='text-[18px] text-[black]/50'>Total</p>
               <p className='text-[24px] font-semibold'>₱ 5000</p>
             </div>
+            {
+              status==="Reserved"&&
+              <Button variant="outlined" fullWidth onClick={()=>{setOpenModal(<CancelReservation closeModal={closeModal}/>)}}>
+                Cancel Reservation
+              </Button>
+            }
+            {
+              status==="To Rate"&&
+              <Button variant="contained" startIcon={<StarRateIcon/>} fullWidth onClick={()=>{setOpenModal(<RateComponent closeModal={closeModal}/>)}}>
+                Rate your experience
+              </Button>
+            }
+           
+            {/* <Button variant="outlined" color="primary" fullWidth>
+              Cancel Reservation
+            </Button> */}
           </div>
           
         </div>
       </div>
+      <ModalComponent/>
     </Container>
   )
 }
