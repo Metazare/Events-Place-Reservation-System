@@ -68,7 +68,7 @@ export default function Header() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <div>
+                  <div className='sm:hidden'>
                     <MenuItem onClick={()=>{
                       // navigate("/profile")
                       // handleCloseUserMenu()
