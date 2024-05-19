@@ -20,7 +20,7 @@ import HelpDesk from './Pages/HelpDesk';
 import BecomeHost from './Pages/BecomeHost';
 import DeleteEventsPlace from './Pages/EventsPlace/DeleteEventsPlace';
 import AdminBase from './Layouts/Base/AdminBase';
-
+import Chat from './Chat/Chat';
 // Admin
 import Renters from './Pages/Admin/Renters';
 import Hosts from './Pages/Admin/Hosts';
@@ -64,6 +64,7 @@ function App() {
           <Route path="/invoice" element={<Invoice/>} />
           <Route path="/helpdesk" element={<HelpDesk/>} />
         </Route>
+        <Route path="/chat" element={<Chat/>} />
 
         <Route element={<ProtectedRoute allowedRoles={["admin"]}/>}>
           <Route element={<AdminBase />} >

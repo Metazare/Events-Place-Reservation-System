@@ -49,3 +49,31 @@ body{
   opacity: 1;
   transition: all 0.3s ease-in-out;
 }
+
+
+.max-h-custom::-webkit-scrollbar {
+  width: 12px;
+}
+
+.max-h-custom::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.max-h-custom::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+  border: 3px solid #f1f1f1;
+}
+
+.max-h-custom::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.max-h-custom {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #E9E9E9;
+  @media screen and (max-width: 768px){
+    max-height: calc(100vh - 164px );
+  }
+}
