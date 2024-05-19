@@ -4,7 +4,8 @@ import MenuItem from '@mui/material/MenuItem';
 
 interface MenuVariablesType {
   anchorEl: HTMLElement | null;
-  content: JSX.Element | null; // You can change the type of content based on what it actually is
+  content: JSX.Element | null;
+  menuCloseClick:boolean // You can change the type of content based on what it actually is
 }
 
 
@@ -34,11 +35,14 @@ interface MenuVariablesType {
 export default function useMenu() {
   const [menuVariables, setMenuVariables] = useState<MenuVariablesType>({
     anchorEl: null,
-    content: null
+    content: null,
+    menuCloseClick:true
   });
   const open = Boolean(menuVariables.anchorEl);
   const handleClose = () => {
-    setMenuVariables({...menuVariables,anchorEl:null,content:null})
+    if(!menuVariables.menuCloseClick){
+      setMenuVariables({...menuVariables,anchorEl:null,content:null})
+    }
   };
 
   useEffect(()=>{
@@ -58,8 +62,14 @@ export default function useMenu() {
         anchorEl={menuVariables.anchorEl}
         id="account-menu"
         open={open}
-        onClose={handleClose}
-        onClick={handleClose}
+        onClose={()=>{
+          setMenuVariables({...menuVariables,anchorEl:null,content:null})
+        }}
+        onClick={()=>{
+          if(!menuVariables.menuCloseClick){
+            setMenuVariables({...menuVariables,anchorEl:null,content:null})
+          }
+        }}
         PaperProps={{
           elevation: 0,
           sx: {
