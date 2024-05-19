@@ -7,7 +7,7 @@ import Link from '@mui/material/Link';
 import TextArea from 'src/Components/TextArea';
 import { useFormik } from 'formik';
 import Button from '@mui/material/Button'
-
+import GoBackComp from 'src/Components/GoBackComp';
 import useFirebase from 'src/Hooks/useFirebase';
 import { useRegister } from '../../Hooks/useAuth';
 
@@ -36,9 +36,8 @@ export default function HostRegister() {
   return (
     <Container maxWidth="lg" className='grow '>
       <div className='h-full  py-4'>
-        <div className='flex gap-2 cursor-[pointer] opacity-70 hover:opacity-100'>
-          <ArrowBackIcon sx={{fontSize:"25px"}}/>
-          <p>Go Back</p>
+        <div className='flex justify-center'>
+          <GoBackComp/>
         </div>
         <div className='mt-[.5em] mb-[4em]'>
           <h5 className='text-[25px] font-semibold text-primary'>Register as a Host</h5>

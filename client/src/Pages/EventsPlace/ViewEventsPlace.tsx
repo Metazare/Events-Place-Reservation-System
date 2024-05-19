@@ -17,28 +17,22 @@ import AmenitiesCard from 'src/Components/AmenitiesCard';
 
 // Hooks
 import useEventsPlace from 'src/Hooks/useEventsPlace';
-
+import { useAuthContext } from 'src/Context/AuthContext';
+import useModal from 'src/Hooks/useModal';
 import ReservationForm from './ReservationForm';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip'
-
-import { useAuthContext } from 'src/Context/AuthContext';
+import ViewImageModal from 'src/Components/ViewImageModal';
 import GoBackComp from 'src/Components/GoBackComp';
+
 export default function ViewEventsPlace({data: passedData}:{data?:any}) {
   const {id} = useParams<{id:string}>();
   const navigate = useNavigate();
   const {data,loading,error,getEventsPlace} = useEventsPlace();
   const {authUser} = useAuthContext();
   const {AmenitiesList,ReservationFormComp,setEventsPlaceData} = ReservationForm();
-
-
-  // useEffect(()=>{
-  //   if(!passedData){
-  //     if (id)
-  //       getEventsPlace(id);
-  //   }
-  // },[])
+  const {setOpenModal,ModalComponent,closeModal} = useModal();
 
   useEffect(()=>{
     if(passedData){
@@ -83,22 +77,30 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
           <p className='text-[15  px]'>4.5 (28 Reviews)</p>
         </div>
       </div>
-      <div className='flex flex-col md:flex-row  aspect-video w-full gap-4'>
-        {passedData? <>
-            <div className='grow h-full rounded' style={{background:`url("${passedData.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-            <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
-              <div className='grow rounded' style={{background:`url("${passedData.images[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-              <div className='grow rounded' style={{background:`url("${passedData.images[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-            </div>
-          </>
-          :<>
-          <div className='grow h-full rounded' style={{background:`url("${data?.[0]?.images?.[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-            <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
-              <div className='grow rounded' style={{background:`url("${data?.[0]?.images?.[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-              <div className='grow rounded' style={{background:`url("${data?.[0]?.images?.[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-            </div>
-          </>
-        }
+      <div className='relative flex flex-col md:flex-row  aspect-video w-full gap-4'>
+        <div className='ImageClickable grow h-full rounded' style={{background:`url("${passedData? passedData.images[0]: data?.[0]?.images?.[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}
+          onClick={()=>{
+            setOpenModal(<ViewImageModal data={passedData? passedData.images: data?.[0]?.images}  index={0} />)
+          }}
+        />
+        <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
+          <div className='ImageClickable grow rounded' style={{background:`url("${passedData?passedData.images[1]:data?.[0]?.images?.[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}
+            onClick={()=>{
+              setOpenModal(<ViewImageModal data={passedData? passedData.images: data?.[0]?.images}  index={1} />)
+            }}
+          />
+          <div className='ImageClickable grow rounded' style={{background:`url("${passedData?passedData.images[2]:data?.[0]?.images?.[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}
+            onClick={()=>{
+              setOpenModal(<ViewImageModal data={passedData? passedData.images: data?.[0]?.images}  index={2} />)
+            }}
+          />
+          {(passedData?passedData.images.length > 3:data?.[0]?.images.length > 3) &&
+            <p className='absolute bottom-[15px] right-[15px] px-3 py-2 bg-[black]/80 rounded-xl shadow-lg text-[white]' >
+              3+ Photos
+            </p>
+          }
+          
+        </div>
       </div>
       <div className='w-full flex md:grid gap-5' style={{gridTemplateColumns:"1fr .6fr"}}>
         <div className='grow flex flex-col gap-[2.5em]'>
@@ -154,6 +156,7 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
           </div>
         </div>
       </div>
+      <ModalComponent/>
     </Container>
   )
 }

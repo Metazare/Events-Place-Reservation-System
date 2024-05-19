@@ -17,7 +17,7 @@ import SelectField from 'src/Components/SelectField';
 import AmenitiesCard from 'src/Components/AmenitiesCard';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewEventsPlace from './ViewEventsPlace';
-
+import GoBackComp from 'src/Components/GoBackComp';
 import useFirebase from 'src/Hooks/useFirebase';
 
 import useEventsPlace from 'src/Hooks/useEventsPlace';
@@ -98,9 +98,8 @@ function CreateEventsPlace() {
   })
   return (
     <Container maxWidth="lg" className='grow px-[2em] py-[1em] gap-[1em]' sx={{display:"flex", flexDirection:'column'}}>
-      <div className='flex gap-2 cursor-[pointer] opacity-70 hover:opacity-100'>
-        <ArrowBackIcon sx={{fontSize:"25px"}}/>
-        <p>Go Back</p>
+      <div className='flex justify-start'>
+        <GoBackComp/>
       </div>
       <div className='w-full grow '>
         <div className='mt-[.5em] mb-[4em]'>

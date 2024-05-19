@@ -283,9 +283,12 @@ export default function MyListings() {
           </div>
           <div className='flex justify-between mb-9'>
             <SearchComponent/>
-            <Button variant="contained" color="primary" href='/eventsplace/create' sx={{background:"#144273",padding:".5em 3em"}}>
-              Add
-            </Button>
+            {toOpen === "My Events Place"&&
+              <Button variant="contained" color="primary" href='/eventsplace/create' sx={{background:"#144273",padding:".5em 3em"}}>
+                Add
+              </Button>
+            }
+            
           </div>
           {toOpen === "My Events Place"? <EventCardList edit={true} isHost={isHost} data={toShow} setData={setToShow}/>:<EventCardList edit={false} isHost={isHost} data={toShow} setData={setToShow}/>}
         </div>
