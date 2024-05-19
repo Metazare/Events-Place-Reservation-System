@@ -4,13 +4,14 @@ import { useFormik } from 'formik';
 import AmenitiesCard from 'src/Components/AmenitiesCard';
 import { AmenityType } from 'src/Hooks/useTypes';
 import Button from '@mui/material/Button'
-import AmenitiesField from 'src/Components/AmenitiesField';
 import useModal from 'src/Hooks/useModal';
 import DatePicker from 'src/Components/DatePicker';
 import DateRange from 'src/Components/DateRange';
 import useDates from 'src/Hooks/useDates';
 import PaymentModal from './PaymentModal';
-
+import IconButton from '@mui/material/IconButton'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 export default function ReservationForm(){
   const {setOpenModal,ModalComponent,closeModal} = useModal();
   const {getDatesToArray} = useDates()
@@ -38,7 +39,7 @@ export default function ReservationForm(){
       return errors;
     },
     onSubmit: (values) => {
-      console.log({...values,date:getDate()})
+      console.log({...values,date:getDate(),AmenitiesList:values.amenitiesList.map((amenity:any)=>{return {amenityId:amenity.amenityId,quantity:amenity.quantity}})})
       setOpenModal(<PaymentModal/>)
     },
   })
@@ -50,9 +51,6 @@ export default function ReservationForm(){
     }
   }
 
-    useEffect(()=>{
-      console.log(EventsPlaceData)
-    },[EventsPlaceData])
   const ReservationFormComp = () => {
     return <>
     <div className='w-full flex rounded-full border border-[black]/10'>
@@ -63,7 +61,6 @@ export default function ReservationForm(){
             ReservationFormik.setFieldValue("date",new Date())
           }
           setSelectedDate("Single Day");
-          
         }}
       >
         Single Day
@@ -104,6 +101,8 @@ export default function ReservationForm(){
         placeholder:"1",
         name:"guestsNumber",
         value:ReservationFormik.values.guestsNumber,
+        min:1,
+        max:100
       }}
       label="Guests" 
       type="number" 
@@ -111,12 +110,18 @@ export default function ReservationForm(){
       error={ReservationFormik.touched.guestsNumber && ReservationFormik.errors.guestsNumber !== undefined}
       errorMessages={ReservationFormik.errors.guestsNumber}
     />
-    <div >
-      <p className={`mb-2  font-[500] text-[#646464]`}>Amenities</p>
-      <div className='flex flex-col gap-3'>
-        <AmenitiesField />
+    {ReservationFormik.values.amenitiesList.length > 0 && <>
+      <div >
+        <p className={`mb-2  font-[500] text-[#646464]`}>Amenities</p>
+        <div className='flex flex-col gap-3'>
+          {ReservationFormik.values.amenitiesList.map((data:any,index:number)=>{
+            return <>
+              <AmenitiesField key={index}  data={data}/>
+            </>
+          })}
+        </div>
       </div>
-    </div>
+    </>}
     <Button variant="contained" onClick={()=>{ReservationFormik.handleSubmit()}} sx={{borderRadius:"10px !important",marginTop:"2em",background:"#144273"}}>
       Reserve
     </Button>
@@ -135,13 +140,52 @@ export default function ReservationForm(){
                   ReservationFormik.setFieldValue("amenitiesList",ReservationFormik.values.amenitiesList.filter((amenity:any)=>amenity.amenityId !== data.amenityId))
                 }
                 else{
-                  ReservationFormik.setFieldValue("amenitiesList", [...ReservationFormik.values.amenitiesList,{ amenityId: data.amenityId, quantity: 1 }])
+                  ReservationFormik.setFieldValue("amenitiesList", [...ReservationFormik.values.amenitiesList,{ ...data, quantity: 1 }])
                 }
                 // data !== null && ReservationFormik.setFieldValue("amenitiesList",ReservationFormik.setFieldValue("amenitiesList", [...ReservationFormik.values.amenitiesList,{ amenityId: data.amenityId, quantity: 1 }]))
               }}
             />
         })}
       </div> 
+    </>
+  }
+  const AmenitiesField = ({data}:any) => {
+    return <>
+      <div className='flex gap-2 items-center border border-[black]/10 p-2 rounded-xl'>
+        <div className='grow'>
+          <p className='font-semibold text-[black]/70'>{data.name}</p>
+          <p className='mt-[-7px]'>₱{data.rate} {data.amenityType ==="per day"&&"per day"} {data.amenityType ==="per quantity"&&"each"}</p>
+        </div>
+        {data.amenityType !== "one time" && <div className='flex gap-1 items-center'>
+          <IconButton aria-label="" onClick={()=>{
+            ReservationFormik.setFieldValue("amenitiesList", ReservationFormik.values.amenitiesList.map((amenity: any) => {
+              if (amenity.amenityId === data.amenityId  && data.quantity !== 1) {
+                return {
+                  ...amenity,
+                  quantity: amenity.quantity - 1
+                };
+              }
+              return amenity;
+            }));
+          }}>
+            <RemoveCircleOutlineIcon/>
+          </IconButton>
+          <span>{data.quantity}</span>
+          <IconButton aria-label="" onClick={()=>{
+            ReservationFormik.setFieldValue("amenitiesList", ReservationFormik.values.amenitiesList.map((amenity: any) => {
+              if (amenity.amenityId === data.amenityId) {
+                return {
+                  ...amenity,
+                  quantity: amenity.quantity + 1
+                };
+              }
+              return amenity;
+            }));
+          }}>
+            <AddCircleOutlineIcon/>
+          </IconButton>
+        </div>}
+      </div>
     </>
   }
   

@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip'
 
 import { useAuthContext } from 'src/Context/AuthContext';
-
+import GoBackComp from 'src/Components/GoBackComp';
 export default function ViewEventsPlace({data: passedData}:{data?:any}) {
   const {id} = useParams<{id:string}>();
   const navigate = useNavigate();
@@ -58,18 +58,13 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
   if (error) return <p>Error</p>
 
   return (
-    <Container maxWidth="lg" sx={{flexGrow:"1",display:"flex",flexDirection:"column",gap:"2em",alignItems:"start",padding:"2em 1em"}}>
-      {!data&&
-        <div className=' flex items-center gap-2 cursor-[pointer] opacity-70 hover:opacity-100'>
-          <ArrowBackIcon sx={{fontSize:"25px"}}/>
-          <p>Go Back</p>
-        </div>
+    <Container maxWidth="lg" sx={{flexGrow:"1",display:"flex",flexDirection:"column",gap:"1em",alignItems:"start",padding:"2em 1em"}}>
+      {data&&
+        <GoBackComp/>
       }
-
       <div className='w-full'>
         <div className='flex text-[#303030] items-start'>
           <h3 className='text-[27px] grow font-medium'>{passedData?.name || data?.[0]?.name}</h3>
-          
           {data?.[0]?.host?.userId === authUser?.userId?
             <Tooltip title="Update">
               <IconButton  sx={{marginTop:".1em"}} onClick={()=>{navigate('/eventsplace/update/'+data[0]?.eventsPlaceId)}}>
@@ -81,7 +76,6 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
                 <ReportIcon sx={{fontSize:"27px"}} />
               </IconButton>
             </Tooltip>
-            
           }
         </div>
         <div className='flex gap-2 items-center color-[#303030]'>
