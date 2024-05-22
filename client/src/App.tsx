@@ -20,7 +20,7 @@ import HelpDesk from './Pages/HelpDesk';
 import BecomeHost from './Pages/BecomeHost';
 import DeleteEventsPlace from './Pages/EventsPlace/DeleteEventsPlace';
 import AdminBase from './Layouts/Base/AdminBase';
-
+import Chat from './Chat/Chat';
 // Admin
 import Renters from './Pages/Admin/Renters';
 import Hosts from './Pages/Admin/Hosts';
@@ -28,7 +28,6 @@ import EventsPlace from './Pages/Admin/EventsPlace';
 import ReservationLogs from './Pages/Admin/ReservationLogs';
 import TransactionLogs from './Pages/Admin/TransactionLogs';
 import HelpDeskAdmin from './Pages/Admin/HelpDesk';
-// import Report from './Pages/Admin/Report';
 
 // Hooks
 import { ProtectedRoute } from './Hooks/useAuth';
@@ -65,6 +64,7 @@ function App() {
           <Route path="/invoice" element={<Invoice/>} />
           <Route path="/helpdesk" element={<HelpDesk/>} />
         </Route>
+        <Route path="/chat" element={<Chat/>} />
 
         <Route element={<ProtectedRoute allowedRoles={["admin"]}/>}>
           <Route element={<AdminBase />} >
@@ -73,7 +73,7 @@ function App() {
             <Route path="/admin/eventsplace" element={<EventsPlace/>} />
             <Route path="/admin/reservationlogs" element={<ReservationLogs/>} />
             <Route path="/admin/transactions" element={<TransactionLogs/>} />
-            {/* <Route path="/admin/report" element={<Report/>} /> */}
+            <Route path="/admin/helpdesk" element={<HelpDeskAdmin/>} />
           </Route>
         </Route>
 

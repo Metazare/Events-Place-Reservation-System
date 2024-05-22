@@ -8,13 +8,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from 'src/Context/AuthContext'
 import { useLogout } from 'src/Hooks/useAuth';
-
+import useMenu from 'src/Hooks/useMenu';
 export default function Header() {
   const navigate = useNavigate()
   const {authUser} = useAuthContext();
   const {logout} = useLogout();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+  const {menuVariables,setMenuVariables,MenuComp,MenuItemComp,handleClose} = useMenu();
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -28,12 +28,16 @@ export default function Header() {
           </Box>
           {authUser?
             <>
-              <Button variant="outlined" sx={{borderColor:"white",opacity:".9",borderRadius:"15px",padding:".4em 1.5em",color:"white", ":hover":{borderColor:"white"}}}>
-                Renter Mode
-              </Button>
-              <div className='border-l-2 border-[white]/60 pl-2 ml-2'>
+              <div className='flex items-center'>
+                <div className='border-r-2 border-[white]/60 pr-4 hidden sm:block '>
+                  <Button variant="outlined" sx={{borderColor:"white",opacity:".9",borderRadius:"15px",padding:".4em 1.5em",color:"white", ":hover":{borderColor:"white"}}}>
+                    Renter Mode
+                  </Button>
+                </div>
                 <Tooltip title="Notification">
-                  <IconButton aria-label="" onClick={()=>{}}>
+                  <IconButton aria-label="" onClick={(e)=>{
+                    setMenuVariables({...menuVariables,anchorEl:e.currentTarget,content:<NotificationMenu/>})
+                  }}>
                     <NotificationsIcon sx={{color:"white"}}/>
                   </IconButton>
                 </Tooltip>
@@ -64,6 +68,16 @@ export default function Header() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
+                  <div className='sm:hidden'>
+                    <MenuItem onClick={()=>{
+                      // navigate("/profile")
+                      // handleCloseUserMenu()
+                    }}>
+                      <Typography textAlign="center">
+                        Switch to Renter Mode
+                      </Typography>
+                    </MenuItem>
+                  </div>
                   <MenuItem onClick={()=>{
                     navigate("/profile")
                     handleCloseUserMenu()
@@ -102,6 +116,31 @@ export default function Header() {
           }
         </Toolbar>
       </Container>
+      <MenuComp/>
     </AppBar>
   )
+}
+
+const NotificationMenu = () => {
+  return<>
+    <div className='px-4 w-[100vw] max-w-[300px]'> 
+      <p className='pb-1 border-b border-[black]/10 font-semibold'>Notifications</p>
+      <div className='flex flex-col max-h-[300px] gap-1 pt-2'>
+        <div className='p-4 bg-[black]/5 hover:bg-[black]/15 rounded-xl flex cursor-pointer' style={{transition:"all .3s ease-in-out"}}>
+          <Avatar variant="circular" src="" alt="" sx={{ width: '40px', height: '40px' }} />
+          <div className='pt-[5px]'>
+            <p className=' text-[14px] leading-[14px] font-semibold'>Title</p>
+            <p className='text-[10px] text-justify'>Description</p>
+          </div>
+        </div>
+        <div className='p-4 bg-[black]/5 hover:bg-[black]/15 rounded-xl flex cursor-pointer' style={{transition:"all .3s ease-in-out"}}>
+          <Avatar variant="circular" src="" alt="" sx={{ width: '40px', height: '40px' }} />
+          <div className='pt-[5px]'>
+            <p className=' text-[14px] leading-[14px] font-semibold'>Title</p>
+            <p className='text-[10px] text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, quaerat.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
 }

@@ -10,6 +10,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useNavigate } from 'react-router-dom';
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import useMenu from 'src/Hooks/useMenu';
+
 export default function AdminBase() {
   const {menuVariables,setMenuVariables,MenuComp,MenuItemComp,handleClose} = useMenu();
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function AdminBase() {
           <div>
             <IconButton aria-label="" 
               onClick={(e)=>{
-                setMenuVariables({...menuVariables,anchorEl:e.currentTarget,content:<ProfileMenu/>})
+                setMenuVariables({...menuVariables,anchorEl:e.currentTarget,content:<ProfileMenu/>,menuCloseClick:false})
               }}
             >
               <Avatar variant="circular" src="" alt="" sx={{ width: '40px', height: '40px' }} />

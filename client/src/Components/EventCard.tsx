@@ -21,7 +21,7 @@ export default function EventCard({data,type}: PropsType) {
       <div className='relative w-[full] aspect-card bg-[gray]/10 rounded-md' style={{background:`url("${data?.images[0]}")`,backgroundSize:"cover"}}>
         {type==="manage"&&<div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[100%] h-[100%] bg-[black]/40 flex justify-center items-center gap-4 rounded-md opacity-0 hover:opacity-100 ' style={{transition:"all .3s ease-in"}}>
           <Tooltip title="Delete">
-            <IconButton aria-label="" onClick={()=>{navigate("/delete")}}>
+            <IconButton aria-label="" onClick={()=>{navigate("/eventsplace/delete")}}>
               <DeleteIcon sx={{color:"white"}}/>
             </IconButton>
           </Tooltip>

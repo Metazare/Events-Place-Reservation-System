@@ -12,7 +12,7 @@ interface PropsType {
 export default function Layout({closeModal, data}:PropsType) {
   const [divider,setDivider] = useState("Basic Information");
   return (
-    <div className='w-[90vw] md:w-[500px] flex flex-col gap-6 min-h-[50vh]'>
+    <div className='w-[90vw] md:w-[500px] flex flex-col gap-6 min-h-[50vh] p-4'>
       <div className='flex justify-between'>
         <h6 className='text-[25px] text-primary font-[700]'>Update Profile</h6>
         <IconButton aria-label="" onClick={closeModal}>

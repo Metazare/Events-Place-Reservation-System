@@ -1,58 +1,20 @@
-import React, {useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import Container from '@mui/material/Container'
 import EventCard from 'src/Components/EventCard'
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button'
 import SideBarMenu from 'src/Components/SideBarMenu'
-import { set } from 'date-fns';
 import ReservationCard from '../../Components/ReservationCard';
+
+// Hooks
+import useEventsPlace from 'src/Hooks/useEventsPlace';
+import useSearch from 'src/Hooks/useSearch';
+
 export default function MyListings() {
+  const {SearchComponent} = useSearch();
+  const {data,loading,error,getEventsPlace} = useEventsPlace();
   const [toOpen,setToOpen] = useState("Upcoming")
-  const [isHost,setIsHost] = useState(false)
-  const SampleData = [
-    {
-      title:"Event Title",
-      date:"2021-10-10",
-      time:"10:00 AM",
-      status:"Upcoming"
-    },
-    {
-      title:"Event Title",
-      date:"2021-10-10",
-      time:"10:00 AM",
-      status:"Upcoming"
-    },
-    {
-      title:"Event Title",
-      date:"2021-10-10",
-      time:"10:00 AM",
-      status:"Upcoming"
-    },
-    {
-      title:"Event Title",
-      date:"2021-10-10",
-      time:"10:00 AM",
-      status:"Upcoming"
-    },
-    {
-      title:"Event Title",
-      date:"2021-10-10",
-      time:"10:00 AM",
-      status:"Upcoming"
-    },
-    {
-      title:"Event Title",
-      date:"2021-10-10",
-      time:"10:00 AM",
-      status:"Upcoming"
-    },
-    {
-      title:"Event Title",
-      date:"2021-10-10",
-      time:"10:00 AM",
-      status:"Upcoming"
-    },
-  ]
+  const [isHost,setIsHost] = useState(true)
   const MenuContent:any = {
     host:[
       {
@@ -87,12 +49,6 @@ export default function MyListings() {
       {
         label:"Completed",
         data:[
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
           {
             title:"Event Title",
             date:"2021-10-10",
@@ -145,14 +101,7 @@ export default function MyListings() {
     ],
     hostEventsPlace:{
       label:"My Events Place",
-      data:[
-        {
-          title:"Event Title",
-          date:"2021-10-10",
-          time:"10:00 AM",
-          status:"Upcoming"
-        },
-      ]
+      data:data
     },
     renter:[
       {
@@ -267,9 +216,14 @@ export default function MyListings() {
       }
     ]
   }
-  const [toShow,setToShow] = useState([])
-  
-  
+  useEffect(()=>{
+    getEventsPlace('')
+    setToShow(isHost?MenuContent.host[0].data:MenuContent.renter[0].data)
+  },[])
+
+  const [toShow,setToShow] = useState<null|any>([])
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error</p>
   return (
     <Container  maxWidth="lg" sx={{flexGrow:"1",display:"flex"}}> 
       <div className='md:grid grow w-full gap-4 ' style={{padding:"1em 0",gridTemplateColumns:"250px 1fr"}}>
@@ -294,6 +248,7 @@ export default function MyListings() {
                   <Button  variant="contained" fullWidth sx={{background:"white",color:"black",marginTop:"1em" ,":hover":{background:"white"}}}
                     onClick={()=>{
                       setToOpen("My Events Place")
+                      setToShow(MenuContent.hostEventsPlace.data)
                     }}
                   >
                     View Lists
@@ -312,9 +267,27 @@ export default function MyListings() {
             <h3 className='text-[19px] font-semibold'>{isHost?"My Listings":"My Reservations"}</h3>
             <div className='flex flex-wrap gap-1 mt-2'>
               {MenuContent[isHost?"host":"renter"].map((data,index)=>(
-                <Chip key={index} label={data.label} variant={toOpen === data.label? "filled":"outlined"} onClick={()=>{setToOpen(data.label)}} />
+                <Chip key={index} label={data.label} variant={toOpen === data.label? "filled":"outlined"} 
+                onClick={()=>{
+                  setToOpen(data.label)
+                  setToShow(data.data)
+                }} />
               ))}
+              <Chip label={"My Events Place"} variant={toOpen === "My Events Place"? "filled":"outlined"} 
+                onClick={()=>{
+                  setToOpen("My Events Place")
+                  setToShow(MenuContent.hostEventsPlace.data)
+                }} 
+              />
             </div>
+          </div>
+          <div className='flex justify-between mb-9'>
+            <SearchComponent/>
+            {toOpen === "My Events Place"&&
+              <Button variant="contained" color="primary" href='/eventsplace/create' sx={{background:"#144273",padding:".5em 3em"}}>
+                Add
+              </Button>
+            }
             
           </div>
           {toOpen === "My Events Place"? <EventCardList edit={true} isHost={isHost} data={toShow} setData={setToShow}/>:<EventCardList edit={false} isHost={isHost} data={toShow} setData={setToShow}/>}
@@ -328,9 +301,9 @@ export default function MyListings() {
 function EventCardList({isHost,data,edit,setData}: {isHost:boolean,data:any,edit:boolean,setData:any}){
   return<>
     <div className={`grid  mb-7`} style={isHost && !(isHost && edit)?{gridTemplateColumns:"repeat(auto-fill, minmax(250px, 1fr))",gap:"1em"}:{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))",gap:"1.5em"}}>
-      {data.map((data,index)=>(
+      {data.map((data:any,index:any)=>(
         isHost?
-          edit? <EventCard data={[]} type={"manage"} key={index}/>: <ReservationCard key={index} /> 
+          edit?<EventCard key={data._id} data={data} type="manage"/> : <ReservationCard key={index} /> 
           :
           <EventCard  data={data} type='booked' key={index}/>
       ))}
