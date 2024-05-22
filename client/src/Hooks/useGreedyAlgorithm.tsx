@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 
+// Define the type for the sorting order
+type SortOrder = 'asc' | 'desc';
+
 // Custom hook for sorting data using a greedy algorithm
-function useGreedyAlgorithm<T>(data: T[], key: keyof T): T[] {
+function useGreedyAlgorithm<T>(data: T[], key: keyof T, order: SortOrder = 'asc'): T[] {
     // State to hold the sorted data
     const [sortedData, setSortedData] = useState<T[]>([]);
 
     useEffect(() => {
         // Function to perform the greedy sorting
-        const greedySort = (data: T[], key: keyof T): T[] => {
+        const greedySort = (data: T[], key: keyof T, order: SortOrder): T[] => {
             // Create a copy of the data to avoid mutating the original array
             const sorted = [...data];
 
@@ -18,28 +21,29 @@ function useGreedyAlgorithm<T>(data: T[], key: keyof T): T[] {
                 const valueB = b[key];
 
                 // Handle comparison based on the type of the values
+                let comparison = 0;
                 if (typeof valueA === 'number' && typeof valueB === 'number') {
-                    return valueA - valueB; // Numeric comparison
-                }
-                if (typeof valueA === 'string' && typeof valueB === 'string') {
-                    return valueA.localeCompare(valueB); // String comparison
+                    comparison = valueA - valueB; // Numeric comparison
+                } else if (typeof valueA === 'string' && typeof valueB === 'string') {
+                    comparison = valueA.localeCompare(valueB); // String comparison
                 }
 
-                // Fallback for unsupported types (objects, arrays, etc.)
-                return 0;
+                // Adjust comparison result based on the sort order
+                return order === 'asc' ? comparison : -comparison;
             });
 
             return sorted; // Return the sorted array
         };
 
-        // Sort the data whenever 'data' or 'key' changes
-        setSortedData(greedySort(data, key));
-    }, [data, key]); // Dependencies array: triggers useEffect when data or key changes
+        // Sort the data whenever 'data', 'key', or 'order' changes
+        setSortedData(greedySort(data, key, order));
+    }, [data, key, order]); // Dependencies array: triggers useEffect when data, key, or order changes
 
     return sortedData; // Return the sorted data
 }
 
 export default useGreedyAlgorithm;
+
 
 // Example usage
 // Initial state with an array of items
@@ -51,4 +55,4 @@ export default useGreedyAlgorithm;
 
 // Use the custom hook to get the sorted items
 // Sorting by the 'value' property
-    // const sortedItems = useGreedyAlgorithm(items, 'value');
+    // const sortedItems = useGreedyAlgorithm(items, 'value', 'asc');
