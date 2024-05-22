@@ -2,7 +2,38 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import LogoIcon from 'src/Images/Logo/LogoBox.svg';
 import Timeline from 'src/Components/Timeline';
-export default function PaymentModal() {
+
+import useReservation from 'src/Hooks/useReservation';
+
+
+import toast from "react-hot-toast";
+
+import { useNavigate } from "react-router-dom";
+
+interface Data {
+  eventsPlaceId: string;
+  amenities: Array<{
+    amenityId: string;
+    quantity: number;
+  }>;
+  guestCount: number;
+  startDate: number;
+  days: number;
+}
+
+export default function PaymentModal({data}: {data: Data}) {
+  const { createReservation } = useReservation();
+  const navigate = useNavigate();
+
+  const submitReservation = (e: any) => {
+    e.preventDefault();
+    createReservation(data);
+    toast.success("Reservation set!");
+                  setTimeout(() => {
+                      navigate('/');
+                  }, 2000);
+}
+
   return <>
     <div className=' w-[100vw] max-w-[1000px]  min-h-[550px] overflow-hidden rounded-xl flex flex-col sm:grid' style={{gridTemplateColumns:"60% 40%"}}>
       <div className='p-[1.5em] flex flex-col grow'>
@@ -20,7 +51,7 @@ export default function PaymentModal() {
         <div className='grow justify-center items-start hidden sm:flex'>
           <img src={LogoIcon} className='w-[40%] mt-[20%]' alt="" />
         </div>
-        <Button variant="contained" sx={{background:"#2D74B4"}} fullWidth>
+        <Button variant="contained" sx={{background:"#2D74B4"}} fullWidth onClick={submitReservation}>
           Reserve
         </Button>
       </div>

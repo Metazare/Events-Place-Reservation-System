@@ -55,8 +55,8 @@ export default function Profile() {
             ) : null}
           </Paper>
           <div className='p-4 grow'>
-            <h6 className='text-[20px] font-[500] opacity-75'>Event Place</h6>
-            <h6 className='text-[20px] font-[500] opacity-75'>Previews Reviews </h6>
+            <h6 className='text-[20px] font-[500] opacity-75'>Event Places</h6>
+            {/* <h6 className='text-[20px] font-[500] opacity-75'>Previews Reviews </h6> */}
           </div>
         </Container>
       )}

@@ -25,22 +25,41 @@ export default function ReservationForm(){
   const[EventsPlaceData,setEventsPlaceData] = useState<any>({})
   const ReservationFormik = useFormik({
     initialValues: {
-      guestsNumber:1,
+      guestCount:1,
       renterID:"",
       hostID:"",
-      EventsPlaceID:"",
+      eventsPlaceId:"",
       status:"",
       timeStamp:"",
-      amenitiesList:[],
-      date: new Date(),
+      amenities:[],
+      date: [new Date()],
     },
     validate: (values) => {
       const errors:{ [key:string]:string}  = {};
       return errors;
     },
     onSubmit: (values) => {
-      console.log({...values,date:getDate(),AmenitiesList:values.amenitiesList.map((amenity:any)=>{return {amenityId:amenity.amenityId,quantity:amenity.quantity}})})
-      setOpenModal(<PaymentModal/>)
+      let data = {
+        ...values,
+        date:getDate(),
+        eventsPlaceId:EventsPlaceData.eventsPlaceId,
+        startDate:values.date[0].getTime(),
+        days:values.date.length,
+        AmenitiesList:values.amenities.map((amenity:any)=>{
+          return {amenityId:amenity.amenityId,quantity:amenity.quantity}
+        })
+      }
+      console.log({
+        ...values,
+        date:getDate(),
+        eventsPlaceId:EventsPlaceData.eventsPlaceId,
+        startDate:values.date[0].getTime(),
+        days:values.date.length,
+        AmenitiesList:values.amenities.map((amenity:any)=>{
+          return {amenityId:amenity.amenityId,quantity:amenity.quantity}
+        })
+      })
+      setOpenModal(<PaymentModal data={data}/>)
     },
   })
   function getDate(){
@@ -99,22 +118,22 @@ export default function ReservationForm(){
     <TextField 
       attr={{
         placeholder:"1",
-        name:"guestsNumber",
-        value:ReservationFormik.values.guestsNumber,
+        name:"guestCount",
+        value:ReservationFormik.values.guestCount,
         min:1,
         max:100
       }}
       label="Guests" 
       type="number" 
       handleChange={ReservationFormik.handleChange}
-      error={ReservationFormik.touched.guestsNumber && ReservationFormik.errors.guestsNumber !== undefined}
-      errorMessages={ReservationFormik.errors.guestsNumber}
+      error={ReservationFormik.touched.guestCount && ReservationFormik.errors.guestCount !== undefined}
+      errorMessages={ReservationFormik.errors.guestCount}
     />
-    {ReservationFormik.values.amenitiesList.length > 0 && <>
+    {ReservationFormik.values.amenities.length > 0 && <>
       <div >
         <p className={`mb-2  font-[500] text-[#646464]`}>Amenities</p>
         <div className='flex flex-col gap-3'>
-          {ReservationFormik.values.amenitiesList.map((data:any,index:number)=>{
+          {ReservationFormik.values.amenities.map((data:any,index:number)=>{
             return <>
               <AmenitiesField key={index}  data={data}/>
             </>
@@ -132,17 +151,17 @@ export default function ReservationForm(){
     return <>
       <div className='grid gap-4' style={{gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))"}}>
         {EventsPlaceData?.amenities?.map((data:any,index)=>{
-          let isSelected = ReservationFormik.values.amenitiesList.find((amenity:any)=>amenity.amenityId === data.amenityId) !== undefined;
+          let isSelected = ReservationFormik.values.amenities.find((amenity:any)=>amenity.amenityId === data.amenityId) !== undefined;
           return <AmenitiesCard data={data} key={index} 
               isSelected={isSelected} 
               clickHandler={()=>{
                 if(isSelected){
-                  ReservationFormik.setFieldValue("amenitiesList",ReservationFormik.values.amenitiesList.filter((amenity:any)=>amenity.amenityId !== data.amenityId))
+                  ReservationFormik.setFieldValue("amenities",ReservationFormik.values.amenities.filter((amenity:any)=>amenity.amenityId !== data.amenityId))
                 }
                 else{
-                  ReservationFormik.setFieldValue("amenitiesList", [...ReservationFormik.values.amenitiesList,{ ...data, quantity: 1 }])
+                  ReservationFormik.setFieldValue("amenities", [...ReservationFormik.values.amenities,{ ...data, quantity: 1 }])
                 }
-                // data !== null && ReservationFormik.setFieldValue("amenitiesList",ReservationFormik.setFieldValue("amenitiesList", [...ReservationFormik.values.amenitiesList,{ amenityId: data.amenityId, quantity: 1 }]))
+                // data !== null && ReservationFormik.setFieldValue("amenities",ReservationFormik.setFieldValue("amenities", [...ReservationFormik.values.amenities,{ amenityId: data.amenityId, quantity: 1 }]))
               }}
             />
         })}
@@ -158,7 +177,7 @@ export default function ReservationForm(){
         </div>
         {data.amenityType !== "one time" && <div className='flex gap-1 items-center'>
           <IconButton aria-label="" onClick={()=>{
-            ReservationFormik.setFieldValue("amenitiesList", ReservationFormik.values.amenitiesList.map((amenity: any) => {
+            ReservationFormik.setFieldValue("amenities", ReservationFormik.values.amenities.map((amenity: any) => {
               if (amenity.amenityId === data.amenityId  && data.quantity !== 1) {
                 return {
                   ...amenity,
@@ -172,7 +191,7 @@ export default function ReservationForm(){
           </IconButton>
           <span>{data.quantity}</span>
           <IconButton aria-label="" onClick={()=>{
-            ReservationFormik.setFieldValue("amenitiesList", ReservationFormik.values.amenitiesList.map((amenity: any) => {
+            ReservationFormik.setFieldValue("amenities", ReservationFormik.values.amenities.map((amenity: any) => {
               if (amenity.amenityId === data.amenityId) {
                 return {
                   ...amenity,
