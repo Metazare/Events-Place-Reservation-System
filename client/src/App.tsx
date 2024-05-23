@@ -61,7 +61,7 @@ function App() {
           <Route path="/eventsplace/view/:id" element={<ViewEventsPlace/>} />
 
           <Route path="/listing" element={<MyListings/>} />
-          <Route path="/invoice" element={<Invoice/>} />
+          <Route path="/invoice/:id" element={<Invoice/>} />
           <Route path="/helpdesk" element={<HelpDesk/>} />
         </Route>
         <Route path="/chat" element={<Chat/>} />
