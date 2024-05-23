@@ -25,12 +25,13 @@ export default function PaymentModal({data}: {data: Data}) {
   const { createReservation } = useReservation();
   const navigate = useNavigate();
 
-  const submitReservation = (e: any) => {
+  const submitReservation = async (e: any) => {
     e.preventDefault();
-    createReservation(data);
+    const response = await createReservation(data);
+    console.log(response);
     toast.success("Reservation set!");
                   setTimeout(() => {
-                      navigate('/');
+                      navigate('/invoice/'+response.reservationId);
                   }, 2000);
 }
 

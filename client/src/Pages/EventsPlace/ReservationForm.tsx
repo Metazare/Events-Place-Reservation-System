@@ -49,16 +49,6 @@ export default function ReservationForm(){
           return {amenityId:amenity.amenityId,quantity:amenity.quantity}
         })
       }
-      console.log({
-        ...values,
-        date:getDate(),
-        eventsPlaceId:EventsPlaceData.eventsPlaceId,
-        startDate:values.date[0].getTime(),
-        days:values.date.length,
-        AmenitiesList:values.amenities.map((amenity:any)=>{
-          return {amenityId:amenity.amenityId,quantity:amenity.quantity}
-        })
-      })
       setOpenModal(<PaymentModal data={data}/>)
     },
   })

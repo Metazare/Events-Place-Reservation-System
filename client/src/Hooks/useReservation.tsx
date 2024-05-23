@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import useRequest from './useRequest';
+import axios from './useAxios';
 
 interface CreateReservationData {
   eventsPlaceId: string;
@@ -34,12 +35,14 @@ function useReservation() {
     });
   };
 
-  const createReservation = (content: CreateReservationData) => {
-    makeRequest({
-      method: 'post',
-      url: '/reservation',
-      data: content,
-    });
+  const createReservation = async (content: CreateReservationData) => {
+    try {
+      const response = await axios.post('/reservation', content);
+      return response.data;
+    } 
+    catch (error: any) {
+      console.error('Error making request:', error);
+    }
   };
 
   const updateReservation = (id: string, content: UpdateReservationData) => {
