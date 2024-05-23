@@ -217,7 +217,7 @@ export default function MyListings() {
     ]
   }
   useEffect(()=>{
-    getEventsPlace('')
+    getEventsPlace();
     setToShow(isHost?MenuContent.host[0].data:MenuContent.renter[0].data)
   },[])
 
