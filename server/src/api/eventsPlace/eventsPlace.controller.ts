@@ -71,7 +71,7 @@ export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateE
 };
 
 export const getEventsPlace: RequestHandler = async (req: QueryRequest<GetEventsPlace>, res) => {
-    const { user, query } = req;
+    const { query } = req;
     const { eventsPlaceId } = query;
 
     const checker = new CheckData();
@@ -79,9 +79,6 @@ export const getEventsPlace: RequestHandler = async (req: QueryRequest<GetEvents
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
     const eventsPlaceQuery: EventsPlaceQuery = {};
-    if (user) {
-        eventsPlaceQuery.host = user._id;
-    }
 
     if (eventsPlaceId) {
         eventsPlaceQuery.eventsPlaceId = eventsPlaceId;
