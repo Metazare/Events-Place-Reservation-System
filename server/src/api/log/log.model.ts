@@ -1,6 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 import { LogDocument, LogEvent } from './log.types';
 import { id } from '../../utilities/ids';
+import { ReservationStatus } from '../reservation/reservation.types';
 
 const logSchema = new Schema(
     {
@@ -18,16 +19,31 @@ const logSchema = new Schema(
             type: String,
             required: true
         },
-        userId: String,
-        ownerId: String,
+        user: {
+            type: Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
         hostId: String,
         reviewerId: String,
         reserveeId: String,
         eventsPlaceId: String,
         reservationId: String,
         reviewId: String,
-        oldStatus: Boolean,
-        newStatus: Boolean
+        oldStatus: {
+            type: String,
+            enum: {
+                values: Object.values(ReservationStatus),
+                message: '{VALUE} is not supported'
+            }
+        },
+        newStatus: {
+            type: String,
+            enum: {
+                values: Object.values(ReservationStatus),
+                message: '{VALUE} is not supported'
+            }
+        }
     },
     {
         timestamps: true,
