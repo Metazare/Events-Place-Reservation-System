@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
 import axios from './useAxios';
 
@@ -94,6 +94,7 @@ const useRegister = () => {
     const { login } = useLogin(); 
     const [loading, setLoading] = useState(false);
     const { setAuthUser } = useAuthContext();
+    const navigate = useNavigate();
 
     const handleInputErrors = (data: RegisterData): boolean => {
         const { firstName, lastName, contact, email, password} = data;
@@ -129,6 +130,7 @@ const useRegister = () => {
                 login({ email: data.email, password: data.password });
                 localStorage.setItem("user", JSON.stringify(response.data));
                 setAuthUser(response.data);
+                navigate('/profile');
             });
 
         } catch (error: any) {
@@ -208,4 +210,14 @@ const usePasswordReset = () => {
     return { loading, forgetPassword, resetPassword };
 }
 
-export { useLogin, useLogout, useRegister, usePasswordReset };
+const ProtectedRoute = ({ allowedRoles }) => {
+    const { authUser } = useAuthContext();
+
+    return (
+        authUser
+            ? <Outlet/>   
+            : <Navigate to="/login"/>
+    );
+};
+
+export { useLogin, useLogout, useRegister, usePasswordReset, ProtectedRoute };

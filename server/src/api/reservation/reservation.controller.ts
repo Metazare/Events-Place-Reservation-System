@@ -1,6 +1,7 @@
 import { AmenityDocument } from '../amenity/amenity.types';
 import { BodyRequest, QueryRequest, RequestHandler } from 'express';
-import { CheckData } from '../../utilities/checkData';
+import { CheckData } from '../../utilities/checkData'
+import { id } from '../../utilities/ids';
 import {
     CancelReservation,
     CreateReservation,
@@ -74,7 +75,7 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
     const { user, body } = req;
     if (!user) throw new Unauthorized();
 
-    const { eventsPlaceId, amenities, startDate, days } = body;
+    const { eventsPlaceId, amenities, startDate, days, guestCount } = body;
     const checker = new CheckData();
 
     checker.checkType(eventsPlaceId, 'string', 'eventsPlaceId');
@@ -139,13 +140,21 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
     
     if (existing.length > 0) throw new Conflict('Existing reservation found');
 
+    let reservationId = id(2);
+
     // Create reservation
     const reservation = await ReservationModel.create({
+        reservationId: reservationId,
         renter: user._id,
         host: eventsPlace.host,
         eventsPlace: eventsPlace._id,
         amenities: availableAmenities,
-        duration: { start, end }
+        duration: { start, end },
+        guestCount: guestCount,
+        status: {
+            payment: PaymentStatus.UNPAID,
+            reservation: ReservationStatus.PENDING
+        }
     });
 
     setTimeout(() => {
@@ -157,7 +166,7 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
         }
     }, 10 * minutesToMillis); // 1 day
 
-    res.sendStatus(201);
+    res.json({ reservationId });
 };
 
 export const payReservation: RequestHandler = async (_req, _res) => {};

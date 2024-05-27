@@ -3,6 +3,8 @@ import { Email } from './email.types';
 import envs from '../../utilities/envs';
 
 const nodemailer = require('nodemailer');
+
+
 const { NODEMAILER_EMAIL, NODEMAILER_PASSWORD } = envs;
 const transporter = nodemailer.createTransport({
     service: 'outlook',

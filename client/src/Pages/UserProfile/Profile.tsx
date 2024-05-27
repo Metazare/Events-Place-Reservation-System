@@ -39,7 +39,7 @@ export default function Profile() {
       {data && data[0] && (
         <Container maxWidth="xl" sx={{display:'flex', flexDirection:{xs:"column",sm:"row"},gap:".5em",padding:"1em"}}>
           <Paper variant="elevation" elevation={1} sx={{borderRadius:"15px",padding:"2em 1em 1em", width:{xs:"100%",sm:"250px" },display:"flex",flexDirection:"column",alignItems:"center"}}>
-            <Avatar variant="circular" src="" alt="Sample" sx={{ width: '65px', height: '65px' }} />
+            <Avatar variant="circular" src={data[0]?.photo} alt="Sample" sx={{ width: '65px', height: '65px' }} />
             <div className='w-full mt-7'>
               <h6 className='text-[15px]'>{data[0]?.name?.first} {data[0].name?.middle} {data[0].name?.last} {data[0].name?.suffix}</h6>
               <p className='text-[10px] font-[500] opacity-65'>Full Name</p>
@@ -55,8 +55,8 @@ export default function Profile() {
             ) : null}
           </Paper>
           <div className='p-4 grow'>
-            <h6 className='text-[20px] font-[500] opacity-75'>Event Place</h6>
-            <h6 className='text-[20px] font-[500] opacity-75'>Previews Reviews </h6>
+            <h6 className='text-[20px] font-[500] opacity-75'>Event Places</h6>
+            {/* <h6 className='text-[20px] font-[500] opacity-75'>Previews Reviews </h6> */}
           </div>
         </Container>
       )}

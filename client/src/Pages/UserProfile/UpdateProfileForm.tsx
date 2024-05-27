@@ -18,7 +18,8 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
       firstName: data[0]?.name?.first || '',
       middleName: data[0]?.name?.middle || '',
       lastName: data[0]?.name?.last || '',
-      suffixName: data[0]?.name?.suffixName || ''
+      suffixName: data[0]?.name?.suffixName || '',
+      contact: data[0]?.contact || ''
     },
     validate: values => {
       let error:{ firstName?:string, middleName?:string, lastName?:string, suffixName?:string, contact?:string, email?: string, password?:string, confirmPassword?:string} = {};
@@ -102,6 +103,27 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
           handleChange={UpdateProfileForm.handleChange}
           error={UpdateProfileForm.touched.suffixName && UpdateProfileForm.errors.suffixName !== undefined}
           errorMessages={typeof UpdateProfileForm.errors.suffixName}
+        />
+      </Box>
+      <Box className='grid' sx={{ 
+        display: 'grid',
+        gap:"1em",
+        gridTemplateColumns: { 
+          xs: '1fr', 
+          sm: '67% 30%' 
+        },
+      }}>
+        <TextField 
+          attr={{
+            placeholder:"",
+            name:"contact",
+            value:UpdateProfileForm.values.contact,
+          }}
+          label="Contact Number" 
+          type="text" 
+          handleChange={UpdateProfileForm.handleChange}
+          error={UpdateProfileForm.touched.contact && UpdateProfileForm.errors.contact !== undefined}
+          errorMessages={typeof UpdateProfileForm.errors.contact}
         />
       </Box>
     </div>

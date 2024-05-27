@@ -1,6 +1,4 @@
 import 'dotenv/config';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
@@ -54,5 +52,5 @@ mongoose
     .connect(MONGO_URI)
     .then(() => console.log('Connected to database'))
     .then(createAdminAccount)
-    .then(() => app.listen(PORT, () => console.log(`Listening on port ${PORT}`)))
+    .then(() => server.listen(PORT, () => console.log(`Listening on port ${PORT}`)))
     .catch(console.error);

@@ -9,7 +9,7 @@ import Conversation from './conversation.model';
 export const sendMessage: RequestHandler = async (req: BodyRequest<MessageDocument>, res) => {
     if (!req.user) throw new Unauthorized();
     const user = req.user;
-    const senderId = user._id;
+    const senderId = user.userId;
 
     const { receiverId, message } = req.body;
 
@@ -55,7 +55,7 @@ export const getMessages: RequestHandler = async (req: QueryRequest<GetMessageDa
     if (!req.user) throw new Unauthorized();
     const user = req.user;
 
-    const senderId = user._id;
+    const senderId = user.userId;
 
     const { receiverId } = req.query;
     const checker = new CheckData();
@@ -77,4 +77,20 @@ export const getMessages: RequestHandler = async (req: QueryRequest<GetMessageDa
     const messages = conversation.messages;
 
     res.json(messages);
+};
+
+export const getConversations: RequestHandler = async (req, res) => {
+    if (!req.user) throw new Unauthorized();
+    const user = req.user;
+    const userId = user.userId;
+
+    if (!userId) {
+        throw new Error("User ID not found");
+    }
+
+    const conversations = await Conversation.find({
+        participants: { $in: [userId] },
+    }).populate("messages");
+
+    res.json(conversations);
 };

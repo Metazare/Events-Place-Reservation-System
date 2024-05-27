@@ -7,7 +7,7 @@ const router = Router();
 
 router.use(authenticate);
 
-router.get('/:accessUser', asynchronousHandler(getReservations));
+router.get('/:reservationUser', asynchronousHandler(getReservations));
 
 router.post('/', asynchronousHandler(createReservation));
 

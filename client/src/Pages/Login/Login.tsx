@@ -9,7 +9,8 @@ import GoogleIcon from "../../Images/Logo/google.png"
 import CardBaseLoginRegister from 'src/Layouts/CardBaseLoginRegister';
 import TextField from 'src/Components/TextField';
 import {  Button} from '@mui/material';
-
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 // Hooks
 import { useLogin } from '../../Hooks/useAuth';
 
@@ -75,10 +76,20 @@ export default function Login() {
             <p className='text-[10px] opacity-50'>or continue with</p>
             <hr className='grow opacity-50'/>
           </div>
-
-          <div className='w-full flex gap-3 justify-center bg-[#F7F7F7] p-2 cursor-pointer hover:bg-[#e9e9e9] mt-3 rounded-xl opacity-90 font-[4  00]' style={{transition:"all .3s ease-in-out"}}>
-            <img src={GoogleIcon} alt="" width={"25px"}/>
-            <p>Google</p>
+          <div className=' w-full flex justify-center mt-2' >
+            <GoogleLogin
+              onSuccess={credentialResponse => {
+                if(credentialResponse.credential){
+                  const token = credentialResponse.credential;
+                  const decoded: { email?:string} = jwtDecode(token);
+                  console.log(decoded.email)
+                }
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+              theme='outline'
+            />
           </div>
         </div>
       </CardBaseLoginRegister>

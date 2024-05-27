@@ -1,110 +1,132 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import { useParams } from 'react-router-dom';
+
+// Imported Components
 import Container from '@mui/material/Container'
 import StarIcon from '@mui/icons-material/Star';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ReportIcon from '@mui/icons-material/Report';
 import IconButton from '@mui/material/IconButton'
-import AmenitiesCard from 'src/Components/AmenitiesCard';
-import { AmenityType } from 'src/Hooks/useTypes';
 import ChatIcon from '@mui/icons-material/Chat';
 import Avatar from '@mui/material/Avatar'
-import ReviewCard from 'src/Components/ReviewCard';
 import Rating from '@mui/material/Rating';
-export default function ViewEventsPlace({data}:{data?:any}) {
 
-  const SampleAmenitie: AmenityType[] = [
-    {
-      id:"1",
-      name:"Complementary Drinks",
-      amenityType:"perQuantity",
-      rate:100
-    },
-    {
-      id:"2",
-      name:"Complementary Drinks",
-      amenityType:"perDay",
-      rate:100
-    },
-    {
-      id:"3",
-      name:"Complementary Drinks",
-      amenityType:"oneTime",
-      rate:100
-    },
-    {
-      id:"4",
-      name:"Complementary Drinks",
-      amenityType:"oneTime",
-      rate:100
+// Created Components
+import ReviewCard from 'src/Components/ReviewCard';
+import AmenitiesCard from 'src/Components/AmenitiesCard';
+
+// Hooks
+import useEventsPlace from 'src/Hooks/useEventsPlace';
+import { useAuthContext } from 'src/Context/AuthContext';
+import useModal from 'src/Hooks/useModal';
+import ReservationForm from './ReservationForm';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { useNavigate } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip'
+import ViewImageModal from 'src/Components/ViewImageModal';
+import GoBackComp from 'src/Components/GoBackComp';
+
+export default function ViewEventsPlace({data: passedData}:{data?:any}) {
+  const {id} = useParams<{id:string}>();
+  const navigate = useNavigate();
+  const {data,loading,error,getEventsPlace} = useEventsPlace();
+  const {authUser} = useAuthContext();
+  const {AmenitiesList,ReservationFormComp,setEventsPlaceData} = ReservationForm();
+  const {setOpenModal,ModalComponent,closeModal} = useModal();
+
+  useEffect(()=>{
+    if(passedData){
+      setEventsPlaceData(passedData)
+    }else{
+      if (id)
+        getEventsPlace(id);
     }
-  ]
-  console.log(data)
+  },[])
+  useEffect(()=>{
+    if(data){
+      setEventsPlaceData(data[0])
+    }
+  },[data])
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error</p>
+
   return (
-    <Container maxWidth="lg" sx={{flexGrow:"1",display:"flex",flexDirection:"column",gap:"2em",alignItems:"start",padding:"2em 1em"}}>
-      {!data&&
-        <div className=' flex items-center gap-2 cursor-[pointer] opacity-70 hover:opacity-100'>
-          <ArrowBackIcon sx={{fontSize:"25px"}}/>
-          <p>Go Back</p>
-        </div>
+    <Container maxWidth="lg" sx={{flexGrow:"1",display:"flex",flexDirection:"column",gap:"1em",alignItems:"start",padding:"2em 1em"}}>
+      {data&&
+        <GoBackComp/>
       }
-      
       <div className='w-full'>
         <div className='flex text-[#303030] items-start'>
-          <h3 className='text-[27px] grow font-medium'>Eagles Nest, Luxury Villa, Koh Yao Noi</h3>
-          <IconButton  sx={{marginTop:".1em"}} onClick={()=>{}}>
-            <ReportIcon sx={{fontSize:"27px"}} />
-          </IconButton>
+          <h3 className='text-[27px] grow font-medium'>{passedData?.name || data?.[0]?.name}</h3>
+          {data?.[0]?.host?.userId === authUser?.userId?
+            <Tooltip title="Update">
+              <IconButton  sx={{marginTop:".1em"}} onClick={()=>{navigate('/eventsplace/update/'+data[0]?.eventsPlaceId)}}>
+                <BorderColorIcon sx={{fontSize:"27px"}} />
+              </IconButton>
+            </Tooltip>:
+            <Tooltip title="Report">
+              <IconButton  sx={{marginTop:".1em"}} onClick={()=>{}}>
+                <ReportIcon sx={{fontSize:"27px"}} />
+              </IconButton>
+            </Tooltip>
+          }
         </div>
         <div className='flex gap-2 items-center color-[#303030]'>
           <StarIcon sx={{fontSize:"15 px"}}/>
           <p className='text-[15  px]'>4.5 (28 Reviews)</p>
         </div>
       </div>
-      <div className='flex flex-col md:flex-row  aspect-video w-full gap-4'>
-        {data? <>
-            <div className='grow h-full rounded' style={{background:`url("${data.images[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-            <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
-              <div className='grow rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-              <div className='grow rounded' style={{background:`url("https://assets.architecturaldigest.in/photos/65b2aecf269da4a0ee6c9b40/master/w_1600%2Cc_limit/atr.royalmansion-bedroom2-mr.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-            </div>
-          </>
-          :<>
-          <div className='grow h-full rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"contain",backgroundPosition:"center"}}/>
-            <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
-              <div className='grow rounded' style={{background:`url("https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-              <div className='grow rounded' style={{background:`url("https://assets.architecturaldigest.in/photos/65b2aecf269da4a0ee6c9b40/master/w_1600%2Cc_limit/atr.royalmansion-bedroom2-mr.jpg") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-            </div>
-          </>
-        }
-        
+      <div className='relative flex flex-col md:flex-row  aspect-video w-full gap-4'>
+        <div className='ImageClickable grow h-full rounded' style={{background:`url("${passedData? passedData.images[0]: data?.[0]?.images?.[0]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}
+          onClick={()=>{
+            setOpenModal(<ViewImageModal data={passedData? passedData.images: data?.[0]?.images}  index={0} />)
+          }}
+        />
+        <div className='w-[100%] md:w-[30%] hidden md:flex flex-col gap-4'>
+          <div className='ImageClickable grow rounded' style={{background:`url("${passedData?passedData.images[1]:data?.[0]?.images?.[1]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}
+            onClick={()=>{
+              setOpenModal(<ViewImageModal data={passedData? passedData.images: data?.[0]?.images}  index={1} />)
+            }}
+          />
+          <div className='ImageClickable grow rounded' style={{background:`url("${passedData?passedData.images[2]:data?.[0]?.images?.[2]}") no-repeat`,backgroundSize:"cover",backgroundPosition:"center"}}
+            onClick={()=>{
+              setOpenModal(<ViewImageModal data={passedData? passedData.images: data?.[0]?.images}  index={2} />)
+            }}
+          />
+          {(passedData?passedData.images.length > 3:data?.[0]?.images.length > 3) &&
+            <p className='absolute bottom-[15px] right-[15px] px-3 py-2 bg-[black]/80 rounded-xl shadow-lg text-[white]' >
+              3+ Photos
+            </p>
+          }
+          
+        </div>
       </div>
       <div className='w-full flex md:grid gap-5' style={{gridTemplateColumns:"1fr .6fr"}}>
         <div className='grow flex flex-col gap-[2.5em]'>
           <div className='border-b border-[black]/10 pb-[2.5em]'>
             <h6  className='text-[20px] font-semibold mb-3'>About this place</h6>
             <p className='text-justify'>
-              Our 3 bedroom beach front home is perfect for a family of 6-10 people. We have an outdoor space for fun activities and a 4ft pool with a section for small children and elderly. We also have 2 friendly dogs in the property that roam freely.
-              
-              The space Our beachfront vacation home is available for occupancy. Each spacious room has an en-suite toilet and shower.Covered by lush trees, we designed this home in a way where we encourage guests to enjoy the outdoor space and beach. The Nipa hut is another inviting space you can enjoy.
-              Guest access
-
-              Full access to the entire private property. Other things to note We have two (2) friendly dogs that roam freely in the property.We encourage unplugged outdoor family time that is why there is no TV. Bring your own personal gadgets if you wish to be connected. Internet is provided inside the home.
+              {passedData?.description || data?.[0]?.description}
             </p>
           </div>
           <div className='border-b border-[black]/10 pb-[2.5em]'>
             <h6  className='text-[20px] font-semibold mb-3'>What this place can offer</h6>
-            <div className='grid gap-3' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-              {SampleAmenitie.map((data,index)=>(
-                <AmenitiesCard data={data} key={index}/>
-              ))}
+            <AmenitiesList/> 
+            <div className=' md:hidden mt-10'>
+              <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
+                <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{"190"}</span> <span>per day</span></h5>
+                <ReservationFormComp/>
+              </div>
             </div>
           </div>
+          
           <div className='mt-[1em]'>
             <div className='flex justify-between items-center'>
               <div className='flex gap-3 items-center'>
-                <Avatar variant="circular" src="" alt="Wew" sx={{ width: '55px', height: '55px' }} />
+                <Avatar variant="circular" src={passedData?.photo || data?.[0]?.host?.photo} alt="Wew" sx={{ width: '55px', height: '55px' }} />
                 <div>
-                  <h6 className='text-[20px] leading-[23px] font-semibold'>John Doe</h6>
+                  <h6 className='text-[20px] leading-[23px] font-semibold'>{passedData?.host || data?.[0]?.host?.name?.first + " " + data?.[0]?.host?.name?.last} </h6>
                   <p className='text-[14px] leading-[13px] font-semibold opacity-65'>Host</p>
                 </div>
               </div>
@@ -112,52 +134,18 @@ export default function ViewEventsPlace({data}:{data?:any}) {
                 <ChatIcon sx={{fontSize:"35px"}}/>
               </IconButton>
             </div>
-            <p className='mt-[1em] text-justify'>"Meet our Events Host Extraordinaire! With a knack for creating unforgettable experiences, our host ensures every event is seamlessly executed. From welcoming guests with warmth to orchestrating activities with finesse, they guarantee a memorable occasion for all attendees. Trust our Events Host to infuse charm, professionalism, and enthusiasm into every event, leaving guests with lasting impressions and cherished memories."event is seamlessly executed. From welcoming guests with warmth to orchestrating activities with finesse, they guarantee a memorable occasion for all attendees. Trust our Events Host to infuse charm, professionalism, and enthusiasm into every event, leaving guests with lasting impressions and cherished memories."</p>
+            <p className='mt-[1em] text-justify'>{passedData?.description || data?.[0]?.host?.description}</p>
           </div>
         </div>
         <div className='hidden md:block'>
-          <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white] min-h-[400px]'>
-            
+          <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
+            <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{passedData?.rate || data?.[0]?.rate}</span> <span>per day</span></h5>
+            <ReservationFormComp/>
           </div>
         </div>
       </div>
       <div className='border-t mt-4 flex flex-col-reverse gap-12 md:gap-0 pt-[2.5em] border-[black]/10 w-full md:grid' style={{gridTemplateColumns:"1fr .5fr"}}>
         <div className='grid gap-4' style={{gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))"}}>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
           <ReviewCard/>
         </div>
         <div>
@@ -168,6 +156,8 @@ export default function ViewEventsPlace({data}:{data?:any}) {
           </div>
         </div>
       </div>
+      <ModalComponent/>
     </Container>
   )
 }
+

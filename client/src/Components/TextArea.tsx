@@ -18,8 +18,8 @@ export default function TextArea({label,name, cols, rows, value, handleChange, e
       <textarea name={name} cols={cols} rows={rows} 
         className={`w-full  p-2 rounded-xl border-2  bg-[transparent] outline-none  text-[#292929]  ${error ? "border-[#ff1d1ddc]" : "border-[#D9D9D9]"}`} 
         onChange={handleChange}
+        defaultValue={value}
       >
-        {value}
       </textarea>
       {error && <div className='flex gap-1 px-2 items-center  mt-[.5em]'>
         <ErrorOutlineIcon sx={{color:"#ff1d1ddc",fontSize:"16px"}}/>

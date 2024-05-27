@@ -7,7 +7,7 @@ const helpdeskSchema = new Schema(
         helpdeskid: {
             type: String,
             unique: true,
-            default: id
+            default: () => id()
         },
         user: {
             type: Types.ObjectId,
@@ -16,8 +16,7 @@ const helpdeskSchema = new Schema(
         },
         eventsPlace: {
             type: Types.ObjectId,
-            ref: 'EventsPlace',
-            required: true
+            ref: 'EventsPlace'
         },
         report: {
             type: String,

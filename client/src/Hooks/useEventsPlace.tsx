@@ -26,13 +26,10 @@ interface EventsPlaceData {
 function useEventsPlace() {
   const { data, loading, error, makeRequest } = useRequest();
 
-  const getEventsPlace = (id: string) => {
+  const getEventsPlace = (id?: string) => {
     makeRequest({
       method: 'get',
-      url: `/eventsplace`,
-      params: { 
-        eventsPlaceId: id 
-      },
+      url: `/eventsplace${id ? `?eventsPlaceId=${id}` : ''}`,
     });
   };
 

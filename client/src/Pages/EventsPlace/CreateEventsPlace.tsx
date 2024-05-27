@@ -17,7 +17,7 @@ import SelectField from 'src/Components/SelectField';
 import AmenitiesCard from 'src/Components/AmenitiesCard';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewEventsPlace from './ViewEventsPlace';
-
+import GoBackComp from 'src/Components/GoBackComp';
 import useFirebase from 'src/Hooks/useFirebase';
 
 import useEventsPlace from 'src/Hooks/useEventsPlace';
@@ -41,7 +41,7 @@ function CreateEventsPlace() {
 
   const {uploadFile} = useFirebase();
 
-  const [activeStep, setActiveStep] = React.useState(2);
+  const [activeStep, setActiveStep] = React.useState(0);
   const CreateEventformik = useFormik({
     initialValues: {
       name: '',
@@ -49,7 +49,7 @@ function CreateEventsPlace() {
       location: '',
       maxCapacity: '',
       rate: '',
-      placeType: 'Resort',
+      placeType: 'resort',
       amenities:[],
       images:[],
     },
@@ -98,9 +98,8 @@ function CreateEventsPlace() {
   })
   return (
     <Container maxWidth="lg" className='grow px-[2em] py-[1em] gap-[1em]' sx={{display:"flex", flexDirection:'column'}}>
-      <div className='flex gap-2 cursor-[pointer] opacity-70 hover:opacity-100'>
-        <ArrowBackIcon sx={{fontSize:"25px"}}/>
-        <p>Go Back</p>
+      <div className='flex justify-start'>
+        <GoBackComp/>
       </div>
       <div className='w-full grow '>
         <div className='mt-[.5em] mb-[4em]'>
@@ -165,16 +164,28 @@ function CreateEventsPlace() {
                     errorMessages={CreateEventformik.errors.location}
                   />
                   <TextField 
-                    attr={{
-                      placeholder:"Event Capacity",
-                      name:"maxCapacity",
-                      value:CreateEventformik.values.maxCapacity,
-                    }}
-                    label="Event Capacity" 
-                    type="number" 
+                      attr={{
+                        placeholder:"Event Capacity",
+                        name:"maxCapacity",
+                        values:CreateEventformik.values.maxCapacity,
+                      }}
+                      label="Event Capacity" 
+                      type="number" 
+                      handleChange={CreateEventformik.handleChange}
+                      error={CreateEventformik.touched.maxCapacity && CreateEventformik.errors.maxCapacity !== undefined}
+                      errorMessages={CreateEventformik.errors.maxCapacity}
+                    />
+                </div>
+                
+                <div className='md:flex gap-5'>
+                  
+                  <SelectField 
+                    name='type'
+                    label="Place Type" 
+                    options={[{label:"Resort", value:"resort"},{label:"Hotel", value:"hotel"},{label:"Function Room", value:"function room"}]}
                     handleChange={CreateEventformik.handleChange}
-                    error={CreateEventformik.touched.maxCapacity && CreateEventformik.errors.maxCapacity !== undefined}
-                    errorMessages={CreateEventformik.errors.maxCapacity}
+                    error={CreateEventformik.touched.placeType && CreateEventformik.errors.placeType !== undefined}
+                    errorMessages={CreateEventformik.errors.placeType}
                   />
                   <TextField 
                     attr={{
@@ -265,7 +276,7 @@ function AddAmenities({value,setAmenities}:{value:any,setAmenities:any}) {
       let errors:{name?:string,amenityType?:string,price?:string} = {};
       if(!values.name) errors.name = "name is required"
       if(!values.rate) errors.price = "price is required"
-      if(!values.amenityType) errors.amenityType = "name is required"
+      if(!values.amenityType) errors.amenityType = "type is required"
       return errors;
     },
     onSubmit: (values) => {
@@ -292,7 +303,7 @@ function AddAmenities({value,setAmenities}:{value:any,setAmenities:any}) {
       errorMessages={AddAmenitiesformik.errors.name}
     />
     <SelectField 
-      name='type'
+      name='amenityType'
       label="Type" 
       options={[{label:"One Time", value:"one time"},{label:"Per Day", value:"per day"},{label:"Per Quantity", value:"per quantity"}]}
       handleChange={AddAmenitiesformik.handleChange}
