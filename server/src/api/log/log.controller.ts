@@ -16,7 +16,7 @@ export const logRegisterRenter = async (userId: User['userId']) => {
 export const logRegisterHost = async (userId: User['userId']) => {
     await logModel.create({
         event: LogEvent.REGISTER_HOST,
-        message: `A user with userId ${userId} is now a renter`,
+        message: `A user with userId ${userId} is now a host`,
         userId
     });
 };

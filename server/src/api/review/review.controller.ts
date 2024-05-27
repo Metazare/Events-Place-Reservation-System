@@ -5,6 +5,7 @@ import { EventsPlaceDocument } from '../eventsPlace/eventsPlace.types';
 import { NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
 import EventsPlaceModel from '../eventsPlace/eventsPlace.model';
 import ReviewModel from './review.model';
+import { logCreateReview } from '../log/log.controller';
 
 export const createReview: RequestHandler = async (req: BodyRequest<CreateReview>, res) => {
     const { user, body } = req;
@@ -23,12 +24,14 @@ export const createReview: RequestHandler = async (req: BodyRequest<CreateReview
     const eventsPlace: EventsPlaceDocument | null = await EventsPlaceModel.findOne({ eventsPlaceId }).exec();
     if (!eventsPlace) throw new NotFound('Events Place');
 
-    await ReviewModel.create({
+    const review = await ReviewModel.create({
         eventsPlace: eventsPlace._id,
         reviewer: user._id,
         comment,
         rating
     });
+
+    await logCreateReview(review.reviewId, user.userId, eventsPlace.eventsPlaceId);
 
     res.sendStatus(201);
 };

@@ -6,6 +6,7 @@ import { Payload, RegisterHost, RegisterUser } from './auth.types';
 import { Unauthorized, UnprocessableEntity } from '../../utilities/errors';
 import { User, UserDocument } from '../user/user.types';
 import UserModel from '../user/user.model';
+import { logRegisterHost, logRegisterRenter } from '../log/log.controller';
 
 export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, res) => {
     const { email, password, firstName, middleName, lastName, suffixName, contact, photo } = req.body;
@@ -51,6 +52,8 @@ export const register: RequestHandler = async (req: BodyRequest<RegisterUser>, r
     const user = await UserModel.create(createUser);
     const payload: Payload = { userId: user.userId, email: user.credentials.email };
 
+    await logRegisterRenter(user.userId);
+
     return res
         .cookie('access-token', signAccess(payload), cookieOptions.access)
         .cookie('refresh-token', signRefresh(payload), cookieOptions.refresh)
@@ -75,6 +78,8 @@ export const registerHost: RequestHandler = async (req: BodyRequest<RegisterHost
     user.description = description;
     user.license = license;
     await user.save();
+
+    await logRegisterHost(user.userId);
 
     return res.sendStatus(201);
 };

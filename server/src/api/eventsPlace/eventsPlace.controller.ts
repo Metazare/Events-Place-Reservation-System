@@ -12,6 +12,7 @@ import eventsPlaceModel from './eventsPlace.model';
 import { updateAmenities } from '../amenity/amenity.controller';
 import { AmenityDocument, UpdateAmenity } from '../amenity/amenity.types';
 import amenityModel from '../amenity/amenity.model';
+import { logCreateEventsPlace } from '../log/log.controller';
 
 export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateEventsPlace>, res) => {
     if (!req.user) throw new Unauthorized();
@@ -66,6 +67,8 @@ export const createEventsPlace: RequestHandler = async (req: BodyRequest<CreateE
         // Save the amenities
         await updateAmenities(eventsPlace, amenities as UpdateAmenity[]);
     }
+
+    await logCreateEventsPlace(user.userId, eventsPlace.eventsPlaceId);
 
     res.json({ eventsPlaceId: eventsPlace.eventsPlaceId });
 };
