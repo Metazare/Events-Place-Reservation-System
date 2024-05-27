@@ -16,7 +16,7 @@ import {
     ReservationUserParam
 } from './reservation.types';
 import { EventsPlaceDocument } from '../eventsPlace/eventsPlace.types';
-import { NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
+import { Conflict, NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
 import AmenityModel from '../amenity/amenity.model';
 import EventsPlaceModel from '../eventsPlace/eventsPlace.model';
 import ReservationModel from './reservation.model';
@@ -128,6 +128,17 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
 
     const start = new Date(startDate);
     const end = new Date(start.getTime() + days * daysToMillis);
+
+    const dateQueryRange = { $gt: start, $lt: end };
+
+    // Find reservation within the given date
+    const existing: ReservationDocument[] = await ReservationModel.find({
+        eventsPlace: eventsPlace._id,
+        'status.reservation': ReservationStatus.RESERVED,
+        $or: [{ 'duration.start': dateQueryRange }, { 'duration.end': dateQueryRange }]
+    });
+    
+    if (existing.length > 0) throw new Conflict('Existing reservation found');
 
     let reservationId = id(2);
 
