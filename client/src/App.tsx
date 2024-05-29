@@ -70,6 +70,7 @@ function App() {
             <Route path="/invoice/:id" element={<Invoice/>} />
             <Route path="/helpdesk" element={<HelpDesk/>} />
             <Route path="/chat" element={<Chat/>} />
+            <Route path="/chat/:id" element={<Chat/>} />
           </Route>
         </Route>
 
