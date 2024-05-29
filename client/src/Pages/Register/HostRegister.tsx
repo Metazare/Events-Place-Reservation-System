@@ -10,10 +10,12 @@ import Button from '@mui/material/Button'
 import GoBackComp from 'src/Components/GoBackComp';
 import useFirebase from 'src/Hooks/useFirebase';
 import { useRegister } from '../../Hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export default function HostRegister() {
   const {uploadFile} = useFirebase();
   const { registerHost } = useRegister();
+  const navigate = useNavigate()
 
   const HostRegisterFormik = useFormik({
     initialValues: {
@@ -31,6 +33,7 @@ export default function HostRegister() {
         description: values.description,
         license: values.images
       })
+      navigate('/')
     },
   })
   return (

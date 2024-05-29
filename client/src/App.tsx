@@ -30,43 +30,52 @@ import TransactionLogs from './Pages/Admin/TransactionLogs';
 import HelpDeskAdmin from './Pages/Admin/HelpDesk';
 
 // Hooks
-import { ProtectedRoute } from './Hooks/useAuth';
-
-// Test
-import TestHelpdesk from './Test/TestHelpdesk';
-import TestNotification from './Test/TestNotification';
-import TestToast from './Test/TestToast';
-import TestReservation from './Test/TestReservation';
+import { ProtectedRoute, PublicRoute } from './Hooks/useAuth';
 
 function App() {
   return (
     <Routes>
         <Route element={<Base />} >
+
+          {/* Public routes accessible by anyone */}
           <Route path="/" element={<Default/>} />
-
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register/>} />
-          <Route path="/forgetpassword" element={<ForgetPassword/>} />
-          <Route path="/resetpassword/:hash" element={<ResetPassword/>} />
-
-          <Route path="/profile" element={<Profile/>} />
-          <Route path="/profile/:userId" element={<Profile/>} />
-
-          <Route path="/host" element={<BecomeHost/>} />
-          <Route path="/host/register" element={<HostRegister/>} />
-
-          <Route path="/eventsplace/create" element={<CreateEventsPlace/>} />
-          <Route path="/eventsplace/update/:id" element={<UpdateEventsPlace/>} />
-          <Route path="/eventsplace/delete" element={<DeleteEventsPlace/>} />
           <Route path="/eventsplace/view/:id" element={<ViewEventsPlace/>} />
+          <Route path="/profile/:userId" element={<Profile/>} />
+          <Route path="/host" element={<BecomeHost/>} />
 
-          <Route path="/listing" element={<MyListings/>} />
-          <Route path="/invoice/:id" element={<Invoice/>} />
-          <Route path="/helpdesk" element={<HelpDesk/>} />
+          {/* Public routes accessible only by non-logged in users */}
+          <Route element={<PublicRoute/>}>
+            <Route path="/login" element={<Login/>} />
+            <Route path="/register" element={<Register/>} />
+            <Route path="/forgetpassword" element={<ForgetPassword/>} />
+            <Route path="/resetpassword/:hash" element={<ResetPassword/>} />
+          </Route>
+
+          {/* Protected routes accessible only by Renters */}
+          <Route element={<ProtectedRoute allowedRoles={["Renter"]}/>}>
+            <Route path="/host/register" element={<HostRegister/>} />
+          </Route>
+
+          {/* Protected routes accessible only by Hosts */}
+          <Route element={<ProtectedRoute allowedRoles={["Host"]}/>}>
+            <Route path="/eventsplace/create" element={<CreateEventsPlace/>} />
+            <Route path="/eventsplace/update/:id" element={<UpdateEventsPlace/>} />
+            <Route path="/eventsplace/delete" element={<DeleteEventsPlace/>} />
+          </Route>
+          
+          {/* Protected routes accessible by both Renters and Hosts */}
+          <Route element={<ProtectedRoute allowedRoles={["Renter", "Host"]}/>}>
+            <Route path="/profile" element={<Profile/>} />
+            <Route path="/listing" element={<MyListings/>} />
+            <Route path="/invoice/:id" element={<Invoice/>} />
+            <Route path="/helpdesk" element={<HelpDesk/>} />
+            <Route path="/chat" element={<Chat/>} />
+            <Route path="/chat/:id" element={<Chat/>} />
+          </Route>
         </Route>
-        <Route path="/chat" element={<Chat/>} />
 
-        <Route element={<ProtectedRoute allowedRoles={["admin"]}/>}>
+        {/* Protected routes accessible only by Admin */}
+        <Route element={<ProtectedRoute allowedRoles={["Admin"]}/>}>
           <Route element={<AdminBase />} >
             <Route path="/admin/renters" element={<Renters/>} />
             <Route path="/admin/hosts" element={<Hosts/>} />
@@ -76,8 +85,6 @@ function App() {
             <Route path="/admin/helpdesk" element={<HelpDeskAdmin/>} />
           </Route>
         </Route>
-
-        <Route path="/test/reservation" element={<TestReservation/>} />
     </Routes>
   );
 }

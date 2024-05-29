@@ -9,12 +9,16 @@ import ReservationCard from '../../Components/ReservationCard';
 // Hooks
 import useEventsPlace from 'src/Hooks/useEventsPlace';
 import useSearch from 'src/Hooks/useSearch';
+import { useAuthContext } from 'src/Context/AuthContext';
 
 export default function MyListings() {
+  const {authUser} = useAuthContext();
   const {SearchComponent} = useSearch();
   const {data,loading,error,getEventsPlace} = useEventsPlace();
   const [toOpen,setToOpen] = useState("Upcoming")
-  const [isHost,setIsHost] = useState(true)
+  const [isHost,setIsHost] = useState(
+    localStorage.getItem('mode') === 'Host' ? true:false
+  )
   const MenuContent:any = {
     host:[
       {

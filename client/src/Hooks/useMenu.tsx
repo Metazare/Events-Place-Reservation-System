@@ -46,7 +46,6 @@ export default function useMenu() {
   };
 
   useEffect(()=>{
-    console.log(menuVariables)
   },[menuVariables])
   function MenuItemComp({children,handleClick}:{children:JSX.Element,handleClick?:()=>void}){
     return<>
