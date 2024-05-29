@@ -25,7 +25,6 @@ export default function Chat() {
   })
   return <>
     <div className='flex flex-col min-h-[100vh] h-[100vh%] '>
-      <Header/>
       <div className='grow bg-[white] grid grid-cols-ChatMD md:grid-cols-ChatLG'>
         <div  className='bg-[#E9E9E9]  h-[100%] flex flex-col'>
           <div className='px-5 py-3'>
@@ -36,9 +35,9 @@ export default function Chat() {
                 </IconButton>
               </Tooltip>
             </div>
-            <div className='hidden md:flex justify start'>
+            {/* <div className='hidden md:flex justify start'>
               <GoBackComp/>
-            </div>
+            </div> */}
             <p className="text-[20px] font-semibold hidden md:block mt-1 ">My Messeges</p>
           </div>
           <div className='flex flex-col mt-4 grow max-h-custom overflow-hidden '>
