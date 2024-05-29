@@ -15,9 +15,23 @@ export default function Header() {
   const {logout} = useLogout();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const {menuVariables,setMenuVariables,MenuComp,MenuItemComp,handleClose} = useMenu();
+  const [mode, setMode] = React.useState(localStorage.getItem('mode') || 'Renter');
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const changeUserMode = () => {
+    if (mode === 'Renter') {
+      setMode('Host');
+      localStorage.setItem('mode', 'Host');
+    } else {
+      setMode('Renter');
+      localStorage.setItem('mode', 'Renter');
+    }
+
+    window.location.reload();
+  }
 
   return (
     <AppBar position="static" sx={{background:"#144273"}}>
@@ -30,8 +44,10 @@ export default function Header() {
             <>
               <div className='flex items-center'>
                 <div className='border-r-2 border-[white]/60 pr-4 hidden sm:block '>
-                  <Button variant="outlined" sx={{borderColor:"white",opacity:".9",borderRadius:"15px",padding:".4em 1.5em",color:"white", ":hover":{borderColor:"white"}}}>
-                    Renter Mode
+                  <Button variant="outlined" sx={{borderColor:"white",opacity:".9",borderRadius:"15px",padding:".4em 1.5em",color:"white", ":hover":{borderColor:"white"}}}
+                    onClick={changeUserMode}
+                  >
+                    {mode} Mode
                   </Button>
                 </div>
                 <Tooltip title="Notification">
