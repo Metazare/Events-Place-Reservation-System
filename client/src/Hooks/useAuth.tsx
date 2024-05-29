@@ -54,7 +54,19 @@ const useLogin = () => {
                 .then((response: any) => {
                     localStorage.setItem('user', JSON.stringify(response.data))
                     setAuthUser(response.data);
-                    navigate('/profile');
+
+                    if (response.data.name.first === "Admin"){
+                        navigate('/admin/renters');
+                        localStorage.setItem('mode', 'Admin');
+                    }
+                    else if (response.data.license){
+                        localStorage.setItem('mode', 'Host');
+                        navigate('/profile');
+                    }
+                    else {
+                        localStorage.setItem('mode', 'Renter');
+                        navigate('/profile');
+                    }
                 });
         } catch (error: any) {
             toast.error(error.response?.data?.message);
@@ -215,8 +227,12 @@ const ProtectedRoute = ({ allowedRoles }) => {
 
     return (
         authUser
-            ? <Outlet/>   
-            : <Navigate to="/login"/>
+        ? allowedRoles 
+            ? allowedRoles?.includes(localStorage.getItem('mode'))
+                ? <Outlet/>
+                : <Navigate to="/forbidden"/>
+            : <Outlet/> 
+        : <Navigate to="/login"/>
     );
 };
 

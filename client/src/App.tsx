@@ -53,20 +53,26 @@ function App() {
           <Route path="/profile/:userId" element={<Profile/>} />
 
           <Route path="/host" element={<BecomeHost/>} />
-          <Route path="/host/register" element={<HostRegister/>} />
+          <Route element={<ProtectedRoute allowedRoles={["Renter"]}/>}>
+            <Route path="/host/register" element={<HostRegister/>} />
+          </Route>
 
-          <Route path="/eventsplace/create" element={<CreateEventsPlace/>} />
-          <Route path="/eventsplace/update/:id" element={<UpdateEventsPlace/>} />
-          <Route path="/eventsplace/delete" element={<DeleteEventsPlace/>} />
           <Route path="/eventsplace/view/:id" element={<ViewEventsPlace/>} />
-
-          <Route path="/listing" element={<MyListings/>} />
-          <Route path="/invoice/:id" element={<Invoice/>} />
-          <Route path="/helpdesk" element={<HelpDesk/>} />
+          <Route element={<ProtectedRoute allowedRoles={["Host"]}/>}>
+            <Route path="/eventsplace/create" element={<CreateEventsPlace/>} />
+            <Route path="/eventsplace/update/:id" element={<UpdateEventsPlace/>} />
+            <Route path="/eventsplace/delete" element={<DeleteEventsPlace/>} />
+          </Route>
+          
+          <Route element={<ProtectedRoute allowedRoles={["Renter", "Host"]}/>}>
+            <Route path="/listing" element={<MyListings/>} />
+            <Route path="/invoice/:id" element={<Invoice/>} />
+            <Route path="/helpdesk" element={<HelpDesk/>} />
+            <Route path="/chat" element={<Chat/>} />
+          </Route>
         </Route>
-        <Route path="/chat" element={<Chat/>} />
 
-        <Route element={<ProtectedRoute allowedRoles={["admin"]}/>}>
+        <Route element={<ProtectedRoute allowedRoles={["Admin"]}/>}>
           <Route element={<AdminBase />} >
             <Route path="/admin/renters" element={<Renters/>} />
             <Route path="/admin/hosts" element={<Hosts/>} />
@@ -76,8 +82,6 @@ function App() {
             <Route path="/admin/helpdesk" element={<HelpDeskAdmin/>} />
           </Route>
         </Route>
-
-        <Route path="/test/reservation" element={<TestReservation/>} />
     </Routes>
   );
 }
