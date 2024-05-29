@@ -236,4 +236,14 @@ const ProtectedRoute = ({ allowedRoles }) => {
     );
 };
 
-export { useLogin, useLogout, useRegister, usePasswordReset, ProtectedRoute };
+const PublicRoute = () => {
+    const { authUser } = useAuthContext();
+
+    return (
+        authUser
+        ? <Navigate to="/"/> 
+        : <Outlet/> 
+    );
+};
+
+export { useLogin, useLogout, useRegister, usePasswordReset, ProtectedRoute, PublicRoute };
