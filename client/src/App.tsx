@@ -65,6 +65,7 @@ function App() {
           
           {/* Protected routes accessible by both Renters and Hosts */}
           <Route element={<ProtectedRoute allowedRoles={["Renter", "Host"]}/>}>
+            <Route path="/profile" element={<Profile/>} />
             <Route path="/listing" element={<MyListings/>} />
             <Route path="/invoice/:id" element={<Invoice/>} />
             <Route path="/helpdesk" element={<HelpDesk/>} />
