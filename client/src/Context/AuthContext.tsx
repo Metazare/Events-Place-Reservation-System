@@ -11,12 +11,10 @@ interface AuthUser {
         password: string;
     };
     contact: number;
+    isAdmin?: boolean;
     photo?: string;
-    host?: {
-        id: string;
-        name: string;
-        photo: string;
-    };
+    description?: string;
+    license?: string;
 }
 
 interface AuthContextType {
