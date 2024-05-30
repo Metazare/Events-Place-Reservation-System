@@ -39,10 +39,10 @@ app.use('/email', emailRoute);
 app.use('/eventsplace', eventsPlaceRoute);
 app.use('/reservation', reservationRoute);
 app.use('/user', userRoute);
+app.use('/notification', notificationRoute);
 app.use(authenticate);
 app.use('/chat', chatRoute);
 app.use('/helpdesk', helpdeskRoute);
-app.use('/notification', notificationRoute);
 app.use('/review', reviewRoute);
 
 app.use((_req, _res, next) => next(new NotFound()));

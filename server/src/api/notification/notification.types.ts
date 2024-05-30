@@ -33,3 +33,7 @@ export interface CreateNotification {
 export interface ReadNotification {
     notificationId: string;
 }
+
+export type GetNotification = {
+    notificationId?: string;
+}
