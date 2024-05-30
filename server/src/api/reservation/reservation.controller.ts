@@ -1,11 +1,10 @@
 import { AmenityDocument } from '../amenity/amenity.types';
 import { BodyRequest, QueryRequest, RequestHandler } from 'express';
-import { CheckData } from '../../utilities/checkData'
-import { id } from '../../utilities/ids';
 import {
     CancelReservation,
     CreateReservation,
     GetReservation,
+    PayReservation,
     PaymentStatus,
     ReservationAmenity,
     ReservationDocument,
@@ -15,12 +14,14 @@ import {
     ReservationUser,
     ReservationUserParam
 } from './reservation.types';
-import { EventsPlaceDocument } from '../eventsPlace/eventsPlace.types';
+import { CheckData } from '../../utilities/checkData';
 import { Conflict, NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
+import { EventsPlaceDocument } from '../eventsPlace/eventsPlace.types';
+import { id } from '../../utilities/ids';
+import { logCreateReservation, logUpdateReservationStatus } from '../log/log.controller';
 import AmenityModel from '../amenity/amenity.model';
 import EventsPlaceModel from '../eventsPlace/eventsPlace.model';
 import ReservationModel from './reservation.model';
-import reservationModel from './reservation.model';
 
 export const getReservations: RequestHandler = async (req: QueryRequest<GetReservation>, res) => {
     const { user, query, params } = req;
@@ -61,8 +62,7 @@ export const getReservations: RequestHandler = async (req: QueryRequest<GetReser
     }
 
     // Find reservations
-    const reservations: ReservationPopulatedDocument[] = await reservationModel
-        .find(reservationQuery)
+    const reservations: ReservationPopulatedDocument[] = await ReservationModel.find(reservationQuery)
         .populate('renter host eventsPlace')
         .exec();
 
@@ -70,7 +70,7 @@ export const getReservations: RequestHandler = async (req: QueryRequest<GetReser
 };
 
 const minutesToMillis = 60000;
-const daysToMillis = 24 * 60 * minutesToMillis;
+const daysToMillis = 86400000;
 export const createReservation: RequestHandler = async (req: BodyRequest<CreateReservation>, res) => {
     const { user, body } = req;
     if (!user) throw new Unauthorized();
@@ -137,7 +137,7 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
         'status.reservation': ReservationStatus.RESERVED,
         $or: [{ 'duration.start': dateQueryRange }, { 'duration.end': dateQueryRange }]
     });
-    
+
     if (existing.length > 0) throw new Conflict('Existing reservation found');
 
     let reservationId = id(2);
@@ -157,25 +157,36 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
         }
     });
 
-    setTimeout(() => {
+    await logCreateReservation(user.userId, eventsPlace.eventsPlaceId, reservation.reservationId);
+
+    setTimeout(async () => {
+        const { payment: paymentStatus, reservation: reservationStatus } = reservation.status;
+
         // Check if reservation is still unpaid
-        if (reservation.status.payment === PaymentStatus.UNPAID) {
+        if (paymentStatus === PaymentStatus.UNPAID && reservationStatus === ReservationStatus.PENDING) {
             // If so, set the reservation status to failed
             reservation.status.reservation = ReservationStatus.FAILED;
-            reservation.save();
+            await reservation.save();
+            await logUpdateReservationStatus(
+                reservation.reservationId,
+                ReservationStatus.PENDING,
+                ReservationStatus.FAILED
+            );
         }
     }, 10 * minutesToMillis); // 1 day
 
     res.json({ reservationId });
 };
 
-export const payReservation: RequestHandler = async (_req, _res) => {};
-
-export const cancelReservation: RequestHandler = async (req: BodyRequest<CancelReservation>, res) => {
+export const payReservation: RequestHandler = async (req: BodyRequest<PayReservation>, res) => {
     const { user, body } = req;
     if (!user) throw new Unauthorized();
 
     const { reservationId } = body;
+    const checker = new CheckData();
+
+    checker.checkType(reservationId, 'string', 'reservationId');
+    if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
     // Find reservation
     const reservation: ReservationDocument | null = await ReservationModel.findOne({
@@ -184,8 +195,69 @@ export const cancelReservation: RequestHandler = async (req: BodyRequest<CancelR
     }).exec();
     if (!reservation) throw new NotFound('Reservation');
 
+    reservation.status.payment = PaymentStatus.PAID;
+    reservation.status.reservation = ReservationStatus.RESERVED;
+    await reservation.save();
+
+    await logUpdateReservationStatus(reservation.reservationId, ReservationStatus.PENDING, ReservationStatus.RESERVED);
+
+    res.sendStatus(204);
+};
+
+export const cancelReservation: RequestHandler = async (req: BodyRequest<CancelReservation>, res) => {
+    const { user, body } = req;
+    if (!user) throw new Unauthorized();
+
+    const { reservationId } = body;
+    const checker = new CheckData();
+
+    checker.checkType(reservationId, 'string', 'reservationId');
+    if (checker.size()) throw new UnprocessableEntity(checker.errors);
+
+    // Find reservation
+    const reservation: ReservationDocument | null = await ReservationModel.findOne({
+        reservationId,
+        renter: user._id
+    }).exec();
+    if (!reservation) throw new NotFound('Reservation');
+
+    const oldStatus = reservation.status.reservation;
+
     reservation.status.reservation = ReservationStatus.CANCELED;
     await reservation.save();
 
+    await logUpdateReservationStatus(reservation.reservationId, oldStatus, ReservationStatus.CANCELED);
+
     res.sendStatus(204);
+};
+
+export const getReservationDates: RequestHandler = async (req, res) => {
+    const currentDate: Date = new Date();
+    const reservations: ReservationDocument[] = await ReservationModel.find({ 'duration.start': { $gt: currentDate } });
+    const reservedDates: number[] = [];
+
+    for (const reservation of reservations) {
+        let activeDate = reservation.duration.start;
+        const endDate = reservation.duration.end;
+
+        while (activeDate < endDate) {
+            // Check if date is in the fture
+            if (activeDate <= currentDate) {
+                activeDate.setDate(activeDate.getDate() + 1);
+                continue;
+            }
+
+            const dateTime = new Date(activeDate.toDateString()).getTime();
+
+            // Check if dateTime is already in the reservedDates
+            if (reservedDates.includes(dateTime)) {
+                continue;
+            }
+
+            reservedDates.push(dateTime);
+            activeDate.setDate(activeDate.getDate() + 1);
+        }
+    }
+
+    res.json(reservedDates.sort((a, b) => a - b));
 };
