@@ -7,6 +7,28 @@ interface CreateReservationData {
   amenities: {
       amenityId: string;
       quantity: number;
+      rate?: number;
+  }[];
+  guestCount: number;
+  startDate: number;
+  days: number;
+}
+
+interface ReservationData {
+  eventsPlaceId: string;
+  eventsPlace?: {
+    rate: number;
+  }
+  duration?:{
+    start: Date;
+    end: Date;
+  }
+  rate: number;
+  amenities: {
+      amenityId: string;
+      quantity: number;
+      rate: number;
+      amenityType: string;
   }[];
   guestCount: number;
   startDate: number;
@@ -60,6 +82,25 @@ function useReservation() {
     });
   };
 
+  const getReservationTotal = (data: ReservationData) => {
+    let total = 0;
+      total += data.rate * data.days;
+
+    data.amenities.forEach((amenity) => {
+      if (amenity.amenityType === 'per day') {
+        total += data.days * amenity.rate;
+      }
+      else if (amenity.amenityType === 'per quantity') {
+        total += amenity.quantity * amenity.rate;
+      }
+      else if (amenity.amenityType === 'one time') {
+        total += amenity.rate;
+      }
+
+    });
+    return total;
+  };
+
   return {
     data,
     loading,
@@ -68,6 +109,7 @@ function useReservation() {
     createReservation,
     updateReservation,
     deleteReservation,
+    getReservationTotal
   };
 }
 
