@@ -41,6 +41,14 @@ const reservationSchema = new Schema(
                 rate: {
                     type: Number,
                     required: true
+                },
+                amenityType: {
+                    type: String,
+                    required: true
+                },
+                name: {
+                    type: String,
+                    required: true
                 }
             }
         ],
