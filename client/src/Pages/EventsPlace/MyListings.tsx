@@ -10,226 +10,83 @@ import ReservationCard from '../../Components/ReservationCard';
 import useEventsPlace from 'src/Hooks/useEventsPlace';
 import useSearch from 'src/Hooks/useSearch';
 import { useAuthContext } from 'src/Context/AuthContext';
+import useReservation from 'src/Hooks/useReservation';
 
 export default function MyListings() {
   const {authUser} = useAuthContext();
   const {SearchComponent} = useSearch();
   const {data,loading,error,getEventsPlace} = useEventsPlace();
+
+  const {data:reservation, getReservation} = useReservation();
+
   const [toOpen,setToOpen] = useState("Upcoming")
   const [isHost,setIsHost] = useState(
     localStorage.getItem('mode') === 'Host' ? true:false
   )
-  const MenuContent:any = {
-    host:[
-      {
-        label:"Upcoming",
-        data:[
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          }
-        ]
-      },
-      {
-        label:"Completed",
-        data:[
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          }
-        ]
-      },
-      {
-        label:"Cancelled",
-        data:[
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          }
-        ]
-      }
-    ],
-    hostEventsPlace:{
-      label:"My Events Place",
-      data:data
-    },
-    renter:[
-      {
-        label:"Upcoming",
-        data:[
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"To Rate"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          }
-        ]
-      },
-      {
-        label:"To Rate",
-        data:[
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          }
-        ]
-      },
-      {
-        label:"Completed",
-        data:[
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          }
-        ]
-      },
-      {
-        label:"Cancelled",
-        data:[
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          },
-          {
-            title:"Event Title",
-            date:"2021-10-10",
-            time:"10:00 AM",
-            status:"Upcoming"
-          }
-        ]
-      }
-    ]
-  }
+
+  const [MenuContent, SetMenuContent] = useState<any>()
+
+
   useEffect(()=>{
-    getEventsPlace();
-    setToShow(isHost?MenuContent.host[0].data:MenuContent.renter[0].data)
-  },[])
+    if (reservation == null) {
+      getEventsPlace();
+      getReservation({
+        userType:isHost?"host":"renter"
+      })
+    }
+    else {
+      
+      SetMenuContent({
+        host: [
+          {
+            label: "Pending",
+            data: reservation.filter(item => item.status.reservation === "pending")
+          },
+          {
+            label: "Reserved",
+            data: reservation.filter(item => item.status.reservation === "reserved")
+          },
+          {
+            label: "Cancelled",
+            data: reservation.filter(item => item.status.reservation === "cancelled")
+          }
+        ],
+        hostEventsPlace: {
+          label: "My Events Place",
+          data: data
+        },
+        renter: [
+          {
+            label: "To Pay",
+            data: reservation.filter(item => item.status.reservation === "pending")
+          },
+          {
+            label: "Reserved",
+            data: reservation.filter(item => item.status.reservation === "reserved")
+          },
+          {
+            label: "Cancelled",
+            data: reservation.filter(item => item.status.reservation === "cancelled")
+          },
+          {
+            label: "Failed",
+            data: reservation.filter(item => item.status.reservation === "failed")
+          }
+        ]
+      })
+    }
+
+    if (MenuContent) {
+      setToShow(isHost ? MenuContent.host[0].data : MenuContent.renter[0].data);
+    }
+  },[reservation])
 
   const [toShow,setToShow] = useState<null|any>([])
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
   return (
     <Container  maxWidth="lg" sx={{flexGrow:"1",display:"flex"}}> 
+    {MenuContent && 
       <div className='md:grid grow w-full gap-4 ' style={{padding:"1em 0",gridTemplateColumns:"250px 1fr"}}>
         <div className='border-r hidden md:block border-[black]/10 pt-3 '>
           <div className='sticky flex flex-col gap-2 top-[10px]  h-[100vh] max-h-[80vh]'>
@@ -241,7 +98,7 @@ export default function MyListings() {
                     setToShow(data.data)
                   }} 
                 />
-              ))}
+              ))} 
             </div>
             <div className='p-4'>
               <div className='p-4 relative w-full mt-[4em]'>
@@ -296,7 +153,8 @@ export default function MyListings() {
           </div>
           {toOpen === "My Events Place"? <EventCardList edit={true} isHost={isHost} data={toShow} setData={setToShow}/>:<EventCardList edit={false} isHost={isHost} data={toShow} setData={setToShow}/>}
         </div>
-      </div>
+      </div> 
+    }
     </Container>
   )
 }
@@ -305,12 +163,21 @@ export default function MyListings() {
 function EventCardList({isHost,data,edit,setData}: {isHost:boolean,data:any,edit:boolean,setData:any}){
   return<>
     <div className={`grid  mb-7`} style={isHost && !(isHost && edit)?{gridTemplateColumns:"repeat(auto-fill, minmax(250px, 1fr))",gap:"1em"}:{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))",gap:"1.5em"}}>
-      {/* {data.map((data:any,index:any)=>(
+      {data.map((data:any,index:any)=>(
         isHost?
-          edit?<EventCard key={data._id} data={data} type="manage"/> : <ReservationCard key={index} /> 
+          edit  
+            ? <EventCard key={data._id} data={data} type="manage"/> 
+            : <ReservationCard 
+                key={index} 
+                data={{
+                  ...data,
+                  days: (new Date(data?.duration.end).getTime() - new Date(data?.duration.start).getTime()) / (1000 * 60 * 60 * 24),
+                  rate: data?.eventsPlace?.rate
+                }}
+              /> 
           :
           <EventCard  data={data} type='booked' key={index}/>
-      ))} */}
+      ))}
     </div>
   </>
 }
