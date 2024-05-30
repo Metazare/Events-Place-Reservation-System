@@ -140,7 +140,7 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
         <div className='hidden md:block'>
           <div className='w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3'>
             <h5 className=' mb-1'><span className='font-semibold opacity-70 text-[32px]'>₱{passedData?.rate || data?.[0]?.rate}</span> <span>per day</span></h5>
-            <ReservationFormComp/>
+            <ReservationFormComp data={data?.[0]}/>
           </div>
         </div>
       </div>
