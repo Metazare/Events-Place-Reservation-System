@@ -117,13 +117,15 @@ export default function Invoice() {
             </div>
             <div className='flex justify-between items-center pt-4 mb-4'>
               <p className='text-[18px] text-[black]/50'>Total</p>
-              <p className='text-[24px] font-semibold'>
-                ₱{getReservationTotal({
-                  ...data?.[0],
-                  days: (new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24),
-                  rate: data?.[0].eventsPlace?.rate
-                })}
-              </p>
+              {data && data[0] &&
+                <p className='text-[24px] font-semibold'>
+                  ₱{getReservationTotal({
+                    ...data?.[0],
+                    days: (new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24),
+                    rate: data?.[0].eventsPlace?.rate
+                  })}
+                </p> 
+              }
             </div>
             {
               status==="Reserved"&&
