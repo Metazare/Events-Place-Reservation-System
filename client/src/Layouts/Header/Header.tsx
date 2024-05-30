@@ -23,8 +23,13 @@ export default function Header() {
 
   const changeUserMode = () => {
     if (mode === 'Renter') {
-      setMode('Host');
-      localStorage.setItem('mode', 'Host');
+      if (authUser?.description) {
+        setMode('Host');
+        localStorage.setItem('mode', 'Host');
+      }
+      else{
+        navigate('/host')
+      }
     } else {
       setMode('Renter');
       localStorage.setItem('mode', 'Renter');
