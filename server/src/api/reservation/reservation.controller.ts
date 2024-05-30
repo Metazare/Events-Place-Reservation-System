@@ -69,7 +69,7 @@ export const getReservations: RequestHandler = async (req: QueryRequest<GetReser
 };
 
 const minutesToMillis = 60000;
-const daysToMillis = 24 * 60 * minutesToMillis;
+const daysToMillis = 86400000;
 export const createReservation: RequestHandler = async (req: BodyRequest<CreateReservation>, res) => {
     const { user, body } = req;
     if (!user) throw new Unauthorized();
@@ -204,4 +204,35 @@ export const cancelReservation: RequestHandler = async (req: BodyRequest<CancelR
     await logUpdateReservationStatus(reservation.reservationId, oldStatus, ReservationStatus.CANCELED);
 
     res.sendStatus(204);
+};
+
+export const getReservationDates: RequestHandler = async (req, res) => {
+    const currentDate: Date = new Date();
+    const reservations: ReservationDocument[] = await ReservationModel.find({ 'duration.start': { $gt: currentDate } });
+    const reservedDates: number[] = [];
+
+    for (const reservation of reservations) {
+        let activeDate = reservation.duration.start;
+        const endDate = reservation.duration.end;
+
+        while (activeDate < endDate) {
+            // Check if date is in the fture
+            if (activeDate <= currentDate) {
+                activeDate.setDate(activeDate.getDate() + 1);
+                continue;
+            }
+
+            const dateTime = new Date(activeDate.toDateString()).getTime();
+
+            // Check if dateTime is already in the reservedDates
+            if (reservedDates.includes(dateTime)) {
+                continue;
+            }
+
+            reservedDates.push(dateTime);
+            activeDate.setDate(activeDate.getDate() + 1);
+        }
+    }
+
+    res.json(reservedDates.sort((a, b) => a - b));
 };
