@@ -4,6 +4,7 @@ import {
     CancelReservation,
     CreateReservation,
     GetReservation,
+    PayReservation,
     PaymentStatus,
     ReservationAmenity,
     ReservationDocument,
@@ -177,7 +178,31 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
     res.json({ reservationId });
 };
 
-export const payReservation: RequestHandler = async (_req, _res) => {};
+export const payReservation: RequestHandler = async (req: BodyRequest<PayReservation>, res) => {
+    const { user, body } = req;
+    if (!user) throw new Unauthorized();
+
+    const { reservationId } = body;
+    const checker = new CheckData();
+
+    checker.checkType(reservationId, 'string', 'reservationId');
+    if (checker.size()) throw new UnprocessableEntity(checker.errors);
+
+    // Find reservation
+    const reservation: ReservationDocument | null = await ReservationModel.findOne({
+        reservationId,
+        renter: user._id
+    }).exec();
+    if (!reservation) throw new NotFound('Reservation');
+
+    reservation.status.payment = PaymentStatus.PAID;
+    reservation.status.reservation = ReservationStatus.RESERVED;
+    await reservation.save();
+
+    await logUpdateReservationStatus(reservation.reservationId, ReservationStatus.PENDING, ReservationStatus.RESERVED);
+
+    res.sendStatus(204);
+};
 
 export const cancelReservation: RequestHandler = async (req: BodyRequest<CancelReservation>, res) => {
     const { user, body } = req;

@@ -90,3 +90,7 @@ export type ReservationQuery = {
 export type CancelReservation = {
     reservationId: string;
 }
+
+export type PayReservation = {
+    reservationId: string;
+}
