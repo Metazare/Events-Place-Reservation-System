@@ -12,6 +12,17 @@ import PaymentModal from './PaymentModal';
 import IconButton from '@mui/material/IconButton'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+
+interface Data {
+  eventsPlaceId: string;
+  name: string;
+  description: string;
+  location: string;
+  rate: number;
+  maxCapacity: number;
+  images: string[];
+}
+
 export default function ReservationForm(){
   const {setOpenModal,ModalComponent,closeModal} = useModal();
   const {getDatesToArray} = useDates()
@@ -43,12 +54,14 @@ export default function ReservationForm(){
         ...values,
         date:getDate(),
         eventsPlaceId:EventsPlaceData.eventsPlaceId,
-        startDate:values.date[0].getTime(),
-        days:values.date.length,
+        rate:EventsPlaceData.rate,
+        startDate:values.date[0]?.getTime() || dateRange.startDate.getTime(),
+        days:values.date.length || dateRange.endDate.getDate() - dateRange.startDate.getDate() + 1,
         AmenitiesList:values.amenities.map((amenity:any)=>{
           return {amenityId:amenity.amenityId,quantity:amenity.quantity}
         })
       }
+      console.log(data)
       setOpenModal(<PaymentModal data={data}/>)
     },
   })
@@ -60,7 +73,8 @@ export default function ReservationForm(){
     }
   }
 
-  const ReservationFormComp = () => {
+  const ReservationFormComp = (data) => {
+
     return <>
     <div className='w-full flex rounded-full border border-[black]/10'>
       <p style={{transition:"all .3s ease-in-out"}} className={`grow text-center rounded-full  py-[.5em]  cursor-pointer ${selectedDate ==="Single Day"?"bg-[#144273] text-[white]":""}`} 
