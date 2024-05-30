@@ -8,7 +8,6 @@ import Paper from '@mui/material/Paper'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import useModal from 'src/Hooks/useModal'
-import UpdateProfileForm from './UpdateProfileForm'
 import Layout from './Layout'
 // Hooks
 import useUser from 'src/Hooks/useUser'
@@ -55,8 +54,12 @@ export default function Profile() {
             ) : null}
           </Paper>
           <div className='p-4 grow'>
-            <h6 className='text-[20px] font-[500] opacity-75'>Event Places</h6>
-            {/* <h6 className='text-[20px] font-[500] opacity-75'>Previews Reviews </h6> */}
+            {data[0]?.description && (
+              <div>
+                <h6 className='text-[20px] font-[500] opacity-75'>Event Places</h6>
+              </div>
+            )}
+            {/* <h6 className='text-[20px] font-[500] opacity-75'>Reviews </h6> */}
           </div>
         </Container>
       )}
