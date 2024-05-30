@@ -258,7 +258,7 @@ export default function MyListings() {
                     View Lists
                   </Button>
                   :
-                  <Button href="/becomehost" variant="contained" fullWidth sx={{background:"white",color:"black",marginTop:"1em" ,":hover":{background:"white"}}}>
+                  <Button href="/host" variant="contained" fullWidth sx={{background:"white",color:"black",marginTop:"1em" ,":hover":{background:"white"}}}>
                     Learn More
                   </Button>
                 }
@@ -305,12 +305,12 @@ export default function MyListings() {
 function EventCardList({isHost,data,edit,setData}: {isHost:boolean,data:any,edit:boolean,setData:any}){
   return<>
     <div className={`grid  mb-7`} style={isHost && !(isHost && edit)?{gridTemplateColumns:"repeat(auto-fill, minmax(250px, 1fr))",gap:"1em"}:{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))",gap:"1.5em"}}>
-      {data.map((data:any,index:any)=>(
+      {/* {data.map((data:any,index:any)=>(
         isHost?
           edit?<EventCard key={data._id} data={data} type="manage"/> : <ReservationCard key={index} /> 
           :
           <EventCard  data={data} type='booked' key={index}/>
-      ))}
+      ))} */}
     </div>
   </>
 }
