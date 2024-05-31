@@ -12,14 +12,15 @@ interface PropsType {
   data: any
 }
 export default function UpdateProfileForm({closeModal, data}:PropsType) {
-  const {editInfo, editCredentials} = useUser();
+  const {editInfo} = useUser();
   const UpdateProfileForm = useFormik({
     initialValues: {
       firstName: data[0]?.name?.first || '',
       middleName: data[0]?.name?.middle || '',
       lastName: data[0]?.name?.last || '',
       suffixName: data[0]?.name?.suffixName || '',
-      contact: data[0]?.contact || ''
+      contact: data[0]?.contact || '',
+      photo: data[0]?.photo || ''
     },
     validate: values => {
       let error:{ firstName?:string, middleName?:string, lastName?:string, suffixName?:string, contact?:string, email?: string, password?:string, confirmPassword?:string} = {};
@@ -28,11 +29,12 @@ export default function UpdateProfileForm({closeModal, data}:PropsType) {
       return error;
     },
     onSubmit: values => {
-      editInfo(values)
-
-      // Temporary: will be transferred to another form
-      // editCredentials({email:values.email, password:values.password})
-
+      if (data[0]?.description){
+        editInfo({...values, description: data[0]?.description, license: data[0]?.license})
+      }
+      else {
+        editInfo({...values})
+      }
       closeModal()
     }
   })

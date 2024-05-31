@@ -16,17 +16,39 @@ export default function UpdateProfileImage({closeModal, data}:PropsType) {
 
   const UpdateImage = useFormik({
     initialValues: {
-      image: data[0]?.image || ''
+      firstName: data[0]?.name?.first || '',
+      middleName: data[0]?.name?.middle || '',
+      lastName: data[0]?.name?.last || '',
+      suffixName: data[0]?.name?.suffixName || '',
+      contact: data[0]?.contact || '',
+      description: data[0]?.description || '',
+      license: data[0]?.license || '',
+      image: data[0]?.photo || ''
     },
     onSubmit: values => {
-      editInfo({
-        firstName: data[0]?.name?.first || '',
-        middleName: data[0]?.name?.middle || '',
-        lastName: data[0]?.name?.last || '',
-        suffixName: data[0]?.name?.suffixName || '',
-        contact: data[0]?.contact || '',
-        photo: values.image
-      })
+      if (data[0]?.description){
+        editInfo({
+          firstName: data[0]?.name?.first || '',
+          middleName: data[0]?.name?.middle || '',
+          lastName: data[0]?.name?.last || '',
+          suffixName: data[0]?.name?.suffixName || '',
+          contact: data[0]?.contact || '',
+          photo: values.image, 
+          description: data[0]?.description, 
+          license: data[0]?.license
+        })
+      }
+      else {
+        editInfo({
+          firstName: data[0]?.name?.first || '',
+          middleName: data[0]?.name?.middle || '',
+          lastName: data[0]?.name?.last || '',
+          suffixName: data[0]?.name?.suffixName || '',
+          contact: data[0]?.contact || '',
+          photo: values.image
+        })
+      }
+
       closeModal()
     }
   })
