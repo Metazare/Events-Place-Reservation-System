@@ -31,12 +31,9 @@ export default function PaymentModal({data}: {data: ReservationData}) {
   const submitReservation = async (e: any) => {
     e.preventDefault();
     const response = await createReservation(data);
-    console.log(response);
     toast.success("Reservation set!");
-                  setTimeout(() => {
-                      navigate('/invoice/'+response.reservationId);
-                  }, 2000);
-}
+    navigate('/invoice/'+response.reservationId);
+  }
 
   return <>
     <div className=' w-[100vw] max-w-[1000px]  min-h-[550px] overflow-hidden rounded-xl flex flex-col sm:grid' style={{gridTemplateColumns:"60% 40%"}}>
