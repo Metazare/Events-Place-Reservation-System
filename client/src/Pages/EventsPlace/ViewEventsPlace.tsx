@@ -64,7 +64,9 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
               <IconButton  sx={{marginTop:".1em"}} onClick={()=>{navigate('/eventsplace/update/'+data[0]?.eventsPlaceId)}}>
                 <BorderColorIcon sx={{fontSize:"27px"}} />
               </IconButton>
-            </Tooltip>:
+            </Tooltip>
+            
+            :
             <Tooltip title="Report">
               <IconButton  sx={{marginTop:".1em"}} onClick={()=>{}}>
                 <ReportIcon sx={{fontSize:"27px"}} />
@@ -74,7 +76,7 @@ export default function ViewEventsPlace({data: passedData}:{data?:any}) {
         </div>
         <div className='flex gap-2 items-center color-[#303030]'>
           <StarIcon sx={{fontSize:"15 px"}}/>
-          <p className='text-[15  px]'>4.5 (28 Reviews)</p>
+          <p className='text-[15  px]'>0 (0 Reviews)</p>
         </div>
       </div>
       <div className='relative flex flex-col md:flex-row  aspect-video w-full gap-4'>
