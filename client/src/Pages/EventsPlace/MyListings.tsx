@@ -161,14 +161,14 @@ export default function MyListings() {
 
 function EventCardList({isHost,data,edit,setData}: {isHost:boolean,data:any,edit:boolean,setData:any}){
   const {authUser} = useAuthContext();
-  const filteredData = data.filter((item: any) => item.host.userId === (authUser?.userId));
+  // const filteredData = data.filter((item: any) => item.host.userId === (authUser?.userId));
 
   return<>
     <div className={`grid  mb-7`} style={isHost && !(isHost && edit)?{gridTemplateColumns:"repeat(auto-fill, minmax(250px, 1fr))",gap:"1em"}:{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))",gap:"1.5em"}}>
-      {filteredData.map((data:any,index:any)=>(
+      {data.map((data:any,index:any)=>(
         isHost?
           edit  
-            ? <EventCard key={data._id} data={data} type="manage"/>
+            ? ( data.host.userId === (authUser?.userId) && <EventCard key={data._id} data={data} type="manage"/>)
             : <ReservationCard 
                 key={index} 
                 data={{
