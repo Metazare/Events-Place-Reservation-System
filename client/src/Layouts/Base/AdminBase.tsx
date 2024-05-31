@@ -10,17 +10,20 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useNavigate } from 'react-router-dom';
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import useMenu from 'src/Hooks/useMenu';
+import {useLogout} from 'src/Hooks/useAuth';
 
 export default function AdminBase() {
   const {menuVariables,setMenuVariables,MenuComp,MenuItemComp,handleClose} = useMenu();
   const navigate = useNavigate();
   const pathSegments = window.location.pathname.split('/').filter(segment => segment !== '');
+  const {logout} = useLogout();
+
   const ProfileMenu = () => {
     return<>
-      <MenuItemComp handleClick={()=>{}}>
+      {/* <MenuItemComp handleClick={()=>{}}>
         <p>Change Password</p>
-      </MenuItemComp>
-      <MenuItemComp handleClick={()=>{}}>
+      </MenuItemComp> */}
+      <MenuItemComp handleClick={()=>{logout()}}>
         <p>Logout</p>
       </MenuItemComp>
     </>
