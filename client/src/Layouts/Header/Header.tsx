@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AppBar,Box, Toolbar,IconButton,Typography,Menu,MenuItem,Avatar,Container,Tooltip, Button} from '@mui/material';
 
 // Images
@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from 'src/Context/AuthContext'
 import { useLogout } from 'src/Hooks/useAuth';
 import useMenu from 'src/Hooks/useMenu';
+import useNotification from 'src/Hooks/useNotif';
+
 export default function Header() {
   const navigate = useNavigate()
   const {authUser} = useAuthContext();
@@ -17,13 +19,15 @@ export default function Header() {
   const {menuVariables,setMenuVariables,MenuComp,MenuItemComp,handleClose} = useMenu();
   const [mode, setMode] = React.useState(localStorage.getItem('mode') || 'Renter');
 
+  const {getNotification, readNotification} = useNotification();
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
   const changeUserMode = () => {
     if (mode === 'Renter') {
-      if (authUser?.description) {
+      if (authUser?.description || localStorage.getItem('New Host')) {
         setMode('Host');
         localStorage.setItem('mode', 'Host');
       }
@@ -34,9 +38,12 @@ export default function Header() {
       setMode('Renter');
       localStorage.setItem('mode', 'Renter');
     }
-
     window.location.reload();
   }
+
+  useEffect(() => {
+    getNotification()
+  }, [])
 
   return (
     <AppBar position="static" sx={{background:"#144273"}}>
