@@ -166,7 +166,7 @@ function EventCardList({isHost,data,edit,setData}: {isHost:boolean,data:any,edit
       {data.map((data:any,index:any)=>(
         isHost?
           edit  
-            ? <EventCard key={data._id} data={data} type="manage"/> 
+            ? <EventCard key={data._id} data={data} type="manage"/>
             : <ReservationCard 
                 key={index} 
                 data={{
@@ -176,7 +176,11 @@ function EventCardList({isHost,data,edit,setData}: {isHost:boolean,data:any,edit
                 }}
               /> 
           :
-          <EventCard  data={data} type='booked' key={index}/>
+          <EventCard 
+            type='booked' 
+            key={index} 
+            data={{...data?.eventsPlace, reservationId: data?.reservationId, duration: data?.duration, guestCount: data?.guestCount}}
+          />
       ))}
     </div>
   </>

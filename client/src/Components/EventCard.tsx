@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip'
+import moment from 'moment';
 
 type PropsType = {
   data?:any,
@@ -17,8 +18,9 @@ export default function EventCard({data,type}: PropsType) {
   return (
     <div className='event-card cursor-pointer box-content relative CardHover' onClick={()=>{
       if(type==="view")navigate("/eventsplace/view/"+data?.eventsPlaceId)
+      if(type==="booked")navigate("/invoice/"+data?.reservationId)
     }}>
-      <div className='relative w-[full] aspect-card bg-[gray]/10 rounded-md' style={{background:`url("${data?.images[0]}")`,backgroundSize:"cover"}}>
+      <div className='relative w-[full] aspect-card bg-[gray]/10 rounded-md' style={{background:`url("${data?.images?.[0]}")`,backgroundSize:"cover"}}>
         {type==="manage"&&<div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[100%] h-[100%] bg-[black]/40 flex justify-center items-center gap-4 rounded-md opacity-0 hover:opacity-100 ' style={{transition:"all .3s ease-in"}}>
           <Tooltip title="Delete">
             <IconButton aria-label="" onClick={()=>{navigate("/eventsplace/delete")}}>
@@ -37,11 +39,11 @@ export default function EventCard({data,type}: PropsType) {
         <p className='text-[13px] opacity-70'>{data?.location}</p>
         {type==="view"&&<div className='flex gap-1 items-center opacity-70'>
           <StarIcon  sx={{fontSize:"18px"}}/>
-          <p className='text-[13px] '><span className='font-semibold'>4.5 </span>(28 Reviews)</p>
+          <p className='text-[13px] '><span className='font-semibold'>0 </span>(0 Reviews)</p>
         </div>}
         {type==="booked"&&<div className='bg-[#144273] mt-1 py-1 px-3 rounded-md flex gap-1 items-center text-[white]'>
           <EventIcon  sx={{fontSize:"18px"}}/>
-          <p className='text-[13px] '>Oct 25, 2023 - Oct 26 2023</p> 
+          <p className='text-[13px] '>{moment(data?.duration?.start).format('MMMM DD YYYY')} - {moment(data?.duration?.end).format('MMMM DD YYYY')}</p> 
         </div>}
       </div>
       <div className='BackgroundHover'></div>
