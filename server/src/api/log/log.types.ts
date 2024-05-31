@@ -17,7 +17,6 @@ export interface Log {
     logId: string;
     event: LogEvent;
     message: string;
-    user: Types.ObjectId | Record<string, unknown>;
     hostId?: string;
     reviewerId?: string;
     reserveeId?: string;
@@ -52,11 +51,6 @@ export interface UpdateReservationStatusLog extends Log {
 }
 
 export interface LogDocument extends Log, Document {
-    user: UserDocument['_id'];
     createdAt: Date;
     updatedAt: Date;
-}
-
-export interface LogPopulatedDocument extends LogDocument {
-    user: UserDocument;
 }

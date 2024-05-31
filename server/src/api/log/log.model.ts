@@ -19,11 +19,6 @@ const logSchema = new Schema(
             type: String,
             required: true
         },
-        user: {
-            type: Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
         hostId: String,
         reviewerId: String,
         reserveeId: String,
