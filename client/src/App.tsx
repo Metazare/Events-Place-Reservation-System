@@ -21,6 +21,9 @@ import BecomeHost from './Pages/BecomeHost';
 import DeleteEventsPlace from './Pages/EventsPlace/DeleteEventsPlace';
 import AdminBase from './Layouts/Base/AdminBase';
 import Chat from './Chat/Chat';
+// import Privacy from '.'
+import TermsNCondition from './Pages/TermNCondition_Policy/TermsNCondition';
+import Privacy from './Pages/TermNCondition_Policy/Privacy';
 // Admin
 import Renters from './Pages/Admin/Renters';
 import Hosts from './Pages/Admin/Hosts';
@@ -42,6 +45,8 @@ function App() {
           <Route path="/eventsplace/view/:id" element={<ViewEventsPlace/>} />
           <Route path="/profile/:userId" element={<Profile/>} />
           <Route path="/host" element={<BecomeHost/>} />
+          <Route path="/termsncondition" element={<TermsNCondition/>} />
+          <Route path="/privacy" element={<Privacy/>} />
 
           {/* Public routes accessible only by non-logged in users */}
           <Route element={<PublicRoute/>}>

@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
           &copy; {new Date().getFullYear()} EventsPlaceReservation
         </Typography>
         <Typography variant="body2" color="textSecondary" align="center">
-          <Link href="#">Privacy Policy</Link> | <Link href="#">Terms of Service</Link>
+          <Link href="/privacy">Privacy Policy</Link> | <Link href="/termsncondition">Terms of Service</Link>
         </Typography>
       </Container>
     </footer>
