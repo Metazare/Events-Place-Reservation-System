@@ -10,20 +10,18 @@ import EventCard from 'src/Components/EventCard';
 // Hooks
 import useEventsPlace from 'src/Hooks/useEventsPlace';
 import useSearch from 'src/Hooks/useSearch';
+import useGreedyAlgorithm from 'src/Hooks/useGreedyAlgorithm';
 export default function LandingPage() {
-
+  const {sortData} = useGreedyAlgorithm();
   const {data,loading,error,getEventsPlace} = useEventsPlace();
   useEffect(()=>{
     getEventsPlace('');
   },[])
 
-
   const {filteredData,setSearchValue,SearchFunction,setFilteredData} = useSearch(data);
-
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
-  
 
   return (
     <div className='grow'>
@@ -62,11 +60,11 @@ export default function LandingPage() {
         </>:<>
           <h5 className='text-[17] mb-4 font-bold opacity-70'>Recommended Places</h5>
           <div className='grid gap-5 mb-7' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-            {data?.map((place:any)=><EventCard key={place._id} data={place} type="view"/>)}
+            {data&&sortData(data,'name','asc')?.map((place:any)=><EventCard key={place._id} data={place} type="view"/>)}
           </div>
           <h5 className='text-[17] mb-4 font-bold opacity-70'>New Added Places</h5>
           <div className='grid gap-5' style={{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))"}}>
-            {data?.map((place:any)=><EventCard key={place._id} data={place} type="view"/>)}
+            {data&&sortData(data,'name','asc')?.map((place:any)=><EventCard key={place._id} data={place} type="view"/>)}
           </div>
         </>}
       </Container>
