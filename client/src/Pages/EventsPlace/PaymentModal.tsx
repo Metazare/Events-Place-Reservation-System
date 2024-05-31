@@ -22,17 +22,14 @@ interface ReservationData {
   guestCount: number;
   startDate: number;
   days: number;
+  date:any;
 }
 
 export default function PaymentModal({data}: {data: ReservationData}) {
   const { createReservation, getReservationTotal } = useReservation();
-  const navigate = useNavigate();
-
   const submitReservation = async (e: any) => {
     e.preventDefault();
-    const response = await createReservation(data);
-    toast.success("Reservation set!");
-    navigate('/invoice/'+response.reservationId);
+    await createReservation(data);
   }
 
   return <>

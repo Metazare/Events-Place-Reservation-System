@@ -56,7 +56,7 @@ export default function ReservationForm(){
         date:getDate(),
         eventsPlaceId:EventsPlaceData.eventsPlaceId,
         rate:EventsPlaceData.rate,
-        startDate:values.date[0]?.getTime() || dateRange.startDate.getTime(),
+        startDate: getDate()[0]?.getTime() ?? dateRange.startDate.getTime(),
         days:values.date.length || dateRange.endDate.getDate() - dateRange.startDate.getDate() + 1,
         AmenitiesList:values.amenities.map((amenity:any)=>{
           return {amenityId:amenity.amenityId,quantity:amenity.quantity}
@@ -71,6 +71,8 @@ export default function ReservationForm(){
       return getDatesToArray(datePicker,datePicker)
     }else if(selectedDate === "Multiple Days"){
       return getDatesToArray(dateRange.startDate,dateRange.endDate)
+    }else{
+      return getDatesToArray(new Date(),new Date())
     }
   }
 
@@ -146,7 +148,7 @@ export default function ReservationForm(){
         </div>
       </div>
     </>}
-    {data?.[0]?.host?.userId === authUser?.userId &&
+    {data?.[0]?.host?.userId !== authUser?.userId &&
       <Button variant="contained" onClick={()=>{ReservationFormik.handleSubmit()}} sx={{borderRadius:"10px !important",marginTop:"2em",background:"#144273"}}>
         Reserve
       </Button>
