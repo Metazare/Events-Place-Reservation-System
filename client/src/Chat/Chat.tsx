@@ -7,6 +7,9 @@ import SendIcon from '@mui/icons-material/Send';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Tooltip from '@mui/material/Tooltip'
 import { useFormik } from 'formik'
+
+
+
 export default function Chat() {
   const ChatFormik = useFormik({
     initialValues: {
@@ -41,18 +44,13 @@ export default function Chat() {
             <p className="text-[20px] font-semibold hidden md:block mt-1 ">My Messeges</p>
           </div>
           <div className='flex flex-col mt-4 grow max-h-custom overflow-hidden '>
-            <ChatMenu id={112} name={"Harold James H. Castillo"} message={"Hello"} img={"https://i.pravatar.cc/150?img=10"}/>
-            <ChatMenu id={112} name={"Harold James H. Castillo"} message={"Hello"} img={"https://i.pravatar.cc/150?img=10"}/>
-            <ChatMenu id={112} name={"Harold James H. Castillo"} message={"Hello"} img={"https://i.pravatar.cc/150?img=10"}/>
-            <ChatMenu id={112} name={"Harold James H. Castillo"} message={"Hello"} img={"https://i.pravatar.cc/150?img=10"}/>
-            <ChatMenu id={112} name={"Harold James H. Castillo"} message={"Hello"} img={"https://i.pravatar.cc/150?img=10"}/>
-            <ChatMenu id={112} name={"Harold James H. Castillo"} message={"Hello"} img={"https://i.pravatar.cc/150?img=10"}/>
+            <ChatMenu id={112} name={"John Doe"} message={"Hello"} img={"https://i.pravatar.cc/150?img=10"}/>
 
           </div>
         </div>
         <div className='flex flex-col grow'>
           <div className='p-3'>
-            <p className='p-3 text-[20px] font-medium text-[black]/80'>Miles Morales</p>
+            <p className='p-3 text-[20px] font-medium text-[black]/80'>Jane Doe</p>
           </div>
           <div className='p-3 grow border-y-2 border-[black]/10'>
             <MessageBubble isSender={true}/>
