@@ -14,6 +14,7 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Button from '@mui/material/Button'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
+import GoBackComp from 'src/Components/GoBackComp'
 export default function BecomeHost() {
   const StepsContent =[
     {
@@ -53,7 +54,10 @@ export default function BecomeHost() {
   })
   return (
     <div className='grow'>
-      <Container maxWidth="lg" className=' pt-[9em] pb-[2em] '>
+      <Container maxWidth="lg" className=' pb-[2em] '>
+        <div className='flex justify-start pt-[1em] pb-[7em] '>
+          <GoBackComp/>
+        </div>
         <div className='flex flex-col gap-4 items-center'>
           <h6 className='text-center md:translate-x-[30px] text-[34px] font-semibold leading-[40px]'>
             Let&apos;s <span className='text-[#0071BC]  font-bold'>Transform</span> your event  <br className='hidden md:block' />

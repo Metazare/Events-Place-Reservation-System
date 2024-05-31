@@ -41,7 +41,7 @@ export default function HostRegister() {
   return (
     <Container maxWidth="lg" className='grow '>
       <div className='h-full  py-4'>
-        <div className='flex justify-center'>
+        <div className='flex justify-start'>
           <GoBackComp/>
         </div>
         <div className='mt-[.5em] mb-[4em]'>
