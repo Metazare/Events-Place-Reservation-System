@@ -35,6 +35,7 @@ export default function DatePicker({value,handleChange}:PropsType) {
       </IconButton>
       {showCalendar.TextFieldFocus && <div className='absolute top-12 right-0 z-10'  onMouseEnter={()=>{setShowCalendar({...showCalendar,calendarFocus:true})}} onMouseLeave={()=>{setShowCalendar({...showCalendar,calendarFocus:false})}}>
         <Calendar
+          minDate={new Date()}
           date={value}
           onChange={(date)=>{handleChange(date)}}
         />  
