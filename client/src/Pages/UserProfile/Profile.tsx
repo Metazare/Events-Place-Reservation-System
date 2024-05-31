@@ -33,6 +33,11 @@ export default function Profile() {
   if (error)
     return <div>Error: {error.message}</div>
 
+  const updateProfile = () => {
+    window.location.reload();
+    closeModal();
+  }
+
   return (
     <div className='grow'>
       {data && data[0] && (
@@ -48,7 +53,7 @@ export default function Profile() {
               <p className='text-[10px] font-[500] opacity-65'>Contact Number</p>
             </div>
             {(userId === undefined && authUser) || (userId === authUser?.userId) ? (
-              <Button variant="outlined" color="primary" sx={{width:"100%",marginTop:"25px"}} onClick={()=>{setOpenModal(<Layout closeModal={closeModal} data={data}/>)}}>
+              <Button variant="outlined" color="primary" sx={{width:"100%",marginTop:"25px"}} onClick={()=>{setOpenModal(<Layout closeModal={updateProfile} data={data}/>)}}>
                 Update Profile
               </Button>
             ) : null}
