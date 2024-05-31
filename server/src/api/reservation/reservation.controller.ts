@@ -157,7 +157,7 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
         }
     });
 
-    await logCreateReservation(user.userId, eventsPlace.eventsPlaceId, reservation.reservationId);
+    // await logCreateReservation(user.userId, eventsPlace.eventsPlaceId, reservation.reservationId);
 
     setTimeout(async () => {
         const { payment: paymentStatus, reservation: reservationStatus } = reservation.status;
@@ -176,6 +176,7 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
     }, 10 * minutesToMillis); // 1 day
 
     res.json({ reservationId });
+
 };
 
 export const payReservation: RequestHandler = async (req: BodyRequest<PayReservation>, res) => {
