@@ -1,17 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search';
 import { useFormik } from 'formik';
-export default function useSearch() {
-  const [search, setSearch] = React.useState<string>("");
-  const formik = useFormik({
-    initialValues: {
-      search: '',
-    },
-    onSubmit: values => {
-      setSearch(values.search)
-    },  
-  })
+import useGreedyAlgorithm from './useGreedyAlgorithm';
+
+export default function useSearch(data:any) {
+  const [searchValue, setSearchValue] = React.useState<string>("");
+  const [filteredData, setFilteredData] = React.useState<any>(null);
+
+
+  const SearchFunction =()=>{
+    if(searchValue === "") return setFilteredData(null)
+    const filtered = data.filter((item:any)=>{
+      return item.name.toLowerCase().includes(searchValue.toLowerCase())
+    })
+    // console.log(filtered)
+    setFilteredData(filtered)
+  }
+
   const SearchComponent = () => {
     return <>
       <div className='flex rounded-full bg-[white] gap-1' >
@@ -22,5 +28,5 @@ export default function useSearch() {
       </div>
     </>
   }
-  return {SearchComponent}
+  return {filteredData,searchValue,setSearchValue,SearchComponent,SearchFunction,setFilteredData}
 }

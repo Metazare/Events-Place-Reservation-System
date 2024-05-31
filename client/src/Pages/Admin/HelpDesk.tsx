@@ -14,7 +14,7 @@ import useModal from 'src/Hooks/useModal';
 import HelpDeskModal from 'src/Components/HelpDeskModal';
 export default function HelpDesk() {
   const {ModalComponent,setOpenModal,closeModal} = useModal();
-  const {SearchComponent} = useSearch();
+  const {SearchComponent} = useSearch([]);
   return <>
     <div className='flex justify-start items-center gap-4'>
       <SearchComponent/>

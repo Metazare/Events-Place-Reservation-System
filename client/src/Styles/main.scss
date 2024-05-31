@@ -101,3 +101,34 @@ body{
   opacity: 1;
   transform: scale(1.01);
 }
+input {
+  background-color: transparent;
+}
+
+input:focus {
+  background-color: transparent;
+}
+
+input::-webkit-autofill {
+  background-color: transparent !important;
+}
+
+input::-webkit-autofill:focus {
+  background-color: transparent !important;
+}
+
+/* Placeholder styling (not directly related to datalist but useful) */
+::-webkit-input-placeholder {
+  color: inherit;
+}
+:-moz-placeholder {
+  color: inherit;
+  opacity: 1;
+}
+::-moz-placeholder {
+  color: inherit;
+  opacity: 1;
+}
+:-ms-input-placeholder {
+  color: inherit;
+}

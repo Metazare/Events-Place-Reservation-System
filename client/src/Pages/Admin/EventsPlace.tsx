@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import EventCard from 'src/Components/EventCard';
 export default function EventsPlace() {
-  const {SearchComponent} = useSearch();
+  const {SearchComponent} = useSearch([]);
   return <>
     <div className='flex justify-between md:justify-start items-center gap-4'>
       <SearchComponent/>

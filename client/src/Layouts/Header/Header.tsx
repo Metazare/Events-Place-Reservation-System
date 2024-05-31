@@ -48,7 +48,7 @@ export default function Header() {
           {authUser?
             <>
               <div className='flex items-center'>
-                <div className='border-r-2 border-[white]/60 pr-4 hidden sm:block '>
+                <div className='border-r-2 border-[white]/60 mr-2 pr-4 hidden sm:block '>
                   <Button variant="outlined" sx={{borderColor:"white",opacity:".9",borderRadius:"15px",padding:".4em 1.5em",color:"white", ":hover":{borderColor:"white"}}}
                     onClick={changeUserMode}
                   >

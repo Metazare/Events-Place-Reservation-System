@@ -14,7 +14,7 @@ import useReservation from 'src/Hooks/useReservation';
 
 export default function MyListings() {
   const {authUser} = useAuthContext();
-  const {SearchComponent} = useSearch();
+  const {SearchComponent} = useSearch([]);
   const {data,loading,error,getEventsPlace} = useEventsPlace();
 
   const {data:reservation, getReservation} = useReservation();

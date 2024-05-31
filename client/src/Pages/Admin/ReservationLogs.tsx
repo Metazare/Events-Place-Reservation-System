@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Avatar from '@mui/material/Avatar'
 export default function ReservationLogs() {
-  const {SearchComponent} = useSearch();
+  const {SearchComponent} = useSearch([]);
   return <>
     <div className='flex justify-start items-center gap-4'>
       <SearchComponent/>
