@@ -1,19 +1,14 @@
-import { useState, useEffect } from 'react';
+const useGreedyAlgorithm = () => {
+    // Define the type for the sorting order
+    type SortOrder = 'asc' | 'desc';
 
-// Define the type for the sorting order
-type SortOrder = 'asc' | 'desc';
+    // Custom hook for sorting data using a greedy algorithm
+    function sortData<T>(data: T[], key: keyof T, order: SortOrder = 'asc'): T[] {
+        // Create a copy of the data to avoid mutating the original array
+        const sorted = [...data];
 
-// Custom hook for sorting data using a greedy algorithm
-function useGreedyAlgorithm<T>(data: T[], key: keyof T, order: SortOrder = 'asc'): T[] {
-    // State to hold the sorted data
-    const [sortedData, setSortedData] = useState<T[]>([]);
-
-    useEffect(() => {
         // Function to perform the greedy sorting
         const greedySort = (data: T[], key: keyof T, order: SortOrder): T[] => {
-            // Create a copy of the data to avoid mutating the original array
-            const sorted = [...data];
-
             // Sort the data using the key provided
             sorted.sort((a, b) => {
                 // Extract the values to compare
@@ -36,14 +31,13 @@ function useGreedyAlgorithm<T>(data: T[], key: keyof T, order: SortOrder = 'asc'
         };
 
         // Sort the data whenever 'data', 'key', or 'order' changes
-        setSortedData(greedySort(data, key, order));
-    }, [data, key, order]); // Dependencies array: triggers useEffect when data, key, or order changes
+        return greedySort(sorted, key, order); // Return the sorted data
+    }
 
-    return sortedData; // Return the sorted data
+    return { sortData }; 
 }
 
 export default useGreedyAlgorithm;
-
 
 // Example usage
 // Initial state with an array of items
@@ -55,4 +49,5 @@ export default useGreedyAlgorithm;
 
 // Use the custom hook to get the sorted items
 // Sorting by the 'value' property
-    // const sortedItems = useGreedyAlgorithm(items, 'value', 'asc');
+    // const {sortData} = useGreedyAlgorithm();
+    // const sortedItems = sortData(items, 'value', 'asc');
