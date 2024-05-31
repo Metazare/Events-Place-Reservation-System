@@ -12,6 +12,7 @@ import PaymentModal from './PaymentModal';
 import IconButton from '@mui/material/IconButton'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { useAuthContext } from 'src/Context/AuthContext';
 
 interface Data {
   eventsPlaceId: string;
@@ -74,7 +75,7 @@ export default function ReservationForm(){
   }
 
   const ReservationFormComp = (data) => {
-
+    const {authUser} = useAuthContext();
     return <>
     <div className='w-full flex rounded-full border border-[black]/10'>
       <p style={{transition:"all .3s ease-in-out"}} className={`grow text-center rounded-full  py-[.5em]  cursor-pointer ${selectedDate ==="Single Day"?"bg-[#144273] text-[white]":""}`} 
@@ -145,9 +146,12 @@ export default function ReservationForm(){
         </div>
       </div>
     </>}
-    <Button variant="contained" onClick={()=>{ReservationFormik.handleSubmit()}} sx={{borderRadius:"10px !important",marginTop:"2em",background:"#144273"}}>
-      Reserve
-    </Button>
+    {data?.[0]?.host?.userId === authUser?.userId &&
+      <Button variant="contained" onClick={()=>{ReservationFormik.handleSubmit()}} sx={{borderRadius:"10px !important",marginTop:"2em",background:"#144273"}}>
+        Reserve
+      </Button>
+    }
+    
     {ModalComponent()} 
   </>
   }
