@@ -1,31 +1,33 @@
-import { BodyRequest, RequestHandler } from 'express';
+import { BodyRequest, QueryRequest, RequestHandler } from 'express';
 import { CheckData } from '../../utilities/checkData';
-import { CreateNotification, NotificationStatus, ReadNotification } from './notification.types';
+import { CreateNotification, NotificationStatus, ReadNotification, GetNotification } from './notification.types';
 import { NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
 import NotificationModel from './notification.model';
 
-export const getNotifications: RequestHandler = async (req, res) => {
+export const getNotifications: RequestHandler = async (req: BodyRequest<GetNotification>, res)  => {
     if (!req.user) throw new Unauthorized();
     const user = req.user;
 
-    const notifications = await NotificationModel.find({ userId: user._id }).exec();
+    const notifications = await NotificationModel.find({ userId: user._id }).populate('userId').exec();
 
     res.json(notifications);
 };
 
-export const createNotification = async (req: CreateNotification) => {
-    const { userId, type, content } = req;
+export const createNotification = async (req: BodyRequest<CreateNotification>, res:any) => {
+    const { userId, type, content } = req.body;
 
     const checker = new CheckData();
     checker.checkType(userId, 'string', 'userId');
     checker.checkType(type, 'string', 'type');
     checker.checkType(content, 'string', 'content');
 
-    await NotificationModel.create({
+    const notification: CreateNotification = await NotificationModel.create({
         userId,
         type,
         content,
     });
+
+    res.json(notification);
 };
 
 export const readNotification: RequestHandler = async (req: BodyRequest<ReadNotification>, res) => {

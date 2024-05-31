@@ -48,7 +48,7 @@ export default function BecomeHost() {
       return error;
     },
     onSubmit:(values)=>{
-      navigate('/becomehost/register')
+      navigate('/host/register')
     }
   })
   return (

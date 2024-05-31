@@ -9,20 +9,23 @@ import useReservation from 'src/Hooks/useReservation';
 import toast from "react-hot-toast";
 
 import { useNavigate } from "react-router-dom";
-
-interface Data {
+interface ReservationData {
   eventsPlaceId: string;
-  amenities: Array<{
-    amenityId: string;
-    quantity: number;
-  }>;
+  rate: number;
+  amenities: {
+      amenityId: string;
+      quantity: number;
+      rate: number;
+      amenityType: string;
+      name: string;
+  }[];
   guestCount: number;
   startDate: number;
   days: number;
 }
 
-export default function PaymentModal({data}: {data: Data}) {
-  const { createReservation } = useReservation();
+export default function PaymentModal({data}: {data: ReservationData}) {
+  const { createReservation, getReservationTotal } = useReservation();
   const navigate = useNavigate();
 
   const submitReservation = async (e: any) => {
@@ -40,11 +43,16 @@ export default function PaymentModal({data}: {data: Data}) {
       <div className='p-[1.5em] flex flex-col grow'>
         <h6 className='text-[25px] text-[#144273] font-semibold'>Price Details</h6>
         <div className='grow py-4'>
-          <Timeline isCard={false}/>
+          <p className='text-[18px] text-[black]/50'>Events Place Rate</p>
+          <p className='text-[18px] text-[black]/50'>₱{data.rate} x {data.days} day(s) = ₱{data.rate*data.days}</p>
+          <br/>
+
+          <p className='text-[18px] text-[black]/50'>Amenities</p>
+          <Timeline isCard={false} data={data}/>
         </div>
         <div className='border-t border-[black]/50 flex justify-between items-end pt-[1em]'>
           <p className='text-[18px] text-[black]/50'>Total</p>
-          <p className='text-[26px] font-semibold'>₱ 5000</p>
+          <p className='text-[26px] font-semibold'>₱ {getReservationTotal(data)}</p>
         </div>
       </div>
       <div className='p-[1.5em] relative flex flex-col overflow-hidden '  style={{background:`url(${Image})`}}>
