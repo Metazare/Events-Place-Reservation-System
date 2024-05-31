@@ -54,7 +54,7 @@ const useLogin = () => {
                 .then((response: any) => {
                     localStorage.setItem('user', JSON.stringify(response.data))
                     setAuthUser(response.data);
-
+                    console.log(response.data)
                     if (response.data.name.first === "Admin"){
                         navigate('/admin/renters');
                         localStorage.setItem('mode', 'Admin');
@@ -74,22 +74,20 @@ const useLogin = () => {
             setLoading(false);
         }
     };
-
     return { loading, login };
 };
 
 const useLogout = () => {
     const [loading, setLoading] = useState(false);
     const { setAuthUser } = useAuthContext();
-
     const logout = async () => {
         setLoading(true);
         try {
             await axios
                 .post(`/auth/logout`)
                 .then((response: any) => {
-                    console.log(response.data)
                     localStorage.removeItem("user");
+                    localStorage.removeItem('New Host');
                     setAuthUser(null);
                 });
         } catch (error: any) {
@@ -98,7 +96,6 @@ const useLogout = () => {
             setLoading(false);
         }
     };
-
     return { loading, logout };
 };
 
@@ -108,25 +105,12 @@ const useRegister = () => {
     const { setAuthUser } = useAuthContext();
     const navigate = useNavigate();
 
-    const handleInputErrors = (data: RegisterData): boolean => {
-        const { firstName, lastName, contact, email, password} = data;
-        
-        if (!firstName || !lastName || !contact || !email || !password) {
-            toast.error("Please fill in all fields");
-            return false;
-        }
-
-        return true;
-    };
-
     const isEmailUnique = async (data): Promise<boolean> => {
         setLoading(true);
-
         try {
             const response = await axios.post(`/auth/checkemail`, {email: data});
             return !response.data.duplicateEmail;
         } catch (error: any) {
-            toast.error(error.response?.data?.message);
             toast.error("Email already exists");
             return false;
         } finally {
@@ -136,15 +120,18 @@ const useRegister = () => {
 
     const register = async (data: RegisterData) => {
         setLoading(true);
-
         try {
             await axios.post(`/auth/register`, data).then((response: any) => {
                 login({ email: data.email, password: data.password });
                 localStorage.setItem("user", JSON.stringify(response.data));
                 setAuthUser(response.data);
                 navigate('/profile');
-            });
-
+            })
+            .catch((error: any) => {
+                console.log(error)
+                toast.error(error.response?.data?.message);
+            }
+            );
         } catch (error: any) {
             toast.error(error.response?.data?.message);
         } finally {
@@ -154,11 +141,16 @@ const useRegister = () => {
 
     const registerHost = async (data: RegisterHostData) => {
         setLoading(true);
-
         try {
-            await axios.post(`/auth/register/host`, data).then((response: any) => {
-                toast.success("Host registration successful");
-            });
+            await axios.post(`/auth/register/host`, data)
+                        .then((response: any) => {
+                            console.log(response)
+                            toast.success("Host registration successful");
+                        })
+                        .catch((error: any) => {
+                            console.log(error)
+                            toast.error(error.response?.data?.message);
+                        });
         } catch (error: any) {
             toast.error(error.response?.data?.message);
         } finally {
@@ -175,15 +167,11 @@ const usePasswordReset = () => {
 
     const forgetPassword = async (email: string) => {
         setLoading(true);
-
         try {
             await axios
                 .post(`/user/password/forgot`, {email:email})
                 .then((response: any) => {
                     toast.success("Password reset link sent to email");
-                    setTimeout(() => {
-                        navigate('/login');
-                    }, 2000);
                 });
         } catch (error: any) {
             toast.error(error.response?.data?.message);
@@ -194,12 +182,6 @@ const usePasswordReset = () => {
 
     const resetPassword = async (password: string, hash: string) => {
         setLoading(true);
-
-        console.log({
-            password: password,
-            hash: hash
-        })
-
         try {
             await axios
                 .post(`/user/password/reset`, {
@@ -224,7 +206,6 @@ const usePasswordReset = () => {
 
 const ProtectedRoute = ({ allowedRoles }) => {
     const { authUser } = useAuthContext();
-
     return (
         authUser
         ? allowedRoles 
@@ -238,10 +219,11 @@ const ProtectedRoute = ({ allowedRoles }) => {
 
 const PublicRoute = () => {
     const { authUser } = useAuthContext();
-
     return (
         authUser
-        ? <Navigate to="/"/> 
+        ? localStorage.getItem('mode') === "Admin" 
+            ? <Navigate to="/admin/renters"/> 
+            : <Navigate to="/"/>
         : <Outlet/> 
     );
 };
