@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import useRequest from './useRequest';
 import axios from './useAxios';
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface CreateReservationData {
   eventsPlaceId: string;
@@ -48,6 +50,7 @@ interface GetReservationData {
 
 function useReservation() {
   const { data, loading, error, makeRequest } = useRequest();
+  const navigate = useNavigate();
 
   const getReservation = (content: GetReservationData) => {
     makeRequest({
@@ -59,11 +62,15 @@ function useReservation() {
 
   const createReservation = async (content: CreateReservationData) => {
     try {
-      const response = await axios.post('/reservation', content);
-      return response.data;
+      await axios.post('/reservation', content)
+        .then((response) => {  
+          toast.success("Reservation set!");
+          navigate('/invoice/'+response.data.reservationId);
+        });
     } 
     catch (error: any) {
       console.error('Error making request:', error);
+      toast.error(error.response.data.message);
     }
   };
 
