@@ -138,6 +138,10 @@ export default function Invoice() {
               </div>
             </div>
             <div className=' border-y py-4 border-[black]/10'>
+                <p className='text-[16px] text-[black]/80'>Event Place</p>
+                <p className='text-[14px] text-[black]/50'>₱{data?.[0].eventsPlace.rate} x {(new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24)} day(s) = ₱{data?.[0].eventsPlace.rate*((new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24))}</p>
+                <br/>
+                <p className='text-[16px] text-[black]/80'>Amenities</p>
               <Timeline 
                 isCard={true}
                 data={{

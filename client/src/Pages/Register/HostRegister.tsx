@@ -33,6 +33,8 @@ export default function HostRegister() {
         description: values.description,
         license: values.images
       })
+      localStorage.setItem('mode', 'Host');
+      localStorage.setItem('New Host', 'true');
       navigate('/')
     },
   })
