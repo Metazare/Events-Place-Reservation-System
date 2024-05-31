@@ -35,8 +35,8 @@ interface ReservationData {
   days: number;
 }
 
-interface UpdateReservationData {
-  
+interface Reservation {
+  reservationId: string;
 }
 
 interface GetReservationData {
@@ -67,10 +67,18 @@ function useReservation() {
     }
   };
 
-  const updateReservation = (id: string, content: UpdateReservationData) => {
+  const payReservation = (content: Reservation) => {
     makeRequest({
       method: 'patch',
-      url: `/reservation/${id}`,
+      url: `/reservation/pay`,
+      data: content,
+    });
+  };
+
+  const cancelReservation = (content: Reservation) => {
+    makeRequest({
+      method: 'patch',
+      url: `/reservation/cancel`,
       data: content,
     });
   };
@@ -107,7 +115,8 @@ function useReservation() {
     error,
     getReservation,
     createReservation,
-    updateReservation,
+    payReservation,
+    cancelReservation,
     deleteReservation,
     getReservationTotal
   };
