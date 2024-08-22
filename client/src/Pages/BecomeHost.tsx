@@ -35,7 +35,6 @@ export default function BecomeHost() {
       Description:"Stay in control with our intuitive reservation monitoring system. Keep track of rentees reservations' selected dates, guest numbers, amenities, and more with ease!",
       img:[
         {src:Step3Image,alt:"View Listing"},
-
       ]
     }
   ]
@@ -58,6 +57,22 @@ export default function BecomeHost() {
         <div className='flex justify-start pt-[1em] pb-[7em] '>
           <GoBackComp/>
         </div>
+        <Container maxWidth="lg" className='mt-[2em] mb-[6em]'>
+        <p className='text-[red] pl-3'>{formik.touched.isAgree && formik.errors.isAgree !== undefined&&formik.errors.isAgree}</p>
+        <div className='w-full flex justify-center mt-[2em]'>
+          <Button variant="contained" onClick={()=>{formik.handleSubmit()}} sx={{background:"#144273",padding:"1em 3em"}}>
+            Become a Host now!
+          </Button>
+        </div>
+        <div className='flex gap-2 items-center'>
+          <Checkbox
+            icon={<RadioButtonUncheckedIcon />}
+            checkedIcon={<TaskAltIcon />}
+            onClick={()=>{formik.setFieldValue('isAgree',!formik.values.isAgree)}}
+          />
+          <p>I agree with the <a className='font-bold cursor-pointer' target="_blank" href="/policy" >Policy</a> and <a className='font-bold cursor-pointer' target="_blank" href="/termscondition">Terms & Condition</a></p>
+        </div>
+      </Container>
         <div className='flex flex-col gap-4 items-center'>
           <h6 className='text-center md:translate-x-[30px] text-[34px] font-semibold leading-[40px]'>
             Let&apos;s <span className='text-[#0071BC]  font-bold'>Transform</span> your event  <br className='hidden md:block' />
@@ -93,22 +108,7 @@ export default function BecomeHost() {
           </div>
         </Container>
       </div>
-      <Container maxWidth="lg" className='mt-[2em] mb-[6em]'>
-        <div className='flex gap-2 items-center'>
-          <Checkbox
-            icon={<RadioButtonUncheckedIcon />}
-            checkedIcon={<TaskAltIcon />}
-            onClick={()=>{formik.setFieldValue('isAgree',!formik.values.isAgree)}}
-          />
-          <p>I agree with the <a className='font-bold cursor-pointer' target="_blank" href="/policy" >Policy</a> and <a className='font-bold cursor-pointer' target="_blank" href="/termscondition">Terms & Condition</a></p>
-        </div>
-        <p className='text-[red] pl-3'>{formik.touched.isAgree && formik.errors.isAgree !== undefined&&formik.errors.isAgree}</p>
-        <div className='w-full flex justify-center mt-[2em]'>
-          <Button variant="contained" onClick={()=>{formik.handleSubmit()}} sx={{background:"#144273",padding:"1em 3em"}}>
-            Become a Host now!
-          </Button>
-        </div>
-      </Container>
+      
     </div>
   )
 }
