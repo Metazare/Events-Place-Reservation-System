@@ -56,8 +56,7 @@ const useLogin = () => {
                     setAuthUser(response.data);
                     console.log(response.data)
                     if (response.data.name.first === "Admin"){
-                        navigate('/admin/renters');
-                        localStorage.setItem('mode', 'Admin');
+                        console.log("This is admin account!")
                     }
                     else if (response.data.license){
                         localStorage.setItem('mode', 'Host');
@@ -74,7 +73,36 @@ const useLogin = () => {
             setLoading(false);
         }
     };
-    return { loading, login };
+
+
+    const loginAdmin = async (data: LoginData) => {
+        const { email, password } = data;
+
+        const success = handleInputErrors({email, password});
+        if (!success) return;
+
+        setLoading(true);
+
+        try {
+            await axios
+                .post(`/auth/login`, data)
+                .then((response: any) => {
+                    localStorage.setItem('user', JSON.stringify(response.data))
+                    setAuthUser(response.data);
+                    console.log(response.data)
+                    if (response.data.name.first === "Admin"){
+                        navigate('/admin/renters');
+                        localStorage.setItem('mode', 'Admin');
+                    }
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { loading, login, loginAdmin };
 };
 
 const useLogout = () => {

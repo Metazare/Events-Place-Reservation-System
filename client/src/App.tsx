@@ -6,6 +6,7 @@ import Base from './Layouts/Base/Base';
 // Pages
 import Default from './Pages/LandingPage/LandingPage';
 import Login from './Pages/Login/Login';
+import LoginAdmin from './Pages/LoginAdmin/LoginAdmin';
 import Register from './Pages/Register/Register';
 import Profile from './Pages/UserProfile/Profile';
 import ResetPassword from './Pages/ResetPassword';
@@ -51,6 +52,7 @@ function App() {
           {/* Public routes accessible only by non-logged in users */}
           <Route element={<PublicRoute/>}>
             <Route path="/login" element={<Login/>} />
+            <Route path="/loginadmin" element={<LoginAdmin/>} />
             <Route path="/register" element={<Register/>} />
             <Route path="/forgetpassword" element={<ForgetPassword/>} />
             <Route path="/resetpassword/:hash" element={<ResetPassword/>} />
