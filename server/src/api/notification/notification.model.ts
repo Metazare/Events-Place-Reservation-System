@@ -1,35 +1,35 @@
-import { id } from '../../utilities/ids';
-import { NotificationDocument, NotificationStatus } from './notification.types';
-import { Schema, Types, model } from 'mongoose';
+import { id } from "../../utilities/ids";
+import { NotificationDocument, NotificationStatus } from "./notification.types";
+import { Schema, Types, model } from "mongoose";
 
 const notificationSchema = new Schema(
     {
         userId: {
-            type: Types.ObjectId,
-            ref: 'User',
-            required: true
+            type: String,
+            ref: "User",
+            required: true,
         },
         content: {
             type: String,
             minLength: 1,
-            required: true
+            required: true,
         },
         type: {
-            type: String
+            type: String,
         },
         status: {
             type: String,
             enum: {
                 values: Object.values(NotificationStatus),
-                message: '"{VALUE} is not supported"'
+                message: '"{VALUE} is not supported"',
             },
-            default: NotificationStatus.UNREAD
-        }
+            default: NotificationStatus.UNREAD,
+        },
     },
     {
         versionKey: false,
-        timestamps: true
+        timestamps: true,
     }
 );
 
-export default model<NotificationDocument>('Notification', notificationSchema);
+export default model<NotificationDocument>("Notification", notificationSchema);
