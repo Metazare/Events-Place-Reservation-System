@@ -8,8 +8,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Tooltip from '@mui/material/Tooltip'
 import { useFormik } from 'formik'
 
-
-
 export default function Chat() {
   const ChatFormik = useFormik({
     initialValues: {
@@ -41,7 +39,7 @@ export default function Chat() {
             {/* <div className='hidden md:flex justify start'>
               <GoBackComp/>
             </div> */}
-            <p className="text-[20px] font-semibold hidden md:block mt-1 ">My Messeges</p>
+            <p className="text-[20px] font-semibold hidden md:block mt-1 ">My Messages</p>
           </div>
           <div className='flex flex-col mt-4 grow max-h-custom overflow-hidden '>
             <ChatMenu id={112} name={"John Doe"} message={"Hello"} img={"https://i.pravatar.cc/150?img=10"}/>
@@ -71,7 +69,6 @@ export default function Chat() {
     </div>
   </>
 }
-
 function MessageBubble({isSender}){
   return <>
     <div className={`flex items-center gap-3 ${isSender && "justify-end"}`}>
