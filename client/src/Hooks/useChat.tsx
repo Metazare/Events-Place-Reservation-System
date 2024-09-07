@@ -1,41 +1,82 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "./useAxios";
 import toast from "react-hot-toast";
 import { useSocketContext } from "../Context/SocketContext";
+import useUser from "src/Hooks/useUser";
+
+interface UserData {
+    userId: string;
+    name: {
+        first: string;
+        middle?: string;
+        last: string;
+        suffix?: string;
+    };
+    credentials: {
+        email: string;
+        password: string;
+        passwordResetHash?: string;
+    };
+    contact: string;
+    isAdmin?: boolean;
+    photo?: string;
+    description?: string;
+    license?: string;
+}
 
 export default function useChat() {
+    const [conversations, setConversations] = useState<any[]>([]);
     const getConversations = async (): Promise<any> => {
         try {
             const response = await axios.get("/chat/conversations");
-            return response.data;
+            console.log(response.data);
+            setConversations(
+                response.data.sort(
+                    (a, b) =>
+                        new Date(b.updatedAt).getTime() -
+                        new Date(a.updatedAt).getTime()
+                )
+            );
         } catch (error: any) {
-            console.error(error);
             toast.error(error.response?.data?.message);
-            return null;
+            // setConversations([]);
         }
     };
 
+    const [messages, setMessages] = useState<any[]>([]);
     const getMessages = async (receiverId: string): Promise<any> => {
         try {
             const response = await axios.get(
                 `/chat/messages/?receiverId=${receiverId}`
             );
-            return response.data;
+            setMessages(response.data);
         } catch (error: any) {
             toast.error(error.response?.data?.message);
-            return null;
+            setMessages([]);
         }
     };
 
-    const sendMessage = async (receiverId: string, message: string) => {
+    const sendMessage = async (
+        receiverId: string,
+        message: string,
+        senderId: string
+    ) => {
         try {
             await axios
                 .post("/chat/send", {
                     receiverId,
                     message,
                 })
-                .then((response: any) => {
-                  console.log(response);
+                .then(() => {
+                    setMessages((prevMessages: any) => [
+                        ...prevMessages,
+                        {
+                            senderId: senderId,
+                            message,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                        },
+                    ]);
                 });
         } catch (error: any) {
             toast.error(error.response?.data?.message);
@@ -44,7 +85,6 @@ export default function useChat() {
 
     function useListenMessages(setMessages: any) {
         const { socket } = useSocketContext();
-
         useEffect(() => {
             socket?.on("newMessage", (message: any) => {
                 setMessages((prevMessages: any) => [...prevMessages, message]);
@@ -55,10 +95,35 @@ export default function useChat() {
         }, [socket, setMessages]);
     }
 
+    const getParticipant = (authUser, conversation: any) => {
+        const participant = conversation.participants
+            .find((participant: any) => participant !== authUser?.userId)
+            ?.toString();
+        return participant;
+    };
+
+    const { getUserInfo } = useUser();
+    const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
+    const SelectUser = async (userId: string) => {
+        try {
+            const data = await getUserInfo(userId);
+            console.log(data);
+            setSelectedUser(data);
+        } catch (error: any) {
+            toast.error(error.message);
+        }
+    };
+
     return {
+        conversations,
         getConversations,
+        messages,
         getMessages,
+        setMessages,
         sendMessage,
         useListenMessages,
+        getParticipant,
+        selectedUser,
+        SelectUser,
     };
 }
