@@ -3,6 +3,7 @@ import axios from "./useAxios";
 import toast from "react-hot-toast";
 import { useSocketContext } from "../Context/SocketContext";
 import useUser from "src/Hooks/useUser";
+import { useAuthContext } from "src/Context/AuthContext";
 
 interface UserData {
     userId: string;
@@ -25,21 +26,45 @@ interface UserData {
 }
 
 export default function useChat() {
+    const { authUser } = useAuthContext();
     const [conversations, setConversations] = useState<any[]>([]);
-    const getConversations = async (): Promise<any> => {
+    const getConversations = async (): Promise<any[]> => {
         try {
             const response = await axios.get("/chat/conversations");
             console.log(response.data);
-            setConversations(
-                response.data.sort(
-                    (a, b) =>
-                        new Date(b.updatedAt).getTime() -
-                        new Date(a.updatedAt).getTime()
-                )
+            const sortedData = response.data.sort(
+                (a, b) =>
+                    new Date(b.updatedAt).getTime() -
+                    new Date(a.updatedAt).getTime()
             );
+
+            const updatedConversations = await Promise.all(
+                sortedData.map(async (conversation: any) => {
+                    const participant = conversation.participants
+                        .find(
+                            (participant: any) =>
+                                participant !== authUser?.userId
+                        )
+                        ?.toString();
+
+                    const participantData = await getUserInfo(participant);
+
+                    const updatedConversation = {
+                        ...conversation,
+                        participant: participantData,
+                    };
+
+                    return updatedConversation;
+                })
+            );
+
+            setConversations(updatedConversations);
+
+            return updatedConversations;
         } catch (error: any) {
             toast.error(error.response?.data?.message);
             // setConversations([]);
+            return [];
         }
     };
 
@@ -95,19 +120,11 @@ export default function useChat() {
         }, [socket, setMessages]);
     }
 
-    const getParticipant = (authUser, conversation: any) => {
-        const participant = conversation.participants
-            .find((participant: any) => participant !== authUser?.userId)
-            ?.toString();
-        return participant;
-    };
-
     const { getUserInfo } = useUser();
     const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
     const SelectUser = async (userId: string) => {
         try {
             const data = await getUserInfo(userId);
-            console.log(data);
             setSelectedUser(data);
         } catch (error: any) {
             toast.error(error.message);
@@ -122,7 +139,6 @@ export default function useChat() {
         setMessages,
         sendMessage,
         useListenMessages,
-        getParticipant,
         selectedUser,
         SelectUser,
     };
