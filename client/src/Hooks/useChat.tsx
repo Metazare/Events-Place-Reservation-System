@@ -102,6 +102,8 @@ export default function useChat() {
                             updatedAt: new Date(),
                         },
                     ]);
+
+                    getConversations();
                 });
         } catch (error: any) {
             toast.error(error.response?.data?.message);
@@ -113,6 +115,7 @@ export default function useChat() {
         useEffect(() => {
             socket?.on("newMessage", (message: any) => {
                 setMessages((prevMessages: any) => [...prevMessages, message]);
+                getConversations();
             });
             return () => {
                 socket?.off("newMessage");
