@@ -1,15 +1,15 @@
-import { Document } from 'mongoose';
-import { UserDocument } from '../user/user.types';
+import { Document } from "mongoose";
+import { UserDocument } from "../user/user.types";
 
 export enum NotificationStatus {
-    READ = 'read',
-    UNREAD = 'unread',
+    READ = "read",
+    UNREAD = "unread",
 }
 
 export enum NotificationType {
-    GENERAL = "general", 
-    RESERVATION = 'reservation',
-    HELPDESK = 'helpdesk',
+    GENERAL = "general",
+    RESERVATION = "reservation",
+    HELPDESK = "helpdesk",
 }
 
 export interface Notification {
@@ -20,6 +20,7 @@ export interface Notification {
 }
 
 export interface NotificationDocument extends Notification, Document {
+    // user: UserDocument["_id"];
     createdAt: Date;
     updatedAt: Date;
 }
@@ -36,4 +37,4 @@ export interface ReadNotification {
 
 export type GetNotification = {
     notificationId?: string;
-}
+};

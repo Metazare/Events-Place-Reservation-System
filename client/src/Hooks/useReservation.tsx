@@ -3,6 +3,7 @@ import useRequest from './useRequest';
 import axios from './useAxios';
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import useNotif from './useNotif';
 
 interface CreateReservationData {
   eventsPlaceId: string;
@@ -50,6 +51,7 @@ interface GetReservationData {
 
 function useReservation() {
   const { data, loading, error, makeRequest } = useRequest();
+  const {sendNotification} = useNotif();
   const navigate = useNavigate();
 
   const getReservation = (content: GetReservationData) => {
@@ -65,7 +67,12 @@ function useReservation() {
       await axios.post('/reservation', content)
         .then((response) => {  
           toast.success("Reservation set!");
-          navigate('/invoice/'+response.data.reservationId);
+          navigate('/invoice/' + response.data.reservationId);
+          sendNotification({
+            userId: response.data.userId,
+            type: 'reservation',
+            content: 'You have a new reservation!',
+          })
         });
     } 
     catch (error: any) {

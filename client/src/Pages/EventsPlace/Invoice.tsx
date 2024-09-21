@@ -19,7 +19,7 @@ import useReservation from 'src/Hooks/useReservation';
 import moment from 'moment';
 import StarIcon from '@mui/icons-material/Star';
 import PayReservation from 'src/Components/PayReservation';
-
+import TimelineComp from 'src/Components/TimelineComp';
 export default function Invoice() {
   const {id} = useParams<{id:string}>();
   const {data, getReservation, getReservationTotal, payReservation, cancelReservation} = useReservation();
@@ -138,18 +138,22 @@ export default function Invoice() {
               </div>
             </div>
             <div className=' border-y py-4 border-[black]/10'>
-                <p className='text-[16px] text-[black]/80'>Event Place</p>
-                <p className='text-[14px] text-[black]/50'>₱{data?.[0].eventsPlace.rate} x {(new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24)} day(s) = ₱{data?.[0].eventsPlace.rate*((new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24))}</p>
-                <br/>
-                <p className='text-[16px] text-[black]/80'>Amenities</p>
-              <Timeline 
+              {/* <Timeline 
                 isCard={true}
                 data={{
                   ...data?.[0],
                   days: (new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24),
                   rate: data?.[0].eventsPlace?.rate
                 }}
-              />
+              /> */}
+              <TimelineComp title={`₱${data?.[0].eventsPlace.rate} x ${(new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24)}  day/s`} subtitle="" price={`₱ ${data?.[0].eventsPlace.rate*((new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24))} `}/>
+              {/* Display here per amenities */}
+              {/* {
+                data.amenities?.map((amenity, index) => {
+                  return <TimelineComp title={`100 x ${amenity.quantity}`} subtitle={amenity.name} price={`₱ ${data.rate * data.days}`}/>
+                })
+              } */}
+
             </div>
             <div className='flex justify-between items-center pt-4 mb-4'>
               <p className='text-[18px] text-[black]/50'>Total</p>

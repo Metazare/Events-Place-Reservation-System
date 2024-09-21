@@ -2,10 +2,8 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import LogoIcon from 'src/Images/Logo/LogoBox.svg';
 import Timeline from 'src/Components/Timeline';
-
+import TimelineComp from 'src/Components/TimelineComp';
 import useReservation from 'src/Hooks/useReservation';
-
-
 import toast from "react-hot-toast";
 
 import { useNavigate } from "react-router-dom";
@@ -37,12 +35,15 @@ export default function PaymentModal({data}: {data: ReservationData}) {
       <div className='p-[1.5em] flex flex-col grow'>
         <h6 className='text-[25px] text-[#144273] font-semibold'>Price Details</h6>
         <div className='grow py-4'>
-          <p className='text-[18px] text-[black]/50'>Events Place Rate</p>
-          <p className='text-[18px] text-[black]/50'>₱{data.rate} x {data.days} day(s) = ₱{data.rate*data.days}</p>
-          <br/>
-
-          <p className='text-[18px] text-[black]/50'>Amenities</p>
-          <Timeline isCard={false} data={data}/>
+          <div className='flex flex-col gap-1'>
+            <TimelineComp title={`${data.rate} x ${data.days} day/s`} subtitle="" price={`₱ ${data.rate * data.days}`}/>
+            {/* Display here per amenities */}
+            {data.amenities.map((amenity, index) => {
+              return <>
+                <TimelineComp title={`100 x ${amenity.quantity}`} subtitle="Amenities Name" price={`₱ ${data.rate * data.days}`}/>
+              </>
+            })}
+          </div>
         </div>
         <div className='border-t border-[black]/50 flex justify-between items-end pt-[1em]'>
           <p className='text-[18px] text-[black]/50'>Total</p>

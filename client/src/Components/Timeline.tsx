@@ -16,9 +16,10 @@ interface ReservationData {
     days: number;
 }
 
-export default function Timeline({isCard, data}: {isCard:boolean, data:ReservationData}) {
+export default function Timeline({isCard, data, EventRate}: {isCard:boolean, data:ReservationData,EventRate?:any}) {
+  console.log(EventRate)
   return (
-    <div className={`flex flex-col gap-2 pl-[7px] border-l-2 border-[#aaaaaa]`} style={{transform:"translateX(7px)"}}>
+    <div className={`flex flex-col gap-4 pl-[7px] border-l-2 border-[#aaaaaa]`} style={{transform:"translateX(7px)"}}>
       {data?.amenities?.map((item,index)=><Items key={index} isCard={isCard} data={data} {...item}/>)}
     </div>
   )

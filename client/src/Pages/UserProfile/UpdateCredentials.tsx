@@ -31,7 +31,7 @@ export default function UpdateCredentials({closeModal, data}:PropsType) {
     }
   })
   return <>
-    <div className='grow'>
+    <div className='flex flex-col gap-4 grow'>
       <TextField 
         attr={{
           placeholder:"email@gmail.com",
