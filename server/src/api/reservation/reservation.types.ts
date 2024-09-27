@@ -93,4 +93,5 @@ export type CancelReservation = {
 
 export type PayReservation = {
     reservationId: string;
+    totalCost: number;
 }

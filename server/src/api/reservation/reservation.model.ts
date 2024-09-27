@@ -54,6 +54,10 @@ const reservationSchema = new Schema(
                 required: true
             }
         },
+        paymentLink: {
+            type: String,
+            unique: true
+        },
         status: {
             type: {
                 payment: {
