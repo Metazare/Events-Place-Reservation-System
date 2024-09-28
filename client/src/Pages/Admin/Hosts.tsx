@@ -23,6 +23,7 @@ export default function Hosts() {
     if (loading) {
         return <p>Loading...</p>;
     }
+    if (error) return <p>Error</p>;
 
     return (
         <>
