@@ -48,7 +48,7 @@ export default function MyListings() {
           },
           {
             label: "Cancelled",
-            data: reservation.filter(item => item.status.reservation === "cancelled")
+            data: reservation.filter(item => item.status.reservation === "canceled")
           }
         ],
         hostEventsPlace: {
@@ -66,7 +66,7 @@ export default function MyListings() {
           },
           {
             label: "Cancelled",
-            data: reservation.filter(item => item.status.reservation === "cancelled")
+            data: reservation.filter(item => item.status.reservation === "canceled")
           },
           {
             label: "Failed",

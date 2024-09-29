@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,8 +10,17 @@ import useSearch from 'src/Hooks/useSearch';
 import IconButton from '@mui/material/IconButton'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Avatar from '@mui/material/Avatar'
+import useReservation from 'src/Hooks/useReservation';
+
+
 export default function ReservationLogs() {
-  const {SearchComponent} = useSearch([]);
+  const { SearchComponent } = useSearch([]);
+  const { data, loading, error, getReservation } = useReservation();
+  
+  useEffect(() => {
+    getReservation({userType: 'all'});
+  }, []);
+
   return <>
     <div className='flex justify-start items-center gap-4'>
       <SearchComponent/>

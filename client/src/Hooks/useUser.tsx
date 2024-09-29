@@ -1,6 +1,6 @@
-import useRequest from './useRequest';
+import useRequest from "./useRequest";
 import toast from "react-hot-toast";
-import axios from './useAxios';
+import axios from "./useAxios";
 
 interface UserData {
     firstName: string;
@@ -11,7 +11,7 @@ interface UserData {
     photo?: string;
     description?: string;
     license?: string;
-};
+}
 
 interface Credentials {
     email: string;
@@ -21,19 +21,27 @@ interface Credentials {
 function useUser() {
     const { data, loading, error, makeRequest } = useRequest();
 
-    const getUser = (id: string) => {
-        makeRequest({
-            method: 'get',
-            url: `/user`,
-            params: {
-                userId: id,
-            }
-        });
+    const getUser = (id?: string) => {
+        if (!id) {
+            return makeRequest({
+                method: "get",
+                url: `/user`,
+            });
+        }
+        else {
+            makeRequest({
+                method: "get",
+                url: `/user`,
+                params: {
+                    userId: id,
+                },
+            });
+        }
     };
 
     const editInfo = (content: UserData) => {
         makeRequest({
-            method: 'patch',
+            method: "patch",
             url: `/user`,
             data: content,
         });
@@ -41,22 +49,21 @@ function useUser() {
 
     const editCredentials = (content: Credentials) => {
         makeRequest({
-        method: 'patch',
-        url: `/user/credentials`,
-        data: content,
+            method: "patch",
+            url: `/user/credentials`,
+            data: content,
         });
     };
-    
-    const getUserInfo = async (userId: string): Promise<any>  => {
+
+    const getUserInfo = async (userId: string): Promise<any> => {
         try {
             const response = await axios.get(`/user?userId=${userId}`);
             return response.data[0];
-        } 
-        catch (error: any) {
+        } catch (error: any) {
             toast.error(error.response?.data?.message);
             return null;
-        } 
-    }
+        }
+    };
 
     return {
         data,
@@ -65,7 +72,7 @@ function useUser() {
         getUser,
         editInfo,
         editCredentials,
-        getUserInfo
+        getUserInfo,
     };
 }
 
