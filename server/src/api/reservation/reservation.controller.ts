@@ -16,7 +16,7 @@ import {
 } from './reservation.types';
 import { CheckData } from '../../utilities/checkData';
 import { Conflict, NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
-import { createLink, Link } from '../../utilities/paymongo';
+import { archieveLink, createLink, Link } from '../../utilities/paymongo';
 import { EventsPlaceDocument } from '../eventsPlace/eventsPlace.types';
 import { id } from '../../utilities/ids';
 import { logCreateReservation, logUpdateReservationStatus } from '../log/log.controller';
@@ -178,6 +178,11 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
                 ReservationStatus.PENDING,
                 ReservationStatus.FAILED
             );
+
+            // Archieve paymongo link, if any
+            if (updatedReservation.payment) {
+                await archieveLink(updatedReservation.payment.id);
+            }
         }
     }, 10 * minutesToMillis); // 1 day
 
@@ -235,6 +240,11 @@ export const cancelReservation: RequestHandler = async (req: BodyRequest<CancelR
     await reservation.save();
 
     await logUpdateReservationStatus(reservation.reservationId, oldStatus, ReservationStatus.CANCELED);
+
+    // Archieve paymongo link, if any
+    if (reservation.payment) {
+        await archieveLink(reservation.payment.id);
+    }
 
     res.sendStatus(204);
 };
