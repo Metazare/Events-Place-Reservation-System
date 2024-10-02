@@ -161,7 +161,12 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
     await logCreateReservation(user.userId, eventsPlace.eventsPlaceId, reservation.reservationId);
 
     setTimeout(async () => {
-        const { payment: paymentStatus, reservation: reservationStatus } = reservation.status;
+        const updatedReservation = await ReservationModel.findById(reservation._id);
+        if (!updatedReservation) {
+            return;
+        }
+
+        const { payment: paymentStatus, reservation: reservationStatus } = updatedReservation.status;
 
         // Check if reservation is still unpaid
         if (paymentStatus === PaymentStatus.UNPAID && reservationStatus === ReservationStatus.PENDING) {
