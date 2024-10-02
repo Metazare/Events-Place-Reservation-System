@@ -54,10 +54,7 @@ const reservationSchema = new Schema(
                 required: true
             }
         },
-        paymentLink: {
-            type: String,
-            unique: true
-        },
+        payment: Schema.Types.Mixed,
         status: {
             type: {
                 payment: {

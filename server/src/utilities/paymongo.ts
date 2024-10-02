@@ -1,6 +1,7 @@
+import { BodyRequest, RequestHandler } from 'express';
 import { Buffer } from 'buffer';
 import envs from './envs';
-import { BodyRequest, RequestHandler } from 'express';
+import { updateReservationPayment } from '../api/reservation/reservation.controller';
 
 enum APIMethod {
     POST = 'POST',
@@ -20,7 +21,7 @@ enum ResourceType {
     WEBHOOK = 'webhook'
 }
 
-interface Link {
+export interface Link {
     id: string;
     type: ResourceType;
     attributes: {
@@ -70,7 +71,7 @@ const headers = {
     authorization: `Basic ${authKey}`
 };
 
-const createLink = async (amount: number, description: string): Promise<Link> => {
+export const createLink = async (amount: number, description: string): Promise<Link> => {
     const response = await fetch('https://api.paymongo.com/v1/links', {
         method: APIMethod.POST,
         headers,
@@ -82,7 +83,7 @@ const createLink = async (amount: number, description: string): Promise<Link> =>
     return responseJson.data;
 };
 
-const archieveLink = async (linkId: string) => {
+export const archieveLink = async (linkId: string) => {
     const response = await fetch(`https://api.paymongo.com/v1/links/${linkId}/archive`, {
         method: APIMethod.POST,
         headers
@@ -94,16 +95,11 @@ const archieveLink = async (linkId: string) => {
 };
 
 export const paymongoWebhook: RequestHandler = async (req: BodyRequest<RawWebhook>, res) => {
-    const { data } = req.body;
+    const { data: { attributes: { type, data } } } = req.body;
 
-    console.log(data);
-
-    console.log(JSON.stringify(data));
+    if (type === 'link.payment.paid') {
+        updateReservationPayment(data);
+    }
 
     res.sendStatus(200);
 };
-
-/**
- * TODO: Extract the id from the response. Store it to the reservation.
- * TODO: Add endpoint for paymongo webhook
- */
