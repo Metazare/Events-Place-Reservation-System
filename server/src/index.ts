@@ -24,15 +24,19 @@ import { createAdminAccount } from './api/user/user.controller';
 // Utilities
 import { app, server } from './socket/socket';
 import { NotFound } from './utilities/errors';
+import { paymongoWebhook } from './utilities/paymongo';
 import envs from './utilities/envs';
 
 // Environment Variables
 const { PORT, MONGO_URI, CORS_ORIGIN } = envs;
 
-app.use(cors({ credentials: true, origin: CORS_ORIGIN }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
+
+app.post('/payment', paymongoWebhook);
+
+app.use(cors({ credentials: true, origin: CORS_ORIGIN }));
 
 app.use('/auth', authRoute);
 app.use('/email', emailRoute);

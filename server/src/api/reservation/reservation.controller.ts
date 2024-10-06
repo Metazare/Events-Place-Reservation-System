@@ -16,6 +16,7 @@ import {
 } from './reservation.types';
 import { CheckData } from '../../utilities/checkData';
 import { Conflict, NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
+import { archieveLink, createLink, Link } from '../../utilities/paymongo';
 import { EventsPlaceDocument } from '../eventsPlace/eventsPlace.types';
 import { id } from '../../utilities/ids';
 import { logCreateReservation, logUpdateReservationStatus } from '../log/log.controller';
@@ -160,7 +161,12 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
     // await logCreateReservation(user.userId, eventsPlace.eventsPlaceId, reservation.reservationId);
 
     setTimeout(async () => {
-        const { payment: paymentStatus, reservation: reservationStatus } = reservation.status;
+        const updatedReservation = await ReservationModel.findById(reservation._id);
+        if (!updatedReservation) {
+            return;
+        }
+
+        const { payment: paymentStatus, reservation: reservationStatus } = updatedReservation.status;
 
         // Check if reservation is still unpaid
         if (paymentStatus === PaymentStatus.UNPAID && reservationStatus === ReservationStatus.PENDING) {
@@ -172,6 +178,11 @@ export const createReservation: RequestHandler = async (req: BodyRequest<CreateR
                 ReservationStatus.PENDING,
                 ReservationStatus.FAILED
             );
+
+            // Archieve paymongo link, if any
+            if (updatedReservation.payment) {
+                await archieveLink(updatedReservation.payment.id);
+            }
         }
     }, 10 * minutesToMillis); // 1 day
 
@@ -183,26 +194,28 @@ export const payReservation: RequestHandler = async (req: BodyRequest<PayReserva
     const { user, body } = req;
     if (!user) throw new Unauthorized();
 
-    const { reservationId } = body;
+    const { reservationId, amount } = body;
     const checker = new CheckData();
 
     checker.checkType(reservationId, 'string', 'reservationId');
+    checker.checkType(amount, 'number', 'amount');
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
     // Find reservation
     const reservation: ReservationDocument | null = await ReservationModel.findOne({
         reservationId,
-        renter: user._id
+        renter: user._id,
+        'status.payment': PaymentStatus.UNPAID
     }).exec();
     if (!reservation) throw new NotFound('Reservation');
 
-    reservation.status.payment = PaymentStatus.PAID;
-    reservation.status.reservation = ReservationStatus.RESERVED;
+    // Create payment link
+    const link = await createLink(amount, `Payment for reservation ${reservationId}`);
+
+    reservation.payment = link;
     await reservation.save();
 
-    await logUpdateReservationStatus(reservation.reservationId, ReservationStatus.PENDING, ReservationStatus.RESERVED);
-
-    res.sendStatus(204);
+    res.send({ link: link.attributes.checkout_url });
 };
 
 export const cancelReservation: RequestHandler = async (req: BodyRequest<CancelReservation>, res) => {
@@ -228,6 +241,11 @@ export const cancelReservation: RequestHandler = async (req: BodyRequest<CancelR
     await reservation.save();
 
     await logUpdateReservationStatus(reservation.reservationId, oldStatus, ReservationStatus.CANCELED);
+
+    // Archieve paymongo link, if any
+    if (reservation.payment) {
+        await archieveLink(reservation.payment.id);
+    }
 
     res.sendStatus(204);
 };
@@ -262,3 +280,25 @@ export const getReservationDates: RequestHandler = async (req, res) => {
 
     res.json(reservedDates.sort((a, b) => a - b));
 };
+
+export const updateReservationPayment = async (link: Link) => {
+    // Find using the linkId
+    const reservation: ReservationDocument | null = await ReservationModel.findOne({
+        'status.payment': PaymentStatus.UNPAID,
+        'status.reservation': ReservationStatus.PENDING,
+        'payment.link': link.id
+    }).exec();
+    if (!reservation) {
+        // Link might be created from the dashboard, and not by the API
+        // Therefore, it won't find the reservation
+        return;
+    }
+
+    // Update the payment info
+    reservation.payment = link;
+    reservation.status.payment = PaymentStatus.PAID;
+    reservation.status.reservation = ReservationStatus.RESERVED;
+    await reservation.save();
+
+    await logUpdateReservationStatus(reservation.reservationId, ReservationStatus.PENDING, ReservationStatus.RESERVED);
+}

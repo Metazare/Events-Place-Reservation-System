@@ -1,6 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { EventsPlaceDocument, EventsPlacePopulatedDocument } from '../eventsPlace/eventsPlace.types';
 import { UserDocument } from '../user/user.types';
+import { Link } from '../../utilities/paymongo';
 
 export enum ReservationStatus {
     PENDING = 'pending',
@@ -33,6 +34,7 @@ export interface Reservation {
     amenities: ReservationAmenity[];
     guestCount: number;
     duration: Duration;
+    payment?: Link;
     status: {
         payment: PaymentStatus;
         reservation: ReservationStatus;
@@ -93,4 +95,5 @@ export type CancelReservation = {
 
 export type PayReservation = {
     reservationId: string;
+    amount: number;
 }
