@@ -75,7 +75,8 @@ export type GetReservation = {
 
 export enum ReservationUser {
     HOST = 'host',
-    RENTER = 'renter'
+    RENTER = 'renter',
+    ADMIN = 'admin'
 }
 
 export type ReservationUserParam = {

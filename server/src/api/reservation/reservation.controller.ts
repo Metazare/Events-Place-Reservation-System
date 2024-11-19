@@ -48,6 +48,8 @@ export const getReservations: RequestHandler = async (req: QueryRequest<GetReser
         case ReservationUser.RENTER:
             reservationQuery.renter = user._id;
             break;
+        case ReservationUser.ADMIN:
+            break;
     }
 
     if (eventsPlaceId) {
