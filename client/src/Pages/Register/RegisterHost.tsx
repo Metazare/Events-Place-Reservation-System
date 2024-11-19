@@ -31,6 +31,8 @@ export default function Register() {
             email: "",
             password: "",
             confirmPassword: "",
+            description: "",
+            license: "",
         },
         validate: (values) => {
             let error: {
@@ -262,6 +264,49 @@ export default function Register() {
                                 errorMessages={
                                     RegisterForm.errors.confirmPassword
                                 }
+                            />
+                        </Box>
+                        <Box
+                            className="grid"
+                            sx={{
+                                display: "grid",
+                                gap: "1em",
+                                gridTemplateColumns: {
+                                    xs: "1fr", // When screen size is small, each column takes 1fr
+                                    sm: "49% 49%", // When screen size is large, first column takes 60% and second column takes 40%
+                                },
+                            }}
+                        >
+                            <TextField
+                                attr={{
+                                    placeholder: "description",
+                                    name: "description",
+                                    value: RegisterForm.values.description,
+                                }}
+                                label="Description"
+                                type="text"
+                                handleChange={RegisterForm.handleChange}
+                                error={
+                                    RegisterForm.touched.description &&
+                                    RegisterForm.errors.description !==
+                                        undefined
+                                }
+                                errorMessages={RegisterForm.errors.description}
+                            />
+                            <TextField
+                                attr={{
+                                    placeholder: "",
+                                    name: "license",
+                                    value: RegisterForm.values.license,
+                                }}
+                                label="License"
+                                type="text"
+                                handleChange={RegisterForm.handleChange}
+                                error={
+                                    RegisterForm.touched.license &&
+                                    RegisterForm.errors.license !== undefined
+                                }
+                                errorMessages={RegisterForm.errors.license}
                             />
                         </Box>
 
