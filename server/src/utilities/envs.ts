@@ -13,5 +13,6 @@ export default cleanEnv(process.env, {
     NODEMAILER_EMAIL: str(),
     NODEMAILER_PASSWORD: str(),
     ADMIN_EMAIL: str(),
-    ADMIN_PASSWORD: str()
+    ADMIN_PASSWORD: str(),
+    PAYMONGO_SECRET_KEY: str()
 });
