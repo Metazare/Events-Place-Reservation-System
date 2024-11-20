@@ -88,6 +88,50 @@ export default function Register() {
                     subTitle={"Signup now to get you onboard."}
                     otherStyle="max-w-[500px]"
                 >
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr 1fr",
+                            gap: "1em",
+                            marginBottom: "1em",
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                fontWeight: "bold",
+                                fontSize: "15px",
+                                cursor: "pointer",
+                                borderRadius: "10px",
+                                padding: "10px",
+                                border: "1px solid #144273",
+                                background: "#144273",
+                                color: "white",
+                            }}
+                        >
+                            Guest
+                        </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                fontWeight: "bold",
+                                fontSize: "15px",
+                                cursor: "pointer",
+                                borderRadius: "10px",
+                                padding: "5px",
+                                border: "1px solid #144273",
+                            }}
+                            onClick={() => {
+                                navigate("/registerhost");
+                            }}
+                        >
+                            Host
+                        </div>
+                    </div>
                     <div className="flex flex-col gap-2">
                         {/* First Name & Middle Name */}
                         <Box
