@@ -41,7 +41,14 @@ export default function Invoice() {
 
   const payment = () => {
     closeModal();
-    payReservation({reservationId:id||''})
+    payReservation({
+      reservationId: id || '',
+      amount: getReservationTotal({
+        ...data?.[0],
+        days: (new Date(data?.[0].duration.end).getTime() - new Date(data?.[0].duration.start).getTime()) / (1000 * 60 * 60 * 24),
+        rate: data?.[0].eventsPlace?.rate
+      })
+    })
     window.location.reload();
   }
 
@@ -193,7 +200,6 @@ export default function Invoice() {
                   Cancel Reservation
                 </Button>
               </>
-              
             }
           </div>
         </div>

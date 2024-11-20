@@ -9,8 +9,6 @@ export const getNotifications: RequestHandler = async (req: QueryRequest<GetNoti
     if (!req.user) throw new Unauthorized();
     const user = req.user;
 
-    console.log(user.userId);
-
     const notifications = await NotificationModel.find({ userId: user.userId }).exec();
 
     res.json(notifications);
@@ -18,7 +16,6 @@ export const getNotifications: RequestHandler = async (req: QueryRequest<GetNoti
 
 // Create a new notification
 export const createNotification: RequestHandler = async (req: BodyRequest<CreateNotification>, res) => {
-    console.log("Called")
     const { userId, type, content } = req.body;
 
     const checker = new CheckData();
