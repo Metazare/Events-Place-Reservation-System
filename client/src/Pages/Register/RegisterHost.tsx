@@ -308,8 +308,8 @@ export default function Register() {
                                 }
                                 errorMessages={RegisterForm.errors.license}
                             />
-                        </Box>
-
+                            </Box>
+                            
                         <Button
                             variant="contained"
                             onClick={() => {

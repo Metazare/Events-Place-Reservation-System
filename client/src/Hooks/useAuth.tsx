@@ -15,6 +15,19 @@ interface RegisterData {
     role: string;
 }
 
+interface RegisterHostDataDirect {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    suffixName: string;
+    contact: string;
+    email: string;
+    password: string;
+    role: string;
+    description: string;
+    license: string;
+}
+
 interface RegisterHostData {
     license: string;
     description: string;
@@ -163,6 +176,29 @@ const useRegister = () => {
             setLoading(false);
         }
     };
+
+    const registerHostDirect = async (data: RegisterHostDataDirect) => {
+        setLoading(true);
+        try {
+            await axios
+                .post(`/auth/register`, data)
+                .then((response: any) => {
+                    login({ email: data.email, password: data.password });
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                    setAuthUser(response.data);
+                    navigate("/profile");
+                })
+                .catch((error: any) => {
+                    console.log(error);
+                    toast.error(error.response?.data?.message);
+                });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     const registerHost = async (data: RegisterHostData) => {
         setLoading(true);
