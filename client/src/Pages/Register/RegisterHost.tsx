@@ -17,7 +17,7 @@ import OTPComponent from "src/Components/OTPComponent";
 
 export default function Register() {
     const navigate = useNavigate();
-    const { register, isEmailUnique } = useRegister();
+    const { registerHostDirect, isEmailUnique } = useRegister();
 
     const [openOtp, setOpenOtp] = useState(false);
     const [otpStatus, setOtpStatus] = useState(false);
@@ -73,7 +73,7 @@ export default function Register() {
     useEffect(() => {
         if (otpStatus) {
             const { confirmPassword, ...formData } = RegisterForm.values;
-            register({ ...formData, role: "renter" });
+            registerHostDirect({ ...formData, role: "host" });
         }
     }, [otpStatus]);
 

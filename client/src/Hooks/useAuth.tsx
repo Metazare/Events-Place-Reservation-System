@@ -199,7 +199,6 @@ const useRegister = () => {
         }
     };
 
-
     const registerHost = async (data: RegisterHostData) => {
         setLoading(true);
         try {
@@ -220,7 +219,13 @@ const useRegister = () => {
         }
     };
 
-    return { loading, register, isEmailUnique, registerHost };
+    return {
+        loading,
+        register,
+        isEmailUnique,
+        registerHost,
+        registerHostDirect,
+    };
 };
 
 const usePasswordReset = () => {
