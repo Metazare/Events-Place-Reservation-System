@@ -25,11 +25,19 @@ import { useNavigate } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import ViewImageModal from "src/Components/ViewImageModal";
 import GoBackComp from "src/Components/GoBackComp";
+import useReview from "src/Hooks/useReview";
 
 export default function ViewEventsPlace({ data: passedData }: { data?: any }) {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const { data, loading, error, getEventsPlace } = useEventsPlace();
+    const {
+        data: reviewData,
+        loading: reviewLoading,
+        error: reviewError,
+        getReview,
+        getAverageRating,
+    } = useReview();
     const { authUser } = useAuthContext();
     const { AmenitiesList, ReservationFormComp, setEventsPlaceData } =
         ReservationForm();
@@ -40,11 +48,13 @@ export default function ViewEventsPlace({ data: passedData }: { data?: any }) {
             setEventsPlaceData(passedData);
         } else {
             if (id) getEventsPlace(id);
+            if (id) getReview(id);
         }
     }, []);
     useEffect(() => {
         if (data) {
             setEventsPlaceData(data[0]);
+            reviewData && console.log(reviewData);
         }
     }, [data]);
 
@@ -96,7 +106,10 @@ export default function ViewEventsPlace({ data: passedData }: { data?: any }) {
                 </div>
                 <div className="flex gap-2 items-center color-[#303030]">
                     <StarIcon sx={{ fontSize: "15 px" }} />
-                    <p className="text-[15  px]">0 (0 Reviews)</p>
+                    <p className="text-[15  px]">
+                        {getAverageRating(reviewData)} ({reviewData?.length}{" "}
+                        Reviews)
+                    </p>
                 </div>
             </div>
             <div className="relative flex flex-col md:flex-row  aspect-video w-full gap-4">
@@ -281,22 +294,36 @@ export default function ViewEventsPlace({ data: passedData }: { data?: any }) {
                             "repeat(auto-fill, minmax(300px, 1fr))",
                     }}
                 >
-                    <ReviewCard />
+                    {reviewData?.map((review: any, index: number) => (
+                        <ReviewCard
+                            key={index}
+                            review={{
+                                comment: review.comment,
+                                name:
+                                    review.reviewer.name.first +
+                                    " " +
+                                    review.reviewer.name.last,
+                                date: review.createdAt,
+                                rating: review.rating,
+                                photo: review.reviewer.photo,
+                            }}
+                        />
+                    ))}
                 </div>
                 <div>
                     <div className="w-full items-center sticky top-[10px] flex flex-col justify-center">
                         <h6 className="text-[66px] font-semibold leading-[88px]">
-                            4.5
+                            {getAverageRating(reviewData)}
                         </h6>
                         <Rating
                             name="read-only"
-                            value={4.5}
+                            value={getAverageRating(reviewData) ?? 0}
                             precision={0.5}
                             sx={{ border: "white" }}
                             readOnly
                         />
                         <p className="mt-2 text-[18px] opacity-80">
-                            28 Reviews
+                            {reviewData?.length} Review(s)
                         </p>
                     </div>
                 </div>

@@ -31,5 +31,5 @@ export type CreateReview = {
 
 export type GetReviews = {
     eventsPlaceId?: string;
-    reviewId?: string;
+    // reviewId?: string;
 }
