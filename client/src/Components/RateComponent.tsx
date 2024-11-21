@@ -2,7 +2,9 @@ import React from 'react'
 import { useFormik } from 'formik';
 import Rating from '@mui/material/Rating';
 import TextArea from './TextArea';
-export default function RateComponent({closeModal}:{closeModal:()=>void}) {
+import useReview from 'src/Hooks/useReview';
+export default function RateComponent({ closeModal, eventsPlaceId }: { closeModal: () => void, eventsPlaceId: string }) {
+  const { createReview } = useReview();
   const formik = useFormik({
     initialValues: {
       rating: 1,
@@ -17,6 +19,11 @@ export default function RateComponent({closeModal}:{closeModal:()=>void}) {
     },
     onSubmit: values => {
       console.log(values);
+      createReview({
+        eventsPlaceId,
+        rating: values.rating.toString(),
+        comment: values.comment
+      })
       closeModal()
     },
   });

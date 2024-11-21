@@ -193,7 +193,7 @@ export default function Invoice() {
             {
               status==="reserved"&&
               <>
-                <Button variant="contained" startIcon={<StarRateIcon/>} fullWidth onClick={()=>{setOpenModal(<RateComponent closeModal={closeModal}/>)}}>
+                <Button variant="contained" startIcon={<StarRateIcon />} fullWidth onClick={() => { setOpenModal(<RateComponent closeModal={closeModal} eventsPlaceId={data?.[0]?.eventsPlace?.eventsPlaceId} />)}}>
                   Rate your experience
                 </Button>
                 <Button variant="outlined" fullWidth onClick={()=>{setOpenModal(<CancelReservation closeModal={cancel}/>)}}>
