@@ -55,7 +55,7 @@ export default function Header() {
                 setMode("Host");
                 localStorage.setItem("mode", "Host");
             } else {
-                navigate("/host");
+                navigate("/host/register");
             }
         } else {
             setMode("Renter");
