@@ -41,7 +41,7 @@ export const createHelpdeskResponse: RequestHandler = async (
     const checker = new CheckData();
     checker.checkType(id, "string", "id");
 
-    const entry = await Helpdesk.findOne({ id }).exec();
+    const entry = await Helpdesk.findOne({ helpdeskid: id }).exec();
     if (!entry) throw new NotFound("Helpdesk Entry");
 
     if (response) {
