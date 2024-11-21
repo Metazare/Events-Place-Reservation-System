@@ -52,9 +52,7 @@ export const getReviews: RequestHandler = async (
     req: QueryRequest<GetReviews>,
     res
 ) => {
-    const { user, query } = req;
-
-    if (!user) throw new Unauthorized();
+    const { query } = req;
 
     const { eventsPlaceId } = query;
     const checker = new CheckData();
