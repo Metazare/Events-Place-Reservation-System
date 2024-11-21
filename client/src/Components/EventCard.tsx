@@ -83,7 +83,7 @@ export default function EventCard({ data, type }: PropsType) {
                                 {" "}
                                 {getAverageRating(reviewData)}{" "}
                             </span>
-                            ({reviewData?.length} Reviews)
+                            ({reviewData?.length} Review/s)
                         </p>
                     </div>
                 )}
