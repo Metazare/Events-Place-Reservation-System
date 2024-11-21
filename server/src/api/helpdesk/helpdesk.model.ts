@@ -22,7 +22,11 @@ const helpdeskSchema = new Schema(
             type: String,
             required: true
         },
-        response: String
+        response: String,
+        subject: {
+            type: String,
+            required: true
+        }
     },
     {
         versionKey: false,

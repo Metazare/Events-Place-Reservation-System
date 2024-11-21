@@ -8,6 +8,7 @@ export interface Helpdesk {
     eventsPlace?: Types.ObjectId | Record<string, unknown>;
     report: string;
     response: string;
+    subject: string;
 }
 
 export interface HelpdeskDocument extends Helpdesk, Document {

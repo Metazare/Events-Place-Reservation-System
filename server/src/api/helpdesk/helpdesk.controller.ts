@@ -1,49 +1,64 @@
-import { BodyRequest, QueryRequest, RequestHandler } from 'express';
-import { CheckData } from '../../utilities/checkData';
-import { Conflict, NotFound, Unauthorized, UnprocessableEntity } from '../../utilities/errors';
-import Helpdesk from './helpdesk.model';
-import { HelpdeskDocument, GetHelpdeskEntry } from './helpdesk.types';
+import { BodyRequest, QueryRequest, RequestHandler } from "express";
+import { CheckData } from "../../utilities/checkData";
+import {
+    Conflict,
+    NotFound,
+    Unauthorized,
+    UnprocessableEntity,
+} from "../../utilities/errors";
+import Helpdesk from "./helpdesk.model";
+import { HelpdeskDocument, GetHelpdeskEntry } from "./helpdesk.types";
 
-export const createHelpdeskReport: RequestHandler = async (req: BodyRequest<HelpdeskDocument>, res) => {
-    const { eventsPlace, report} = req.body;
+export const createHelpdeskReport: RequestHandler = async (
+    req: BodyRequest<HelpdeskDocument>,
+    res
+) => {
+    const { eventsPlace, report, subject } = req.body;
 
     if (!req.user) throw new Unauthorized();
     const user = req.user;
 
     const checker = new CheckData();
-    checker.checkType(report, 'string', 'report');
+    checker.checkType(report, "string", "report");
+    checker.checkType(subject, "string", "subject");
 
     await Helpdesk.create({
         user: user._id,
         eventsPlace,
         report,
+        subject,
     });
 
     res.sendStatus(201);
 };
 
-export const createHelpdeskResponse: RequestHandler = async (req: BodyRequest<HelpdeskDocument>, res) => {
+export const createHelpdeskResponse: RequestHandler = async (
+    req: BodyRequest<HelpdeskDocument>,
+    res
+) => {
     const { id, response } = req.body;
 
     const checker = new CheckData();
-    checker.checkType(id, 'string', 'id');
+    checker.checkType(id, "string", "id");
 
     const entry = await Helpdesk.findOne({ id }).exec();
-    if (!entry) throw new NotFound('Helpdesk Entry');
+    if (!entry) throw new NotFound("Helpdesk Entry");
 
     if (response) {
-        checker.checkType(response, 'string', 'response');
+        checker.checkType(response, "string", "response");
         if (checker.size() > 0) throw new UnprocessableEntity(checker.errors);
         entry.response = response;
     }
-    
+
     await entry.save();
 
     res.sendStatus(204);
 };
 
-export const getHelpdeskEntry: RequestHandler = async (req: QueryRequest<GetHelpdeskEntry>, res) => {
-
+export const getHelpdeskEntry: RequestHandler = async (
+    req: QueryRequest<GetHelpdeskEntry>,
+    res
+) => {
     if (!req.user) throw new Unauthorized();
     const user = req.user;
 
@@ -51,10 +66,10 @@ export const getHelpdeskEntry: RequestHandler = async (req: QueryRequest<GetHelp
 
     const helpdeskQuery: Record<string, unknown> = {};
 
-    if (typeof id === 'string') helpdeskQuery.id = id;
+    if (typeof id === "string") helpdeskQuery.id = id;
     // if (role!=='admin') helpdeskQuery.userId = user._id;
 
-    const entry = await Helpdesk.find(helpdeskQuery).exec();
+    const entry = await Helpdesk.find(helpdeskQuery).populate("user").exec();
 
     res.json(entry);
 };
