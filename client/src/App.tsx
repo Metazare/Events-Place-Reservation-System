@@ -33,6 +33,7 @@ import EventsPlace from "./Pages/Admin/EventsPlace";
 import ReservationLogs from "./Pages/Admin/ReservationLogs";
 import TransactionLogs from "./Pages/Admin/TransactionLogs";
 import HelpDeskAdmin from "./Pages/Admin/HelpDesk";
+import Analytics from "./Pages/Admin/Analytics";
 
 // Hooks
 import { ProtectedRoute, PublicRoute } from "./Hooks/useAuth";
@@ -107,6 +108,7 @@ function App() {
             {/* Protected routes accessible only by Admin */}
             <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
                 <Route element={<AdminBase />}>
+                    <Route path="/admin/analytics" element={<Analytics />} />
                     <Route path="/admin/renters" element={<Renters />} />
                     <Route path="/admin/hosts" element={<Hosts />} />
                     <Route

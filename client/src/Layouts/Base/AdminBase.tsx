@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import FlagCircleIcon from "@mui/icons-material/FlagCircle";
 import useMenu from "src/Hooks/useMenu";
 import { useLogout } from "src/Hooks/useAuth";
-
+import DataSaverOffIcon from "@mui/icons-material/DataSaverOff";
 export default function AdminBase() {
     const {
         menuVariables,
@@ -53,6 +53,14 @@ export default function AdminBase() {
                     <img width="70%" src={Logo} alt="" />
                 </div>
                 <div className="grow  py-4">
+                    <MenuItem
+                        icon={<DataSaverOffIcon />}
+                        title={"Analytics"}
+                        active={window.location.pathname === "/admin/analytics"}
+                        clickHandle={() => {
+                            navigate("/admin/analytics");
+                        }}
+                    />
                     <MenuItem
                         icon={<AssessmentIcon />}
                         title={"Data List"}
