@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/", asynchronousHandler(getReviews));
 
-// router.use(authenticate);
+router.use(authenticate);
 
 router.post("/", asynchronousHandler(createReview));
 
