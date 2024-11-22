@@ -57,6 +57,10 @@ export default function Invoice() {
                 rate: data?.[0].eventsPlace?.rate,
             }),
         });
+      
+      setTimeout(() => {
+          window.location.reload();
+      }, 3000);
     };
 
     const cancel = () => {

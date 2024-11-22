@@ -239,8 +239,6 @@ export const payReservation: RequestHandler = async (
     checker.checkType(amount, "number", "amount");
     if (checker.size()) throw new UnprocessableEntity(checker.errors);
 
-    console.log(body);
-
     // Find reservation
     const reservation: ReservationDocument | null =
         await ReservationModel.findOne({
@@ -255,6 +253,10 @@ export const payReservation: RequestHandler = async (
         amount,
         `Payment for reservation ${reservationId}`
     );
+
+    //! TEMPORARY FIX MUST REMOVE LATER
+    reservation.status.payment = PaymentStatus.PAID;
+    reservation.status.reservation = ReservationStatus.RESERVED;
 
     reservation.payment = link;
     await reservation.save();
