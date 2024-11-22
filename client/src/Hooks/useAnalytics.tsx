@@ -100,12 +100,64 @@ function useReservation() {
         return totalSales;
     };
 
+    const getMonthlySales = (data: any) => {
+        if (!data) return 0;
+
+        const reservations = data;
+        let totalSales = 0;
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+
+        reservations.map((reservation: any) => {
+            const reservationDate = new Date(reservation.createdAt);
+            if (
+                reservation.amount &&
+                reservationDate.getMonth() === currentMonth &&
+                reservationDate.getFullYear() === currentYear
+            ) {
+                totalSales += reservation.amount;
+            }
+        });
+        return totalSales;
+    };
+
+    const getWeeklySales = (data: any) => {
+        if (!data) return 0;
+
+        const reservations = data;
+        let totalSales = 0;
+        const currentDate = new Date();
+        const currentWeekStart = new Date(
+            currentDate.setDate(currentDate.getDate() - currentDate.getDay())
+        );
+        const currentWeekEnd = new Date(
+            currentDate.setDate(
+                currentDate.getDate() - currentDate.getDay() + 6
+            )
+        );
+
+        reservations.map((reservation: any) => {
+            const reservationDate = new Date(reservation.createdAt);
+            if (
+                reservation.amount &&
+                reservationDate >= currentWeekStart &&
+                reservationDate <= currentWeekEnd
+            ) {
+                totalSales += reservation.amount;
+            }
+        });
+
+        return totalSales;
+    };
+
     return {
         top3Booked,
         getMostBooked,
         top3Highest,
         getTotalSales,
         getHighestRated,
+        getMonthlySales,
+        getWeeklySales,
     };
 }
 

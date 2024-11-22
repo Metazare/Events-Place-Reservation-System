@@ -16,6 +16,8 @@ export default function Analytics() {
         getMostBooked,
         getTotalSales,
         getHighestRated,
+        getMonthlySales,
+        getWeeklySales,
     } = useAnalytics();
 
     useEffect(() => {
@@ -117,7 +119,9 @@ export default function Analytics() {
                         lineHeight: "1em",
                     }}
                 >
-                    ₱{getTotalSales(data)}
+                    {salesType === "Weekly"
+                        ? `₱${getWeeklySales(data)}`
+                        : `₱${getMonthlySales(data)}`}
                 </p>
                 <p
                     style={{
@@ -141,18 +145,24 @@ export default function Analytics() {
                 <div
                     className="grid gap-5 mb-7 mt-5"
                     style={{
-                        gridTemplateColumns:
-                            "repeat(auto-fill, minmax(200px, 1fr))",
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        gap: "1em",
                     }}
                 >
                     {top3Booked && top3Booked.length > 0 ? (
                         top3Booked.map((event: any) => {
                             return (
-                                <EventCard
+                                <div
                                     key={event.id}
-                                    data={event}
-                                    type="view"
-                                />
+                                    style={{
+                                        flex: "1 1 calc(33.333% - 1em)",
+                                        minWidth: "300px",
+                                    }}
+                                >
+                                    <EventCard data={event} type="view" />
+                                </div>
                             );
                         })
                     ) : (
@@ -172,18 +182,24 @@ export default function Analytics() {
                 <div
                     className="grid gap-5 mb-7 mt-5"
                     style={{
-                        gridTemplateColumns:
-                            "repeat(auto-fill, minmax(200px, 1fr))",
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        gap: "1em",
                     }}
                 >
                     {top3Highest && top3Highest.length > 0 ? (
                         top3Highest.map((event: any) => {
                             return (
-                                <EventCard
+                                <div
                                     key={event.id}
-                                    data={event}
-                                    type="view"
-                                />
+                                    style={{
+                                        flex: "1 1 calc(33.333% - 1em)",
+                                        minWidth: "300px",
+                                    }}
+                                >
+                                    <EventCard data={event} type="view" />
+                                </div>
                             );
                         })
                     ) : (
