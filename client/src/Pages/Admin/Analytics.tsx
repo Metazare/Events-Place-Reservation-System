@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import EventCard from "src/Components/EventCard";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import Button from "@mui/material/Button";
+import useReservation from "src/Hooks/useReservation";
+import useAnalytics from "src/Hooks/useAnalytics";
+import useEventsPlace from "src/Hooks/useEventsPlace";
+
 export default function Analytics() {
     const [salesType, setSalesType] = React.useState("Weekly");
+
+    const { data, getReservation } = useReservation();
+    const { top3Booked, getMostBooked, getTotalSales } = useAnalytics();
+
+    useEffect(() => {
+        getReservation({ userType: "admin" });
+    }, []);
+
+    useEffect(() => {
+        if (data) {
+            getMostBooked(data);
+        }
+    }, [data]);
+
     return (
         <div
             style={{
@@ -92,7 +110,7 @@ export default function Analytics() {
                         lineHeight: "1em",
                     }}
                 >
-                    ₱500
+                    ₱{getTotalSales(data)}
                 </p>
                 <p
                     style={{
@@ -120,17 +138,19 @@ export default function Analytics() {
                             "repeat(auto-fill, minmax(200px, 1fr))",
                     }}
                 >
-                    {/* {data && data.length > 0 ? (
-                        data.map((event: any) => (
-                            <EventCard
-                                key={event.id}
-                                data={event}
-                                type="view"
-                            />
-                        ))
+                    {top3Booked && top3Booked.length > 0 ? (
+                        top3Booked.map((event: any) => {
+                            return (
+                                <EventCard
+                                    key={event.id}
+                                    data={event}
+                                    type="view"
+                                />
+                            );
+                        })
                     ) : (
                         <p>No events available</p>
-                    )} */}
+                    )}
                 </div>
             </div>
             <div>
