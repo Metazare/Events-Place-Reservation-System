@@ -254,9 +254,9 @@ export const payReservation: RequestHandler = async (
         `Payment for reservation ${reservationId}`
     );
 
-    // //! TEMPORARY FIX MUST REMOVE LATER
-    // reservation.status.payment = PaymentStatus.PAID;
-    // reservation.status.reservation = ReservationStatus.RESERVED;
+    //! TEMPORARY FIX MUST REMOVE LATER
+    reservation.status.payment = PaymentStatus.PAID;
+    reservation.status.reservation = ReservationStatus.RESERVED;
 
     reservation.payment = link;
     await reservation.save();
