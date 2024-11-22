@@ -41,7 +41,12 @@ export default function HelpDesk() {
     return (
         <Container maxWidth="lg" className="grow py-7 ">
             <div className="flex flex-col gap-4 h-[100%]  bg-[]">
-                <div className=" flex items-center gap-2 cursor-[pointer] opacity-70 hover:opacity-100 ">
+                <div
+                    className=" flex items-center gap-2 cursor-[pointer] opacity-70 hover:opacity-100 "
+                    onClick={() => {
+                        navigate("/");
+                    }}
+                >
                     <ArrowBackIcon sx={{ fontSize: "25px" }} />
                     <p>Go Back</p>
                 </div>
