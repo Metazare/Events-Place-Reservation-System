@@ -11,12 +11,18 @@ function useReview() {
     const { data, loading, error, makeRequest } = useRequest();
 
     const getReview = (eventsPlaceId: string) => {
-        console.log(eventsPlaceId);
         makeRequest({
             method: "get",
             url: `/review${
                 eventsPlaceId ? `?eventsPlaceId=${eventsPlaceId}` : ""
             }`,
+        });
+    };
+
+    const getReviews = () => {
+        makeRequest({
+            method: "get",
+            url: `/review`,
         });
     };
 
@@ -42,6 +48,7 @@ function useReview() {
         loading,
         error,
         getReview,
+        getReviews,
         createReview,
         getAverageRating,
     };

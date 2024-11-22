@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useEventsPlace from "./useEventsPlace";
+import useReview from "./useReview";
 
 function useReservation() {
     const {
@@ -8,29 +9,14 @@ function useReservation() {
         error,
         getEventsPlace,
     } = useEventsPlace();
+    const { data: reviews, getReviews } = useReview();
 
     useEffect(() => {
         getEventsPlace();
+        getReviews();
     }, []);
 
-    const getReservationTotal = (data: any) => {
-        let total = 0;
-        total += data.rate * data.days;
-
-        data.amenities.forEach((amenity) => {
-            if (amenity.amenityType === "per day") {
-                total += data.days * amenity.rate;
-            } else if (amenity.amenityType === "per quantity") {
-                total += amenity.quantity * amenity.rate;
-            } else if (amenity.amenityType === "one time") {
-                total += amenity.rate;
-            }
-        });
-        return total;
-    };
-
     const [top3Booked, setTop3Booked] = useState<string[]>([]);
-
     const getMostBooked = async (data: any) => {
         await getEventsPlace();
         if (!data) return {};
@@ -60,7 +46,44 @@ function useReservation() {
         return topThreeEventsPlace;
     };
 
-    const getHighestRated = () => {};
+    const [top3Highest, setTop3Highest] = useState<string[]>([]);
+    const getHighestRated = (data: any) => {
+        if (!data || !reviews) return [];
+
+        const reviewsMap: {
+            [key: string]: { totalRating: number; count: number };
+        } = {};
+
+        reviews.forEach((review: any) => {
+            const placeId = review.eventsPlace.eventsPlaceId;
+            if (reviewsMap[placeId]) {
+                reviewsMap[placeId].totalRating += review.rating;
+                reviewsMap[placeId].count++;
+            } else {
+                reviewsMap[placeId] = { totalRating: review.rating, count: 1 };
+            }
+        });
+
+        const averageRatings = Object.keys(reviewsMap).map((placeId) => ({
+            placeId,
+            averageRating:
+                reviewsMap[placeId].totalRating / reviewsMap[placeId].count,
+        }));
+
+        const sortedByRating = averageRatings.sort(
+            (a, b) => b.averageRating - a.averageRating
+        );
+        const topThreeHighestRated = sortedByRating.slice(0, 3);
+
+        const topThreeEventsPlace = eventsPlace.filter((place: any) =>
+            topThreeHighestRated.some(
+                (ratedPlace) => ratedPlace.placeId === place.eventsPlaceId
+            )
+        );
+
+        setTop3Highest(topThreeEventsPlace);
+        return topThreeEventsPlace;
+    };
 
     const getTotalSales = (data: any) => {
         if (!data) return 0;
@@ -78,10 +101,11 @@ function useReservation() {
     };
 
     return {
-        getReservationTotal,
         top3Booked,
         getMostBooked,
+        top3Highest,
         getTotalSales,
+        getHighestRated,
     };
 }
 

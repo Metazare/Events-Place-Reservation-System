@@ -10,7 +10,13 @@ export default function Analytics() {
     const [salesType, setSalesType] = React.useState("Weekly");
 
     const { data, getReservation } = useReservation();
-    const { top3Booked, getMostBooked, getTotalSales } = useAnalytics();
+    const {
+        top3Booked,
+        top3Highest,
+        getMostBooked,
+        getTotalSales,
+        getHighestRated,
+    } = useAnalytics();
 
     useEffect(() => {
         getReservation({ userType: "admin" });
@@ -19,6 +25,7 @@ export default function Analytics() {
     useEffect(() => {
         if (data) {
             getMostBooked(data);
+            getHighestRated(data);
         }
     }, [data]);
 
@@ -169,17 +176,19 @@ export default function Analytics() {
                             "repeat(auto-fill, minmax(200px, 1fr))",
                     }}
                 >
-                    {/* {data && data.length > 0 ? (
-                        data.map((event: any) => (
-                            <EventCard
-                                key={event.id}
-                                data={event}
-                                type="view"
-                            />
-                        ))
+                    {top3Highest && top3Highest.length > 0 ? (
+                        top3Highest.map((event: any) => {
+                            return (
+                                <EventCard
+                                    key={event.id}
+                                    data={event}
+                                    type="view"
+                                />
+                            );
+                        })
                     ) : (
                         <p>No events available</p>
-                    )} */}
+                    )}
                 </div>
             </div>
         </div>
