@@ -84,12 +84,14 @@ function useReservation() {
         }
     };
 
-    const payReservation = (content: PayReservation) => {
-        makeRequest({
-            method: "patch",
-            url: `/reservation/pay`,
-            data: content,
-        });
+    const payReservation = async (content: PayReservation) => {
+        try {
+            const response = await axios.patch("/reservation/pay", content);
+            window.open(response.data.link, "_blank");
+        } catch (error: any) {
+            console.error("Error making request:", error);
+            toast.error(error.response.data.message);
+        }
     };
 
     const cancelReservation = (content: Reservation) => {
