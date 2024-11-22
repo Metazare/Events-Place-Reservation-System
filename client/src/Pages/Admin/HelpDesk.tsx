@@ -65,8 +65,8 @@ export default function HelpDesk() {
                                     <div className="flex gap-2 items-center">
                                         <Avatar
                                             variant="circular"
-                                            src={row.avatar}
-                                            alt={row.username}
+                                            src={row.user.photo}
+                                            alt={row.user.name.first}
                                             sx={{
                                                 width: "30px",
                                                 height: "30px",
@@ -95,6 +95,7 @@ export default function HelpDesk() {
                                                     <HelpDeskModal
                                                         closeModal={closeModal}
                                                         toRespond={false}
+                                                        data={row}
                                                     />
                                                 );
                                             }}
@@ -108,20 +109,26 @@ export default function HelpDesk() {
                                         >
                                             View Report
                                         </Button>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={() => {
-                                                setOpenModal(
-                                                    <HelpDeskModal
-                                                        closeModal={closeModal}
-                                                        toRespond={true}
-                                                    />
-                                                );
-                                            }}
-                                        >
-                                            Respond
-                                        </Button>
+
+                                        {row.response === undefined && (
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={() => {
+                                                    setOpenModal(
+                                                        <HelpDeskModal
+                                                            closeModal={
+                                                                closeModal
+                                                            }
+                                                            toRespond={true}
+                                                            data={row}
+                                                        />
+                                                    );
+                                                }}
+                                            >
+                                                Respond
+                                            </Button>
+                                        )}
                                     </div>
                                 </TableCell>
                             </TableRow>

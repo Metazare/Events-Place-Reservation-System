@@ -1,37 +1,34 @@
-import { Schema, Types, model } from 'mongoose';
-import { id } from '../../utilities/ids';
-import { HelpdeskDocument } from './helpdesk.types';
+import { Schema, Types, model } from "mongoose";
+import { id } from "../../utilities/ids";
+import { HelpdeskDocument } from "./helpdesk.types";
 
 const helpdeskSchema = new Schema(
     {
         helpdeskid: {
             type: String,
             unique: true,
-            default: () => id()
+            default: () => id(),
         },
         user: {
             type: Types.ObjectId,
-            ref: 'User',
-            required: true
+            ref: "User",
+            required: true,
         },
         eventsPlace: {
             type: Types.ObjectId,
-            ref: 'EventsPlace'
+            ref: "EventsPlace",
         },
         report: {
             type: String,
-            required: true
+            required: true,
         },
         response: String,
-        subject: {
-            type: String,
-            required: true
-        }
+        subject: String,
     },
     {
         versionKey: false,
-        timestamps: true
+        timestamps: true,
     }
 );
 
-export default model<HelpdeskDocument>('Helpdesk', helpdeskSchema);
+export default model<HelpdeskDocument>("Helpdesk", helpdeskSchema);
