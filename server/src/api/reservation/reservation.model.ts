@@ -1,88 +1,93 @@
-import { Schema, Types, model } from 'mongoose';
-import { id } from '../../utilities/ids';
-import { PaymentStatus, ReservationDocument, ReservationStatus } from './reservation.types';
+import { Schema, Types, model } from "mongoose";
+import { id } from "../../utilities/ids";
+import {
+    PaymentStatus,
+    ReservationDocument,
+    ReservationStatus,
+} from "./reservation.types";
 
 const reservationSchema = new Schema(
     {
         reservationId: {
             type: String,
             unique: true,
-            default: () => id(2)
+            default: () => id(2),
         },
         renter: {
             type: Types.ObjectId,
-            ref: 'User',
-            required: true
+            ref: "User",
+            required: true,
         },
         host: {
             type: Types.ObjectId,
-            ref: 'User',
-            required: true
+            ref: "User",
+            required: true,
         },
         eventsPlace: {
             type: Types.ObjectId,
-            ref: 'EventsPlace',
-            required: true
+            ref: "EventsPlace",
+            required: true,
         },
         guestCount: {
             type: Number,
-            required: true
+            required: true,
         },
         amenities: [
             {
                 amenityId: {
                     type: String,
-                    required: true
+                    required: true,
                 },
                 quantity: {
                     type: Number,
-                    required: true
+                    required: true,
                 },
                 rate: {
                     type: Number,
-                    required: true
+                    required: true,
                 },
                 amenityType: {
                     type: String,
-                    required: true
+                    required: true,
                 },
                 name: {
                     type: String,
-                    required: true
-                }
-            }
+                    required: true,
+                },
+            },
         ],
         duration: {
             start: {
                 type: Date,
-                required: true
+                required: true,
             },
             end: {
                 type: Date,
-                required: true
-            }
+                required: true,
+            },
         },
         payment: Schema.Types.Mixed,
+        amount: Number,
         status: {
             type: {
                 payment: {
                     type: String,
                     enum: Object.values(PaymentStatus),
-                    default: PaymentStatus.UNPAID
+                    default: PaymentStatus.UNPAID,
                 },
                 reservation: {
                     type: String,
                     enum: Object.values(ReservationStatus),
-                    default: ReservationStatus.PENDING
-                }
+                    default: ReservationStatus.PENDING,
+                },
             },
-            required: true
-        }
+            required: true,
+        },
     },
     {
         versionKey: false,
-        timestamps: true
+        timestamps: true,
     }
 );
 
-export default model<ReservationDocument>('Reservation', reservationSchema);
+export default model<ReservationDocument>("Reservation", reservationSchema);

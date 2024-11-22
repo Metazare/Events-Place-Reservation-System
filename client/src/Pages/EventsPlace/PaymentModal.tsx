@@ -20,14 +20,17 @@ interface ReservationData {
   guestCount: number;
   startDate: number;
   days: number;
-  date:any;
+  date: any;
+  amount?: number;
 }
 
 export default function PaymentModal({data}: {data: ReservationData}) {
   const { createReservation, getReservationTotal } = useReservation();
   const submitReservation = async (e: any) => {
     e.preventDefault();
-    await createReservation(data);
+
+    const totalAmount = getReservationTotal(data);
+    await createReservation({ ...data, amount: totalAmount });
   }
 
   return <>

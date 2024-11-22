@@ -95,7 +95,8 @@ export const createReservation: RequestHandler = async (
     const { user, body } = req;
     if (!user) throw new Unauthorized();
 
-    const { eventsPlaceId, amenities, startDate, days, guestCount } = body;
+    const { eventsPlaceId, amenities, startDate, days, guestCount, amount } =
+        body;
     const checker = new CheckData();
 
     checker.checkType(eventsPlaceId, "string", "eventsPlaceId");
@@ -184,6 +185,7 @@ export const createReservation: RequestHandler = async (
             payment: PaymentStatus.UNPAID,
             reservation: ReservationStatus.PENDING,
         },
+        amount: amount,
     });
 
     // await logCreateReservation(user.userId, eventsPlace.eventsPlaceId, reservation.reservationId);

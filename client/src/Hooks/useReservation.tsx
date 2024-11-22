@@ -15,6 +15,7 @@ interface CreateReservationData {
     guestCount: number;
     startDate: number;
     days: number;
+    amount?: number;
 }
 
 interface ReservationData {

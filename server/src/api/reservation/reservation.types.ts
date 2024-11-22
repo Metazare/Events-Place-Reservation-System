@@ -1,18 +1,21 @@
-import { Document, Types } from 'mongoose';
-import { EventsPlaceDocument, EventsPlacePopulatedDocument } from '../eventsPlace/eventsPlace.types';
-import { UserDocument } from '../user/user.types';
-import { Link } from '../../utilities/paymongo';
+import { Document, Types } from "mongoose";
+import {
+    EventsPlaceDocument,
+    EventsPlacePopulatedDocument,
+} from "../eventsPlace/eventsPlace.types";
+import { UserDocument } from "../user/user.types";
+import { Link } from "../../utilities/paymongo";
 
 export enum ReservationStatus {
-    PENDING = 'pending',
-    RESERVED = 'reserved',
-    FAILED = 'failed',
-    CANCELED = 'canceled'
+    PENDING = "pending",
+    RESERVED = "reserved",
+    FAILED = "failed",
+    CANCELED = "canceled",
 }
 
 export enum PaymentStatus {
-    PAID = 'paid',
-    UNPAID = 'unpaid'
+    PAID = "paid",
+    UNPAID = "unpaid",
 }
 
 export type Duration = {
@@ -42,9 +45,9 @@ export interface Reservation {
 }
 
 export interface ReservationDocument extends Reservation, Document {
-    renter: UserDocument['_id'];
-    host: UserDocument['_id'];
-    eventsPlace: EventsPlaceDocument['_id'];
+    renter: UserDocument["_id"];
+    host: UserDocument["_id"];
+    eventsPlace: EventsPlaceDocument["_id"];
     createdAt: Date;
     updatedAt: Date;
 }
@@ -66,6 +69,7 @@ export type CreateReservation = {
     guestCount: number;
     startDate: number;
     days: number;
+    amount: number;
 };
 
 export type GetReservation = {
@@ -74,9 +78,9 @@ export type GetReservation = {
 };
 
 export enum ReservationUser {
-    HOST = 'host',
-    RENTER = 'renter',
-    ADMIN = 'admin'
+    HOST = "host",
+    RENTER = "renter",
+    ADMIN = "admin",
 }
 
 export type ReservationUserParam = {
@@ -84,17 +88,17 @@ export type ReservationUserParam = {
 };
 
 export type ReservationQuery = {
-    renter?: UserDocument['_id'];
-    host?: UserDocument['_id'];
-    eventsPlace?: EventsPlaceDocument['_id'];
+    renter?: UserDocument["_id"];
+    host?: UserDocument["_id"];
+    eventsPlace?: EventsPlaceDocument["_id"];
     reservationId?: string;
-}
+};
 
 export type CancelReservation = {
     reservationId: string;
-}
+};
 
 export type PayReservation = {
     reservationId: string;
     amount: number;
-}
+};
