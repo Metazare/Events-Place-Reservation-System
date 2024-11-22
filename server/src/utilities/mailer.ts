@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 
 const { NODEMAILER_EMAIL, NODEMAILER_PASSWORD } = envs;
 const transporter = nodemailer.createTransport({
-    service: 'hotmail',
+    service: 'gmail',
     auth: {
         user: NODEMAILER_EMAIL,
         pass: NODEMAILER_PASSWORD
