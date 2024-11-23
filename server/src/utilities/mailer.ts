@@ -1,23 +1,23 @@
-import envs from './envs';
-import nodemailer from 'nodemailer';
+import envs from "./envs";
+import nodemailer from "nodemailer";
 
 const { NODEMAILER_EMAIL, NODEMAILER_PASSWORD } = envs;
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
         user: NODEMAILER_EMAIL,
-        pass: NODEMAILER_PASSWORD
-    }
+        pass: NODEMAILER_PASSWORD,
+    },
 });
 
 export const sendEmail = async (body: EmailBody) => {
     const { to, subject, content } = body;
 
     transporter.sendMail({
-        from: NODEMAILER_EMAIL,
+        from: `"noreply" <${NODEMAILER_EMAIL}>`,
         to,
         subject,
-        html: content
+        html: content,
     });
 };
 
