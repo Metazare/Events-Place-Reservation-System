@@ -50,6 +50,8 @@ function useReservation() {
     const getHighestRated = (data: any) => {
         if (!data || !reviews) return [];
 
+        if (!eventsPlace) return [];
+
         const reviewsMap: {
             [key: string]: { totalRating: number; count: number };
         } = {};
