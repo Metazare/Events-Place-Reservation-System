@@ -21,6 +21,8 @@ function useReservation() {
         await getEventsPlace();
         if (!data) return {};
 
+        if (!eventsPlace) return [];
+
         const reservations = data;
         const countMap: { [key: string]: number } = {};
 
