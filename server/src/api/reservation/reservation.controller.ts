@@ -338,7 +338,7 @@ export const getReservationDates: RequestHandler = async (req, res) => {
 };
 
 export const updateReservationPayment = async (link: Link) => {
-    console.log("UPDATE RESERVATION")
+    console.log("Link paid:");
     console.log(link)
     // Find using the linkId
     const reservation: ReservationDocument | null =
@@ -347,6 +347,7 @@ export const updateReservationPayment = async (link: Link) => {
             "status.reservation": ReservationStatus.PENDING,
             "payment.link": link.id,
         }).exec();
+    console.log("Reservation found:");
     console.log(reservation)
     if (!reservation) {
         // Link might be created from the dashboard, and not by the API
@@ -359,9 +360,6 @@ export const updateReservationPayment = async (link: Link) => {
     reservation.status.payment = PaymentStatus.PAID;
     reservation.status.reservation = ReservationStatus.RESERVED;
     await reservation.save();
-
-    console.log("UPDATED RESERVATION")
-    console.log(reservation)
 
     await logUpdateReservationStatus(
         reservation.reservationId,
