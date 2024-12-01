@@ -101,5 +101,7 @@ export const paymongoWebhook: RequestHandler = async (req: BodyRequest<RawWebhoo
         updateReservationPayment(data);
     }
 
+    console.log('Webhook received:', req.body);
+
     res.sendStatus(200);
 };
