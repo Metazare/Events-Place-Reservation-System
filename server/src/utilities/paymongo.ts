@@ -97,7 +97,10 @@ export const archieveLink = async (linkId: string) => {
 export const paymongoWebhook: RequestHandler = async (req: BodyRequest<RawWebhook>, res) => {
     const { data: { attributes: { type, data } } } = req.body;
 
+    console.log(data)
+
     if (type === 'link.payment.paid') {
+        console.log('Link paid:', data);
         updateReservationPayment(data);
     }
 
