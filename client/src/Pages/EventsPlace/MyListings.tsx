@@ -93,9 +93,9 @@ export default function MyListings() {
             <h3 className='text-[19px] pl-4 font-semibold'>{isHost?"My Listings":"My Reservations"}</h3>
             <div className='mt-[1em] flex flex-col '>
               {MenuContent[isHost?"host":"renter"].map((data:any,index)=>(
-                <SideBarMenu key={index} label={data.label} quantity={data.data.length} setOpen={setToOpen} value={toOpen} 
+                <SideBarMenu key={index} label={data?.label} quantity={data?.data?.length} setOpen={setToOpen} value={toOpen} 
                   clickHandle={()=>{
-                    setToShow(data.data)
+                    setToShow(data?.data)
                   }} 
                 />
               ))} 
@@ -109,7 +109,7 @@ export default function MyListings() {
                   <Button  variant="contained" fullWidth sx={{background:"white",color:"black",marginTop:"1em" ,":hover":{background:"white"}}}
                     onClick={()=>{
                       setToOpen("My Events Place")
-                      setToShow(MenuContent.hostEventsPlace.data)
+                      setToShow(MenuContent?.hostEventsPlace?.data)
                     }}
                   >
                     View Lists
@@ -128,16 +128,16 @@ export default function MyListings() {
             <h3 className='text-[19px] font-semibold'>{isHost?"My Listings":"My Reservations"}</h3>
             <div className='flex flex-wrap gap-1 mt-2'>
               {MenuContent[isHost?"host":"renter"].map((data,index)=>(
-                <Chip key={index} label={data.label} variant={toOpen === data.label? "filled":"outlined"} 
+                <Chip key={index} label={data?.label} variant={toOpen === data?.label? "filled":"outlined"} 
                 onClick={()=>{
-                  setToOpen(data.label)
-                  setToShow(data.data)
+                  setToOpen(data?.label)
+                  setToShow(data?.data)
                 }} />
               ))}
               <Chip label={"My Events Place"} variant={toOpen === "My Events Place"? "filled":"outlined"} 
                 onClick={()=>{
                   setToOpen("My Events Place")
-                  setToShow(MenuContent.hostEventsPlace.data)
+                  setToShow(MenuContent?.hostEventsPlace?.data)
                 }} 
               />
             </div>
@@ -151,10 +151,11 @@ export default function MyListings() {
             }
             
             </div>
-            {data ?? <>
-              {toOpen === "My Events Place"? <EventCardList edit={true} isHost={isHost} data={toShow} setData={setToShow}/>:<EventCardList edit={false} isHost={isHost} data={toShow} setData={setToShow}/>}
-            </>}
-          
+            {toShow && toShow?.length > 0 && (
+            toOpen === "My Events Place" 
+              ? <EventCardList edit={true} isHost={isHost} data={toShow} setData={setToShow}/> 
+              : <EventCardList edit={false} isHost={isHost} data={toShow} setData={setToShow}/>
+            )}
         </div>
       </div> 
     }
