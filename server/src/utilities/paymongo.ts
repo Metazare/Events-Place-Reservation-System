@@ -98,7 +98,6 @@ export const paymongoWebhook: RequestHandler = async (req: BodyRequest<RawWebhoo
     const { data: { attributes: { type, data } } } = req.body;
 
     if (type === 'link.payment.paid') {
-        console.log('Link paid:', data);
         updateReservationPayment(data);
     }
 

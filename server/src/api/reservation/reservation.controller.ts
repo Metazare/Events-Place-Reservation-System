@@ -338,17 +338,13 @@ export const getReservationDates: RequestHandler = async (req, res) => {
 };
 
 export const updateReservationPayment = async (link: Link) => {
-    console.log("Link paid:");
-    console.log(link)
     // Find using the linkId
     const reservation: ReservationDocument | null =
         await ReservationModel.findOne({
             "status.payment": PaymentStatus.UNPAID,
             "status.reservation": ReservationStatus.PENDING,
-            "payment.link": link.id,
+            "payment.id": link.id,
         }).exec();
-    console.log("Reservation found:");
-    console.log(reservation)
     if (!reservation) {
         // Link might be created from the dashboard, and not by the API
         // Therefore, it won't find the reservation
