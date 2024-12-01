@@ -150,8 +150,11 @@ export default function MyListings() {
               </Button>
             }
             
-          </div>
-          {toOpen === "My Events Place"? <EventCardList edit={true} isHost={isHost} data={toShow} setData={setToShow}/>:<EventCardList edit={false} isHost={isHost} data={toShow} setData={setToShow}/>}
+            </div>
+            {data ?? <>
+              {toOpen === "My Events Place"? <EventCardList edit={true} isHost={isHost} data={toShow} setData={setToShow}/>:<EventCardList edit={false} isHost={isHost} data={toShow} setData={setToShow}/>}
+            </>}
+          
         </div>
       </div> 
     }
