@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import TextArea from "./TextArea";
 import useHelpdesk from "src/Hooks/useHelpdesk";
+import useNotif from "src/Hooks/useNotif";
 interface PropsType {
     closeModal: () => void;
     toRespond: boolean;
@@ -17,6 +18,7 @@ export default function HelpDeskModal({
     const [openToRespond, setOpenToRespond] =
         React.useState<boolean>(toRespond);
     const { createResponse } = useHelpdesk();
+    const { sendNotification } = useNotif();
     const formik = useFormik({
         initialValues: {
             message: "",
@@ -29,10 +31,14 @@ export default function HelpDeskModal({
             return errors;
         },
         onSubmit: (values) => {
-            console.log(data.helpdeskid);
             createResponse({
                 response: values.message,
                 id: data.helpdeskid,
+            });
+            sendNotification({
+                userId: data.user.userId,
+                type: "You received a response to your report!",
+                content: "Admin:" + values.message,
             });
             closeModal();
         },
