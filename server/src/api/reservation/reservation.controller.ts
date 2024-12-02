@@ -281,7 +281,7 @@ export const cancelReservation: RequestHandler = async (
     const reservation: ReservationDocument | null =
         await ReservationModel.findOne({
             reservationId,
-            renter: user._id,
+            // renter: user._id,
         }).exec();
     if (!reservation) throw new NotFound("Reservation");
 
