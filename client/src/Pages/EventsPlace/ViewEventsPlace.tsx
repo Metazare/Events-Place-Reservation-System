@@ -97,7 +97,9 @@ export default function ViewEventsPlace({ data: passedData }: { data?: any }) {
                         <Tooltip title="Report">
                             <IconButton
                                 sx={{ marginTop: ".1em" }}
-                                onClick={() => {}}
+                                onClick={() => {
+                                    navigate("/helpdesk");
+                                }}
                             >
                                 <ReportIcon sx={{ fontSize: "27px" }} />
                             </IconButton>
