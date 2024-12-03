@@ -19,6 +19,7 @@ import reservationRoute from "./api/reservation/reservation.route";
 import reviewRoute from "./api/review/review.route";
 import userRoute from "./api/user/user.route";
 import emailRoute from "./api/email/email.route";
+import cmsRoute from "./api/cms/cms.route";
 import { createAdminAccount } from "./api/user/user.controller";
 
 // Utilities
@@ -45,6 +46,7 @@ app.use("/reservation", reservationRoute);
 app.use("/user", userRoute);
 app.use("/notification", notificationRoute);
 app.use("/review", reviewRoute);
+app.use("/cms", cmsRoute);
 app.use(authenticate);
 app.use("/chat", chatRoute);
 app.use("/helpdesk", helpdeskRoute);
