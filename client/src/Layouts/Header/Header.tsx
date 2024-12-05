@@ -22,9 +22,10 @@ import { useAuthContext } from "src/Context/AuthContext";
 import { useLogout } from "src/Hooks/useAuth";
 import useMenu from "src/Hooks/useMenu";
 import useNotification from "src/Hooks/useNotif";
-import { read } from "fs";
+import useCMS from "src/Hooks/useCMS";
 
 export default function Header() {
+    const { data: cmsData, loading: cmsLoading, getCms } = useCMS();
     const navigate = useNavigate();
     const { authUser } = useAuthContext();
     const { logout } = useLogout();
@@ -66,8 +67,14 @@ export default function Header() {
 
     useEffect(() => {
         getNotification();
+        getCms();
     }, []);
 
+    useEffect(() => { 
+        console.log(cmsData);
+    }, [cmsData]);
+
+    if (cmsLoading) return <></>;
     return (
         <AppBar position="static" sx={{ background: "#144273" }}>
             <Container maxWidth="xl">

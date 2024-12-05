@@ -12,7 +12,10 @@ import FlagCircleIcon from "@mui/icons-material/FlagCircle";
 import useMenu from "src/Hooks/useMenu";
 import { useLogout } from "src/Hooks/useAuth";
 import DataSaverOffIcon from "@mui/icons-material/DataSaverOff";
+import useModal from "src/Hooks/useModal";
+import CMSModal from "src/Components/CMSModal";
 export default function AdminBase() {
+    const { setOpenModal, ModalComponent, closeModal } = useModal();
     const {
         menuVariables,
         setMenuVariables,
@@ -34,6 +37,13 @@ export default function AdminBase() {
       </MenuItemComp> */}
                 <MenuItemComp
                     handleClick={() => {
+                        setOpenModal(<CMSModal closeModal={closeModal} />);
+                    }}
+                >
+                    <p>Content Management</p>
+                </MenuItemComp>
+                <MenuItemComp
+                    handleClick={() => {
                         logout();
                     }}
                 >
@@ -48,6 +58,7 @@ export default function AdminBase() {
             className="min-h-[100vh] flex md:grid"
             style={{ gridTemplateColumns: "250px 1fr" }}
         >
+            <ModalComponent />
             <div className="bg-[white] shadow-md hidden md:flex flex-col ">
                 <div className=" w-full p-4 h-[100px] flex items-center">
                     <img width="70%" src={Logo} alt="" />
