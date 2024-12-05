@@ -54,7 +54,7 @@ export default function DeleteEventsPlace() {
       </div>
       <div className='min-h-[400px] flex flex-col justify-center items-center gap-7'>
         <p>Are you sure you want to delete? </p>
-        <EventCard data={data} type='view'/>
+        <EventCard data={data[0]} type='view'/>
         {formik.errors.isAllowed && <p className='text-[red]'>{formik.errors.isAllowed}</p>}
         
         <div className='flex gap-4'>
