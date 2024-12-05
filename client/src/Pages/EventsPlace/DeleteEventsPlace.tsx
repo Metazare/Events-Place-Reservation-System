@@ -31,18 +31,21 @@ export default function DeleteEventsPlace() {
   })
   
   useEffect(() => {
-    getEventsPlace(id||'')
+    if (!data) {
+      getEventsPlace(id||'')
+      console.log(data)
+    }
     console.log(data)
-}, []);
+}, [data]);
 
   if(loading) return <div>Loading...</div>
 
   return (
     <Container maxWidth="lg" className={"grow px-[2em] py-[1em] gap-[1em]"}>
-      <div className='flex gap-2 cursor-[pointer] opacity-70 hover:opacity-100'>
+      {/* <div className='flex gap-2 cursor-[pointer] opacity-70 hover:opacity-100'>
         <ArrowBackIcon sx={{fontSize:"25px"}}/>
         <p>Go Back</p>
-      </div>
+      </div> */}
       <div className='mt-[.5em] mb-[4em]'>
         <h5 className='text-[25px] font-semibold text-primary'>Delete Events Place</h5>
         <Breadcrumbs aria-label="breadcrumb">
@@ -54,11 +57,11 @@ export default function DeleteEventsPlace() {
       </div>
       <div className='min-h-[400px] flex flex-col justify-center items-center gap-7'>
         <p>Are you sure you want to delete? </p>
-        <EventCard data={data[0]} type='view'/>
+        <EventCard data={data?.[0]} type='view'/>
         {formik.errors.isAllowed && <p className='text-[red]'>{formik.errors.isAllowed}</p>}
         
         <div className='flex gap-4'>
-          <Button variant="contained" sx={{ color: "black", background: "white", ":hover": { background: "white" } }} onClick={() => {navigate("/eventsplace/"+id)}}
+          <Button variant="contained" sx={{ color: "black", background: "white", ":hover": { background: "white" } }} onClick={() => {navigate("/listing")}}
           >
             Back
           </Button>
