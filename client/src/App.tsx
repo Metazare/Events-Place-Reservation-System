@@ -85,7 +85,7 @@ function App() {
                         element={<UpdateEventsPlace />}
                     />
                     <Route
-                        path="/eventsplace/delete"
+                        path="/eventsplace/delete/:id"
                         element={<DeleteEventsPlace />}
                     />
                 </Route>

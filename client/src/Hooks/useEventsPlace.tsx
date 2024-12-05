@@ -52,7 +52,8 @@ function useEventsPlace() {
   const deleteEventsPlace= (id: string) => {
     makeRequest({
       method: 'delete',
-      url: `/eventsplace/${id}`,
+      url: `/eventsplace`,
+      data: {eventsPlaceId: id},
     });
   };
 
