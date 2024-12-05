@@ -25,7 +25,7 @@ export default function CMSModal({ closeModal }) {
             const fileUrl = await uploadFile(values.image);
             updateCms({
                 color: values.color,
-                image: fileUrl,
+                logo: fileUrl,
             });
             closeModal();
         },
