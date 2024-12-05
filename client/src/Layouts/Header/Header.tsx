@@ -70,13 +70,16 @@ export default function Header() {
         getCms();
     }, []);
 
-    useEffect(() => { 
+    useEffect(() => {
         console.log(cmsData);
     }, [cmsData]);
 
     if (cmsLoading) return <></>;
     return (
-        <AppBar position="static" sx={{ background: "#144273" }}>
+        <AppBar
+            position="static"
+            sx={{ background: cmsData?.color || "#144273" }}
+        >
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ gap: "1em" }}>
                     <Box
@@ -86,8 +89,9 @@ export default function Header() {
                             navigate("/");
                         }}
                     >
+                        <p>{cmsData?.logo}</p>
                         <img
-                            src={Logo}
+                            src={cmsData?.logo ? Logo : Logo}
                             width={"100px"}
                             alt=""
                             className="cursor-pointer"
