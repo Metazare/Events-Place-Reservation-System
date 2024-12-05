@@ -18,15 +18,11 @@ export default function CMSModal({ closeModal }) {
     };
     const formik = useFormik({
         initialValues: {
-            image: "",
+            logo: "",
             color: "#144273",
         },
         onSubmit: async (values) => {
-            const fileUrl = await uploadFile(values.image);
-            updateCms({
-                color: values.color,
-                logo: fileUrl,
-            });
+            updateCms(values);
             closeModal();
         },
     });
@@ -54,8 +50,12 @@ export default function CMSModal({ closeModal }) {
                 <TextField
                     id="image"
                     value={formik.values.image}
-                    onChange={(e) => {
-                        formik.setFieldValue("image", e.target.value);
+                    onChange={async (e) => {
+                        const fileUrl = await uploadFile(
+                            e.target.files[0],
+                            "events_place_marikina"
+                        );
+                        formik.setFieldValue("logo", fileUrl);
                     }}
                     fullWidth
                     type="file"
