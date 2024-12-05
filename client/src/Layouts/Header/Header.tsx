@@ -89,9 +89,8 @@ export default function Header() {
                             navigate("/");
                         }}
                     >
-                        <p>{cmsData?.logo}</p>
                         <img
-                            src={cmsData?.logo ? Logo : Logo}
+                            src={cmsData?.logo || Logo}
                             width={"100px"}
                             alt=""
                             className="cursor-pointer"
