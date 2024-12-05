@@ -5,8 +5,12 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import SelectField from "./SelectField";
 import Button from "@mui/material/Button";
+import useCMS from "src/Hooks/useCMS";
+import useFirebase from "src/Hooks/useFirebase";
 
 export default function CMSModal({ closeModal }) {
+    const { data, loading, error, updateCms } = useCMS();
+    const { uploadFile } = useFirebase();
     const [color, setColor] = useState("#fff");
 
     const handleChangeComplete = (color) => {
@@ -17,8 +21,13 @@ export default function CMSModal({ closeModal }) {
             image: "",
             color: "#144273",
         },
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: async (values) => {
+            const fileUrl = await uploadFile(values.image);
+            updateCms({
+                color: values.color,
+                image: fileUrl,
+            });
+            closeModal();
         },
     });
     return (
@@ -45,7 +54,9 @@ export default function CMSModal({ closeModal }) {
                 <TextField
                     id="image"
                     value={formik.values.image}
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                        formik.setFieldValue("image", e.target.value);
+                    }}
                     fullWidth
                     type="file"
                     sx={{
@@ -96,7 +107,12 @@ export default function CMSModal({ closeModal }) {
                     >
                         Cancel
                     </Button>
-                    <Button variant="contained" color="primary">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={formik.handleSubmit}
+                        type="submit"
+                    >
                         Save
                     </Button>
                 </Box>

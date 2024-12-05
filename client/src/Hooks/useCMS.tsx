@@ -12,14 +12,14 @@ function useCMS() {
     const getCms = () => {
         makeRequest({
             method: "get",
-            url: `/content`,
+            url: `/cms`,
         });
     };
 
     const updateCms = (content: CMSData) => {
         makeRequest({
             method: "post",
-            url: "/content",
+            url: "/cms",
             data: content,
         });
     };
