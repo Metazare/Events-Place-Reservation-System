@@ -2,9 +2,6 @@ import { useState } from "react";
 import useRequest from "./useRequest";
 
 interface CMSData {
-    name?: String;
-    phone?: String;
-    email?: String;
     logo?: String;
     color?: String;
 }
