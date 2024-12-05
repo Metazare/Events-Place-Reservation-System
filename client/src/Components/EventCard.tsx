@@ -53,7 +53,10 @@ export default function EventCard({ data, type }: PropsType) {
                             <IconButton
                                 aria-label=""
                                 onClick={() => {
-                                    navigate("/eventsplace/delete");
+                                    navigate(
+                                        "/eventsplace/delete/" +
+                                            data?.eventsPlaceId
+                                    );
                                 }}
                             >
                                 <DeleteIcon sx={{ color: "white" }} />
