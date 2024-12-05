@@ -28,14 +28,13 @@ export default function MyListings() {
 
 
   useEffect(()=>{
-    if (reservation == null) {
+    if (reservation == null || reservation.length === 0 || data == null || data.length === 0) {
       getEventsPlace();
       getReservation({
         userType:isHost?"host":"renter"
       })
     }
     else {
-      
       SetMenuContent({
         host: [
           {
