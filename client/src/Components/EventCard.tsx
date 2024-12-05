@@ -63,7 +63,10 @@ export default function EventCard({ data, type }: PropsType) {
                             <IconButton
                                 aria-label=""
                                 onClick={() => {
-                                    navigate("/update");
+                                    navigate(
+                                        "/eventsplace/update/" +
+                                            data?.eventsPlaceId
+                                    );
                                 }}
                             >
                                 <EditIcon sx={{ color: "white" }} />
