@@ -25,7 +25,7 @@ export default function Analytics() {
     }, []);
 
     useEffect(() => {
-        if (data) {
+        if (data && top3Booked.length === 0 && top3Highest.length === 0 ) {
             getMostBooked(data);
             getHighestRated(data);
         }
