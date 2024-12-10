@@ -164,7 +164,7 @@ const useRegister = () => {
                     login({ email: data.email, password: data.password });
                     localStorage.setItem("user", JSON.stringify(response.data));
                     setAuthUser(response.data);
-                    navigate("/profile");
+                    navigate("/");
                 })
                 .catch((error: any) => {
                     console.log(error);
@@ -186,7 +186,7 @@ const useRegister = () => {
                     login({ email: data.email, password: data.password });
                     localStorage.setItem("user", JSON.stringify(response.data));
                     setAuthUser(response.data);
-                    navigate("/profile");
+                    navigate("/");
                 })
                 .catch((error: any) => {
                     console.log(error);
