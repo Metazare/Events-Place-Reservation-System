@@ -28,7 +28,7 @@ export default function ReservationCard({ data }) {
                             {data?.renter?.name?.first}{" "}
                             {data?.renter?.name?.last}
                         </p>
-                        <p className="text-[11px]  text-[#fff]">Renter</p>
+                        <p className="text-[11px]  text-[#fff]">Customer</p>
                     </div>
                 </div>
                 <IconButton aria-label="" href="/chat">

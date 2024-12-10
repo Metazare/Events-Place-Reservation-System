@@ -249,7 +249,7 @@ export default function ViewEventsPlace({ data: passedData }: { data?: any }) {
                                                     ?.last}{" "}
                                     </h6>
                                     <p className="text-[14px] leading-[13px] font-semibold opacity-65">
-                                        Host
+                                        Owner
                                     </p>
                                 </div>
                             </div>

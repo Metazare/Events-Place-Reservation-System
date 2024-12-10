@@ -129,7 +129,7 @@ export default function Register() {
                                 navigate("/registerhost");
                             }}
                         >
-                            Host
+                            Owner
                         </div>
                     </div>
                     <div className="flex flex-col gap-2">

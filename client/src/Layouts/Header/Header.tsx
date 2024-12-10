@@ -113,7 +113,10 @@ export default function Header() {
                                         }}
                                         onClick={changeUserMode}
                                     >
-                                        {mode} Mode
+                                        {mode === "Renter"
+                                            ? "Customer"
+                                            : "Owner"}{" "}
+                                        Mode
                                     </Button>
                                 </div>
                                 <Tooltip title="Notification">
@@ -189,7 +192,7 @@ export default function Header() {
                                             }}
                                         >
                                             <Typography textAlign="center">
-                                                Switch to Renter Mode
+                                                Switch to Customer Mode
                                             </Typography>
                                         </MenuItem>
                                     </div>

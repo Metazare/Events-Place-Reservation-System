@@ -206,7 +206,7 @@ const useRegister = () => {
                 .post(`/auth/register/host`, data)
                 .then((response: any) => {
                     console.log(response);
-                    toast.success("Host registration successful");
+                    toast.success("Owner registration successful");
                 })
                 .catch((error: any) => {
                     console.log(error);

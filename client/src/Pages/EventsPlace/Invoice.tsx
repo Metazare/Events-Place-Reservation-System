@@ -126,7 +126,7 @@ export default function Invoice() {
                                 {data?.[0]?.renter?.name?.first}{" "}
                                 {data?.[0]?.renter?.name?.last}
                             </h6>
-                            <p className="text-[#303030] mt-[-7px]">Renter</p>
+                            <p className="text-[#303030] mt-[-7px]">Customer</p>
                         </div>
                     </div>
                     <div className="flex justify-between items-center border-t border-black pt-5 border-[black]/10 w-full">
@@ -143,7 +143,7 @@ export default function Invoice() {
                                     {data?.[0]?.host?.name?.last}
                                 </h6>
                                 <p className="text-[14px] leading-[13px] font-semibold opacity-65">
-                                    Host
+                                    Owner
                                 </p>
                             </div>
                         </div>

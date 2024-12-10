@@ -18,7 +18,7 @@ import GoBackComp from 'src/Components/GoBackComp'
 export default function BecomeHost() {
   const StepsContent =[
     {
-      Description:"Create your Host Account, providing essential details and your rental license",
+      Description:"Create your Owner Account, providing essential details and your rental license",
       img:[
         {src:Step1Image,alt:"Become a host form"}
       ]
@@ -61,7 +61,7 @@ export default function BecomeHost() {
         <p className='text-[red] pl-3'>{formik.touched.isAgree && formik.errors.isAgree !== undefined&&formik.errors.isAgree}</p>
         <div className='w-full flex justify-center mt-[2em]'>
           <Button variant="contained" onClick={()=>{formik.handleSubmit()}} sx={{background:"#144273",padding:"1em 3em"}}>
-            Become a Host now!
+            Become an Owner now!
           </Button>
         </div>
         <div className='flex gap-2 items-center'>

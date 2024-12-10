@@ -132,7 +132,7 @@ export default function Register() {
                                 background: "#144273",
                             }}
                         >
-                            Host
+                            Owner
                         </div>
                     </div>
                     <div className="flex flex-col gap-2">

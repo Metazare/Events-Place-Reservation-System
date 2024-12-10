@@ -74,14 +74,14 @@ export default function HostRegister() {
                 </div>
                 <div className="mt-[.5em] mb-[4em]">
                     <h5 className="text-[25px] font-semibold text-primary">
-                        Register as a Host
+                        Register as an Owner
                     </h5>
                     <Breadcrumbs aria-label="breadcrumb">
                         <Link underline="hover" color="inherit" href="/">
-                            Host
+                            Owner
                         </Link>
                         <Typography className="text-primary">
-                            Register as a Host
+                            Register as an Owner
                         </Typography>
                     </Breadcrumbs>
                 </div>
@@ -131,7 +131,7 @@ export default function HostRegister() {
                                         HostRegisterFormik.values.description
                                     }
                                     name="description"
-                                    label="Host Description"
+                                    label="Owner Description"
                                     handleChange={
                                         HostRegisterFormik.handleChange
                                     }
@@ -220,7 +220,7 @@ export default function HostRegister() {
                                     alt=""
                                 />
                                 <p className="text-center text-[28px] text-[black]/50 z-1">
-                                    “Join our community of hosts and unlock the{" "}
+                                    “Join our community of owners and unlock the{" "}
                                     <br className="hidden md:block" />
                                     potential of your event spaces!”
                                 </p>

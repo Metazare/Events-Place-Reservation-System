@@ -27,7 +27,7 @@ export default function Report() {
             <TableCell align="left">Usename</TableCell>
             <TableCell align="left">Date</TableCell>
             <TableCell align="left">Event Place ID</TableCell>
-            <TableCell align="left">Host</TableCell>
+            <TableCell align="left">Owner</TableCell>
             <TableCell align="left">Status</TableCell>
           </TableRow>
         </TableHead>

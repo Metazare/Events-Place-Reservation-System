@@ -66,7 +66,7 @@ export default function AdminBase() {
                 <div className="grow  py-4">
                     <MenuItem
                         icon={<DataSaverOffIcon />}
-                        title={"Analytics"}
+                        title={"Sales"}
                         active={window.location.pathname === "/admin/analytics"}
                         clickHandle={() => {
                             navigate("/admin/analytics");
@@ -84,7 +84,7 @@ export default function AdminBase() {
                                 sx={{ fontSize: "15px", marginLeft: "5px" }}
                             />
                         }
-                        title={"Renters"}
+                        title={"Customers"}
                         active={window.location.pathname === "/admin/renters"}
                         clickHandle={() => {
                             navigate("/admin/renters");
@@ -96,7 +96,7 @@ export default function AdminBase() {
                                 sx={{ fontSize: "15px", marginLeft: "5px" }}
                             />
                         }
-                        title={"Hosts"}
+                        title={"Owners"}
                         active={window.location.pathname === "/admin/hosts"}
                         clickHandle={() => {
                             navigate("/admin/hosts");
