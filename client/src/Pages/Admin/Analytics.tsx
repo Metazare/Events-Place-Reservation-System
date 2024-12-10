@@ -34,7 +34,7 @@ export default function Analytics() {
     if (!data) {
         return <p>Loading...</p>;
     }
-    if (data.length === 0) {
+    if (data.length !== 0) {
         if (top3Booked.length === 0 && top3Highest.length === 0) {
             return <p>No data available</p>;
         }
