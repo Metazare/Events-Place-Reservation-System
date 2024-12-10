@@ -23,6 +23,8 @@ import { useLogout } from "src/Hooks/useAuth";
 import useMenu from "src/Hooks/useMenu";
 import useNotification from "src/Hooks/useNotif";
 import useCMS from "src/Hooks/useCMS";
+import useModal from "src/Hooks/useModal";
+import CMSModal from "src/Components/CMSModal";
 
 export default function Header() {
     const { data: cmsData, loading: cmsLoading, getCms } = useCMS();
@@ -64,6 +66,9 @@ export default function Header() {
         }
         window.location.reload();
     };
+
+    
+    const { setOpenModal, ModalComponent, closeModal } = useModal();
 
     useEffect(() => {
         getNotification();
@@ -216,6 +221,17 @@ export default function Header() {
                                             My Listings
                                         </Typography>
                                     </MenuItem>
+                                    {mode === "Host" && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                setOpenModal(<CMSModal closeModal={closeModal} />);
+                                            }}
+                                        >
+                                            <Typography textAlign="center">
+                                                Content Management
+                                            </Typography>
+                                        </MenuItem>
+                                    )}
                                     <MenuItem
                                         onClick={() => {
                                             logout();
