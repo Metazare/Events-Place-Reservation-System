@@ -28,7 +28,7 @@ export default function MyListings() {
 
 
   useEffect(()=>{
-    if (reservation == null || reservation.length === 0 || data == null || data.length === 0) {
+    if (reservation == null || data == null) {
       getEventsPlace();
       getReservation({
         userType:isHost?"host":"renter"
