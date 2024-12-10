@@ -22,8 +22,11 @@ export default function CMSModal({ closeModal }) {
             color: "#144273",
         },
         onSubmit: async (values) => {
-            updateCms(values);
+            await updateCms(values);
             closeModal();
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         },
     });
     return (
