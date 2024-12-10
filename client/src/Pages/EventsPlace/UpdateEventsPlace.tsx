@@ -129,7 +129,7 @@ function UpdateEventsPlace() {
             className="grow px-[2em] py-[1em] gap-[1em]"
             sx={{ display: "flex", flexDirection: "column" }}
         >
-            <div className="flex gap-2 cursor-[pointer] opacity-70 hover:opacity-100">
+            <div className="flex gap-2 cursor-[pointer] opacity-70 hover:opacity-100" onClick={() => navigate("/listing")}>
                 <ArrowBackIcon sx={{ fontSize: "25px" }} />
                 <p>Go Back</p>
             </div>
