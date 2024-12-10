@@ -29,7 +29,7 @@ export default function Analytics() {
             getMostBooked(data);
             getHighestRated(data);
         }
-    }, [data]);
+    }, [data, top3Booked, top3Highest]);
 
     if (!data) {
         return <p>Loading...</p>;
