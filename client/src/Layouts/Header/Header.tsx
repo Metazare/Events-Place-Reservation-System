@@ -67,7 +67,6 @@ export default function Header() {
         window.location.reload();
     };
 
-    
     const { setOpenModal, ModalComponent, closeModal } = useModal();
 
     useEffect(() => {
@@ -224,7 +223,11 @@ export default function Header() {
                                     {mode === "Host" && (
                                         <MenuItem
                                             onClick={() => {
-                                                setOpenModal(<CMSModal closeModal={closeModal} />);
+                                                setOpenModal(
+                                                    <CMSModal
+                                                        closeModal={closeModal}
+                                                    />
+                                                );
                                             }}
                                         >
                                             <Typography textAlign="center">
@@ -276,6 +279,7 @@ export default function Header() {
                 </Toolbar>
             </Container>
             <MenuComp />
+            <ModalComponent />
         </AppBar>
     );
 }
