@@ -34,6 +34,9 @@ export default function Analytics() {
     if (!data) {
         return <p>Loading...</p>;
     }
+    if (!top3Booked || !top3Highest) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <div
