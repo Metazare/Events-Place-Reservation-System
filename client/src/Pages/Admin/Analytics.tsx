@@ -31,6 +31,10 @@ export default function Analytics() {
         }
     }, [data]);
 
+    if (!data) {
+        return <p>Loading...</p>;
+    }
+
     return (
         <div
             style={{
