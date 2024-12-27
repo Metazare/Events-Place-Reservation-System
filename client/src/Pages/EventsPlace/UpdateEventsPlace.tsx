@@ -129,7 +129,10 @@ function UpdateEventsPlace() {
             className="grow px-[2em] py-[1em] gap-[1em]"
             sx={{ display: "flex", flexDirection: "column" }}
         >
-            <div className="flex gap-2 cursor-[pointer] opacity-70 hover:opacity-100" onClick={() => navigate("/listing")}>
+            <div
+                className="flex gap-2 cursor-[pointer] opacity-70 hover:opacity-100"
+                onClick={() => navigate("/listing")}
+            >
                 <ArrowBackIcon sx={{ fontSize: "25px" }} />
                 <p>Go Back</p>
             </div>
@@ -476,6 +479,7 @@ function AddAmenities({
             name: "",
             amenityType: "one time",
             rate: 0,
+            description: "",
         },
         validate: (values) => {
             let errors: {
@@ -545,6 +549,22 @@ function AddAmenities({
                 }
                 errorMessages={AddAmenitiesformik.errors.rate}
             />
+            <TextField
+                attr={{
+                    placeholder: "Description",
+                    name: "description",
+                    value: AddAmenitiesformik.values.description,
+                }}
+                label="Description"
+                type="text"
+                handleChange={AddAmenitiesformik.handleChange}
+                error={
+                    AddAmenitiesformik.touched.description &&
+                    AddAmenitiesformik.errors.description !== undefined
+                }
+                errorMessages={AddAmenitiesformik.errors.description}
+            />
+
             <div className="pt-8">
                 <Button
                     variant="contained"
