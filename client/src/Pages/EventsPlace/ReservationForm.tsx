@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import TextField from "src/Components/TextField";
 import { useFormik } from "formik";
 import AmenitiesCard from "src/Components/AmenitiesCard";
