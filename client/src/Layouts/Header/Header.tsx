@@ -22,9 +22,12 @@ import { useAuthContext } from "src/Context/AuthContext";
 import { useLogout } from "src/Hooks/useAuth";
 import useMenu from "src/Hooks/useMenu";
 import useNotification from "src/Hooks/useNotif";
-import { read } from "fs";
+import useCMS from "src/Hooks/useCMS";
+import useModal from "src/Hooks/useModal";
+import CMSModal from "src/Components/CMSModal";
 
 export default function Header() {
+    const { data: cmsData, loading: cmsLoading, getCms } = useCMS();
     const navigate = useNavigate();
     const { authUser } = useAuthContext();
     const { logout } = useLogout();
@@ -64,12 +67,23 @@ export default function Header() {
         window.location.reload();
     };
 
+    const { setOpenModal, ModalComponent, closeModal } = useModal();
+
     useEffect(() => {
         getNotification();
+        getCms();
     }, []);
 
+    useEffect(() => {
+        console.log(cmsData);
+    }, [cmsData]);
+
+    if (cmsLoading) return <></>;
     return (
-        <AppBar position="static" sx={{ background: "#144273" }}>
+        <AppBar
+            position="static"
+            sx={{ background: cmsData?.color || "#144273" }}
+        >
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ gap: "1em" }}>
                     <Box
@@ -80,7 +94,7 @@ export default function Header() {
                         }}
                     >
                         <img
-                            src={Logo}
+                            src={cmsData?.logo || Logo}
                             width={"100px"}
                             alt=""
                             className="cursor-pointer"
@@ -103,7 +117,10 @@ export default function Header() {
                                         }}
                                         onClick={changeUserMode}
                                     >
-                                        {mode} Mode
+                                        {mode === "Renter"
+                                            ? "Customer"
+                                            : "Owner"}{" "}
+                                        Mode
                                     </Button>
                                 </div>
                                 <Tooltip title="Notification">
@@ -179,7 +196,7 @@ export default function Header() {
                                             }}
                                         >
                                             <Typography textAlign="center">
-                                                Switch to Renter Mode
+                                                Switch to Customer Mode
                                             </Typography>
                                         </MenuItem>
                                     </div>
@@ -203,6 +220,21 @@ export default function Header() {
                                             My Listings
                                         </Typography>
                                     </MenuItem>
+                                    {mode === "Host" && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                setOpenModal(
+                                                    <CMSModal
+                                                        closeModal={closeModal}
+                                                    />
+                                                );
+                                            }}
+                                        >
+                                            <Typography textAlign="center">
+                                                Content Management
+                                            </Typography>
+                                        </MenuItem>
+                                    )}
                                     <MenuItem
                                         onClick={() => {
                                             logout();
@@ -247,6 +279,7 @@ export default function Header() {
                 </Toolbar>
             </Container>
             <MenuComp />
+            <ModalComponent />
         </AppBar>
     );
 }

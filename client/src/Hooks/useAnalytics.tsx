@@ -21,6 +21,8 @@ function useReservation() {
         await getEventsPlace();
         if (!data) return {};
 
+        if (!eventsPlace) return [];
+
         const reservations = data;
         const countMap: { [key: string]: number } = {};
 
@@ -49,6 +51,8 @@ function useReservation() {
     const [top3Highest, setTop3Highest] = useState<string[]>([]);
     const getHighestRated = (data: any) => {
         if (!data || !reviews) return [];
+
+        if (!eventsPlace) return [];
 
         const reviewsMap: {
             [key: string]: { totalRating: number; count: number };

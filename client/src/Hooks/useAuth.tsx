@@ -164,7 +164,7 @@ const useRegister = () => {
                     login({ email: data.email, password: data.password });
                     localStorage.setItem("user", JSON.stringify(response.data));
                     setAuthUser(response.data);
-                    navigate("/profile");
+                    navigate("/");
                 })
                 .catch((error: any) => {
                     console.log(error);
@@ -186,7 +186,7 @@ const useRegister = () => {
                     login({ email: data.email, password: data.password });
                     localStorage.setItem("user", JSON.stringify(response.data));
                     setAuthUser(response.data);
-                    navigate("/profile");
+                    navigate("/");
                 })
                 .catch((error: any) => {
                     console.log(error);
@@ -206,7 +206,7 @@ const useRegister = () => {
                 .post(`/auth/register/host`, data)
                 .then((response: any) => {
                     console.log(response);
-                    toast.success("Host registration successful");
+                    toast.success("Owner registration successful");
                 })
                 .catch((error: any) => {
                     console.log(error);

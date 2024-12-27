@@ -28,14 +28,13 @@ export default function MyListings() {
 
 
   useEffect(()=>{
-    if (reservation == null) {
+    if (reservation == null || data == null) {
       getEventsPlace();
       getReservation({
         userType:isHost?"host":"renter"
       })
     }
     else {
-      
       SetMenuContent({
         host: [
           {
@@ -93,9 +92,9 @@ export default function MyListings() {
             <h3 className='text-[19px] pl-4 font-semibold'>{isHost?"My Listings":"My Reservations"}</h3>
             <div className='mt-[1em] flex flex-col '>
               {MenuContent[isHost?"host":"renter"].map((data:any,index)=>(
-                <SideBarMenu key={index} label={data.label} quantity={data.data.length} setOpen={setToOpen} value={toOpen} 
+                <SideBarMenu key={index} label={data?.label} quantity={data?.data?.length} setOpen={setToOpen} value={toOpen} 
                   clickHandle={()=>{
-                    setToShow(data.data)
+                    setToShow(data?.data)
                   }} 
                 />
               ))} 
@@ -109,7 +108,7 @@ export default function MyListings() {
                   <Button  variant="contained" fullWidth sx={{background:"white",color:"black",marginTop:"1em" ,":hover":{background:"white"}}}
                     onClick={()=>{
                       setToOpen("My Events Place")
-                      setToShow(MenuContent.hostEventsPlace.data)
+                      setToShow(MenuContent?.hostEventsPlace?.data)
                     }}
                   >
                     View Lists
@@ -128,16 +127,16 @@ export default function MyListings() {
             <h3 className='text-[19px] font-semibold'>{isHost?"My Listings":"My Reservations"}</h3>
             <div className='flex flex-wrap gap-1 mt-2'>
               {MenuContent[isHost?"host":"renter"].map((data,index)=>(
-                <Chip key={index} label={data.label} variant={toOpen === data.label? "filled":"outlined"} 
+                <Chip key={index} label={data?.label} variant={toOpen === data?.label? "filled":"outlined"} 
                 onClick={()=>{
-                  setToOpen(data.label)
-                  setToShow(data.data)
+                  setToOpen(data?.label)
+                  setToShow(data?.data)
                 }} />
               ))}
               <Chip label={"My Events Place"} variant={toOpen === "My Events Place"? "filled":"outlined"} 
                 onClick={()=>{
                   setToOpen("My Events Place")
-                  setToShow(MenuContent.hostEventsPlace.data)
+                  setToShow(MenuContent?.hostEventsPlace?.data)
                 }} 
               />
             </div>
@@ -150,8 +149,12 @@ export default function MyListings() {
               </Button>
             }
             
-          </div>
-          {toOpen === "My Events Place"? <EventCardList edit={true} isHost={isHost} data={toShow} setData={setToShow}/>:<EventCardList edit={false} isHost={isHost} data={toShow} setData={setToShow}/>}
+            </div>
+            {toShow && toShow?.length > 0 && (
+            toOpen === "My Events Place" 
+              ? <EventCardList edit={true} isHost={isHost} data={toShow} setData={setToShow}/> 
+              : <EventCardList edit={false} isHost={isHost} data={toShow} setData={setToShow}/>
+            )}
         </div>
       </div> 
     }
@@ -165,7 +168,7 @@ function EventCardList({isHost,data,edit,setData}: {isHost:boolean,data:any,edit
 
   return<>
     <div className={`grid  mb-7`} style={isHost && !(isHost && edit)?{gridTemplateColumns:"repeat(auto-fill, minmax(250px, 1fr))",gap:"1em"}:{gridTemplateColumns:"repeat(auto-fill, minmax(200px, 1fr))",gap:"1.5em"}}>
-      {data.map((data:any,index:any)=>(
+      {data?.map((data:any,index:any)=>(
         isHost?
           edit  
             ? ( data.host.userId === (authUser?.userId) && <EventCard key={data._id} data={data} type="manage"/>)

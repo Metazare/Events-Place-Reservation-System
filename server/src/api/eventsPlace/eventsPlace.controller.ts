@@ -176,3 +176,25 @@ export const editEventsPlace: RequestHandler = async (req: BodyRequest<EditEvent
 
     res.sendStatus(204);
 };
+export const deleteEventsPlace: RequestHandler = async (req, res) => {
+    const { user, body } = req;
+
+    if (!user) throw new Unauthorized();
+    const { eventsPlaceId } = body;
+    const checker = new CheckData();
+
+    // Validate eventsPlaceId
+    checker.checkType(eventsPlaceId, 'string', 'eventsPlaceId', true);
+    if (checker.size()) throw new UnprocessableEntity(checker.errors);
+
+    // Find the events place by eventsPlaceId and host
+    const eventsPlace: EventsPlaceDocument | null = await eventsPlaceModel
+        .findOne({ eventsPlaceId, host: user._id })
+        .exec();
+    if (!eventsPlace) throw new NotFound('Events Place');
+
+    // Delete the events place
+    await eventsPlaceModel.deleteOne({ _id: eventsPlace._id });
+
+    res.sendStatus(204);
+};

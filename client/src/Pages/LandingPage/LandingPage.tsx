@@ -11,8 +11,11 @@ import EventCard from 'src/Components/EventCard';
 import useEventsPlace from 'src/Hooks/useEventsPlace';
 import useSearch from 'src/Hooks/useSearch';
 import useGreedyAlgorithm from 'src/Hooks/useGreedyAlgorithm';
+import useCMS from 'src/Hooks/useCMS';
+
 export default function LandingPage() {
-  const {sortData} = useGreedyAlgorithm();
+  const { sortData } = useGreedyAlgorithm();
+
   const {data,loading,error,getEventsPlace} = useEventsPlace();
   useEffect(()=>{
     getEventsPlace('');

@@ -281,7 +281,7 @@ export const cancelReservation: RequestHandler = async (
     const reservation: ReservationDocument | null =
         await ReservationModel.findOne({
             reservationId,
-            renter: user._id,
+            // renter: user._id,
         }).exec();
     if (!reservation) throw new NotFound("Reservation");
 
@@ -343,7 +343,7 @@ export const updateReservationPayment = async (link: Link) => {
         await ReservationModel.findOne({
             "status.payment": PaymentStatus.UNPAID,
             "status.reservation": ReservationStatus.PENDING,
-            "payment.link": link.id,
+            "payment.id": link.id,
         }).exec();
     if (!reservation) {
         // Link might be created from the dashboard, and not by the API

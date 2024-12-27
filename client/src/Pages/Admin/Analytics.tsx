@@ -25,11 +25,20 @@ export default function Analytics() {
     }, []);
 
     useEffect(() => {
-        if (data) {
+        if (data && top3Booked.length === 0 && top3Highest.length === 0 ) {
             getMostBooked(data);
             getHighestRated(data);
         }
-    }, [data]);
+    }, [data, top3Booked, top3Highest]);
+
+    if (!data) {
+        return <p>Loading...</p>;
+    }
+    if (data.length !== 0) {
+        if (top3Booked.length === 0 && top3Highest.length === 0) {
+            return <p>No data available</p>;
+        }
+    }
 
     return (
         <div
@@ -151,8 +160,10 @@ export default function Analytics() {
                         gap: "1em",
                     }}
                 >
-                    {top3Booked && top3Booked.length > 0 ? (
-                        top3Booked.map((event: any) => {
+                    {top3Booked &&
+                    Array.isArray(top3Booked) &&
+                    top3Booked?.length > 0 ? (
+                        top3Booked?.map((event: any) => {
                             return (
                                 <div
                                     key={event.id}

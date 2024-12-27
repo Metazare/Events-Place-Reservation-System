@@ -35,7 +35,6 @@ function useNotif(): Data {
                 type: data.type,
                 content: data.content,
             });
-            console.log(response.data);
         } catch (error: any) {
             setError(error);
             console.log(error);
