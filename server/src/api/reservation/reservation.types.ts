@@ -42,6 +42,7 @@ export interface Reservation {
         payment: PaymentStatus;
         reservation: ReservationStatus;
     };
+    specialRequests?: string;
 }
 
 export interface ReservationDocument extends Reservation, Document {
@@ -70,6 +71,7 @@ export type CreateReservation = {
     startDate: number;
     days: number;
     amount: number;
+    specialRequests?: string;
 };
 
 export type GetReservation = {
