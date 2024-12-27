@@ -20,6 +20,7 @@ export interface Amenity {
     amenityType: AmenityType;
     rate: number;
     state: AmenityState;
+    description?: string;
 }
 
 export interface AmenityDocument extends Amenity, Document {

@@ -19,6 +19,7 @@ export const updateAmenities = async (eventsPlace: EventsPlaceDocument, amenitie
             eventsplaceAmenity.name = foundAmenity.name;
             eventsplaceAmenity.amenityType = foundAmenity.amenityType;
             eventsplaceAmenity.rate = foundAmenity.rate;
+            eventsplaceAmenity.description = foundAmenity.description;
 
             // Remove the amenity to the amenities
             amenities.splice(amenityIndex, 1);

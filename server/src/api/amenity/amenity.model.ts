@@ -33,7 +33,10 @@ const amenitySchema = new Schema(
         state: {
             type: String,
             enum: Object.values(AmenityState)
-        }
+        },
+        description: {
+            type: String
+        },
     },
     {
         versionKey: false,
