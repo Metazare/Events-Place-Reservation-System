@@ -20,10 +20,7 @@ export default function PayReservation({
                 Use the link below to pay
             </p>
 
-            <div
-                className="grid mt-5 gap-4"
-                style={{ gridTemplateColumns: ".4fr .6fr" }}
-            >
+            <div className="grid mt-5 gap-4">
                 <button
                     onClick={closeModal}
                     className="bg-[#144273] text-[white] px-4 py-2 rounded-md"

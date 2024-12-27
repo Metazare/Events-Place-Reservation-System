@@ -1,67 +1,121 @@
-import React from 'react'
-import Button from '@mui/material/Button'
-import LogoIcon from 'src/Images/Logo/LogoBox.svg';
-import Timeline from 'src/Components/Timeline';
-import TimelineComp from 'src/Components/TimelineComp';
-import useReservation from 'src/Hooks/useReservation';
+import React from "react";
+import Button from "@mui/material/Button";
+import LogoIcon from "src/Images/Logo/LogoBox.svg";
+import Timeline from "src/Components/Timeline";
+import TimelineComp from "src/Components/TimelineComp";
+import useReservation from "src/Hooks/useReservation";
 import toast from "react-hot-toast";
-
+import { formatToMoney } from "src/Utils/utils";
 import { useNavigate } from "react-router-dom";
 interface ReservationData {
-  eventsPlaceId: string;
-  rate: number;
-  amenities: {
-      amenityId: string;
-      quantity: number;
-      rate: number;
-      amenityType: string;
-      name: string;
-  }[];
-  guestCount: number;
-  startDate: number;
-  days: number;
-  date: any;
-  amount?: number;
+    eventsPlaceId: string;
+    rate: number;
+    amenities: {
+        amenityId: string;
+        quantity: number;
+        rate: number;
+        amenityType: string;
+        name: string;
+    }[];
+    guestCount: number;
+    startDate: number;
+    days: number;
+    date: any;
+    amount?: number;
 }
 
-export default function PaymentModal({data}: {data: ReservationData}) {
-  const { createReservation, getReservationTotal } = useReservation();
-  const submitReservation = async (e: any) => {
-    e.preventDefault();
+export default function PaymentModal({ data }: { data: ReservationData }) {
+    const { createReservation, getReservationTotal } = useReservation();
+    const submitReservation = async (e: any) => {
+        e.preventDefault();
 
-    const totalAmount = getReservationTotal(data);
-    await createReservation({ ...data, amount: totalAmount });
-  }
+        const totalAmount = getReservationTotal(data);
+        await createReservation({ ...data, amount: totalAmount });
+    };
 
-  return <>
-    <div className=' w-[100vw] max-w-[1000px]  min-h-[550px] overflow-hidden rounded-xl flex flex-col sm:grid' style={{gridTemplateColumns:"60% 40%"}}>
-      <div className='p-[1.5em] flex flex-col grow'>
-        <h6 className='text-[25px] text-[#144273] font-semibold'>Price Details</h6>
-        <div className='grow py-4'>
-          <div className='flex flex-col gap-1'>
-            <TimelineComp title={`${data.rate} x ${data.days} day/s`} subtitle="" price={`₱ ${data.rate * data.days}`}/>
-            {/* Display here per amenities */}
-            {data.amenities.map((amenity, index) => {
-              return <>
-                <TimelineComp title={`100 x ${amenity.quantity}`} subtitle="Amenities Name" price={`₱ ${data.rate * data.days}`}/>
-              </>
-            })}
-          </div>
-        </div>
-        <div className='border-t border-[black]/50 flex justify-between items-end pt-[1em]'>
-          <p className='text-[18px] text-[black]/50'>Total</p>
-          <p className='text-[26px] font-semibold'>₱ {getReservationTotal(data)}</p>
-        </div>
-      </div>
-      <div className='p-[1.5em] relative flex flex-col overflow-hidden '  style={{background:`url(${Image})`}}>
-        <div className='bg-[#132F4C] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] h-full w-full z-[-4]'/>
-        <div className='grow justify-center items-start hidden sm:flex'>
-          <img src={LogoIcon} className='w-[40%] mt-[20%]' alt="" />
-        </div>
-        <Button variant="contained" sx={{background:"#2D74B4"}} fullWidth onClick={submitReservation}>
-          Reserve
-        </Button>
-      </div>
-    </div>
-  </>
+    return (
+        <>
+            <div
+                className=" w-[100vw] max-w-[1000px]  min-h-[550px] overflow-hidden rounded-xl flex flex-col sm:grid"
+                style={{ gridTemplateColumns: "60% 40%" }}
+            >
+                <div className="p-[1.5em] flex flex-col grow">
+                    <h6 className="text-[25px] text-[#144273] font-semibold">
+                        Price Details
+                    </h6>
+                    <div className="grow py-4">
+                        <div className="flex flex-col gap-1">
+                            <TimelineComp
+                                title={`₱${formatToMoney(data.rate)} x ${
+                                    data.days
+                                } day/s`}
+                                subtitle=""
+                                price={`₱ ${data.rate * data.days}`}
+                            />
+                            {/* Display here per amenities */}
+                            {data.amenities.map((amenity, index) => {
+                                return (
+                                    <>
+                                        <TimelineComp
+                                            title={`100 x ${amenity.quantity}`}
+                                            subtitle="Amenities Name"
+                                            price={`₱ ${formatToMoney(
+                                                data.rate * data.days
+                                            )}`}
+                                        />
+                                    </>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <div className="border-t border-[black]/50 flex justify-between items-end pt-[1em]">
+                        <p className="text-[18px] text-[black]/50">Total</p>
+                        <p className="text-[26px] font-semibold">
+                            ₱ {formatToMoney(getReservationTotal(data))}
+                        </p>
+                    </div>
+                </div>
+                <div
+                    className="p-[1.5em] relative flex flex-col overflow-hidden "
+                    style={{ background: `url(${Image})` }}
+                >
+                    <div className="bg-[#132F4C] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] h-full w-full z-[-4]" />
+                    <div className="grow justify-start items-center hidden sm:flex flex-col gap-4">
+                        <img
+                            src={LogoIcon}
+                            className="w-[40%] mt-[20%]"
+                            alt=""
+                        />
+                        <div className="flex gap-2 items-center text-[white]">
+                            <a
+                                href={`https://eventsplacemarikina.netlify.app/termsncondition`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#fff] text-[12px] font-semibold"
+                            >
+                                Terms and Conditions
+                            </a>
+                            |
+                            <a
+                                href="https://eventsplacemarikina.netlify.app/privacy"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#fff] text-[12px] font-semibold"
+                            >
+                                Privacy Policy
+                            </a>
+                        </div>
+                    </div>
+                    <Button
+                        variant="contained"
+                        sx={{ background: "#2D74B4" }}
+                        fullWidth
+                        onClick={submitReservation}
+                    >
+                        Reserve
+                    </Button>
+                </div>
+            </div>
+        </>
+    );
 }

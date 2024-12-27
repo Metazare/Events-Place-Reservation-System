@@ -14,6 +14,7 @@ import Rating from "@mui/material/Rating";
 // Created Components
 import ReviewCard from "src/Components/ReviewCard";
 import AmenitiesCard from "src/Components/AmenitiesCard";
+import { formatToMoney } from "../../Utils/utils";
 
 // Hooks
 import useEventsPlace from "src/Hooks/useEventsPlace";
@@ -277,7 +278,12 @@ export default function ViewEventsPlace({ data: passedData }: { data?: any }) {
                     <div className="w-full sticky top-[10px] rounded-xl shadow-sm bg-[white]  p-4 flex flex-col gap-3">
                         <h5 className=" mb-1">
                             <span className="font-semibold opacity-70 text-[32px]">
-                                ₱{passedData?.rate || data?.[0]?.rate}
+                                ₱
+                                {passedData?.rate
+                                    ? formatToMoney(passedData?.rate)
+                                    : data?.[0]?.rate
+                                    ? formatToMoney(data?.[0]?.rate)
+                                    : ""}
                             </span>{" "}
                             <span>per day</span>
                         </h5>

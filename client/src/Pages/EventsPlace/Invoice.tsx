@@ -20,6 +20,8 @@ import moment from "moment";
 import StarIcon from "@mui/icons-material/Star";
 import PayReservation from "src/Components/PayReservation";
 import TimelineComp from "src/Components/TimelineComp";
+import { formatToMoney } from "src/Utils/utils";
+
 export default function Invoice() {
     const { id } = useParams<{ id: string }>();
     const {
@@ -57,10 +59,10 @@ export default function Invoice() {
                 rate: data?.[0].eventsPlace?.rate,
             }),
         });
-      
-      setTimeout(() => {
-          window.location.reload();
-      }, 3000);
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
     };
 
     const cancel = () => {
@@ -208,7 +210,9 @@ export default function Invoice() {
                 }}
               /> */}
                             <TimelineComp
-                                title={`₱${data?.[0]?.eventsPlace?.rate} x ${
+                                title={`₱${formatToMoney(
+                                    data?.[0]?.eventsPlace?.rate
+                                )} x ${
                                     (new Date(
                                         data?.[0]?.duration?.end
                                     ).getTime() -
@@ -218,16 +222,16 @@ export default function Invoice() {
                                     (1000 * 60 * 60 * 24)
                                 }  day/s`}
                                 subtitle=""
-                                price={`₱ ${
+                                price={`₱${formatToMoney(
                                     data?.[0]?.eventsPlace?.rate *
-                                    ((new Date(
-                                        data?.[0]?.duration?.end
-                                    ).getTime() -
-                                        new Date(
-                                            data?.[0]?.duration?.start
-                                        ).getTime()) /
-                                        (1000 * 60 * 60 * 24))
-                                } `}
+                                        ((new Date(
+                                            data?.[0]?.duration?.end
+                                        ).getTime() -
+                                            new Date(
+                                                data?.[0]?.duration?.start
+                                            ).getTime()) /
+                                            (1000 * 60 * 60 * 24))
+                                )} `}
                             />
                             {/* Display here per amenities */}
                             {/* {
@@ -241,18 +245,20 @@ export default function Invoice() {
                             {data && data[0] && (
                                 <p className="text-[24px] font-semibold">
                                     ₱
-                                    {getReservationTotal({
-                                        ...data?.[0],
-                                        days:
-                                            (new Date(
-                                                data?.[0].duration.end
-                                            ).getTime() -
-                                                new Date(
-                                                    data?.[0].duration.start
-                                                ).getTime()) /
-                                            (1000 * 60 * 60 * 24),
-                                        rate: data?.[0].eventsPlace?.rate,
-                                    })}
+                                    {formatToMoney(
+                                        getReservationTotal({
+                                            ...data?.[0],
+                                            days:
+                                                (new Date(
+                                                    data?.[0].duration.end
+                                                ).getTime() -
+                                                    new Date(
+                                                        data?.[0].duration.start
+                                                    ).getTime()) /
+                                                (1000 * 60 * 60 * 24),
+                                            rate: data?.[0].eventsPlace?.rate,
+                                        })
+                                    )}
                                 </p>
                             )}
                         </div>
