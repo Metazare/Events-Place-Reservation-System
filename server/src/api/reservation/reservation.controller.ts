@@ -246,13 +246,29 @@ export const payReservation: RequestHandler = async (
             reservationId,
             renter: user._id,
             "status.payment": PaymentStatus.UNPAID,
-        }).exec();
+        })
+        .populate("eventsPlace")
+        .exec();
     if (!reservation) throw new NotFound("Reservation");
+
+    let description = `Payment for reservation at 
+    ${reservation.eventsPlace.name} from ${reservation.duration.start.toDateString()} to 
+    ${reservation.duration.end.toDateString()} with guest count of ${reservation.guestCount}`;
+
+    if (reservation.amenities.length > 0) {
+        description += " including amenities: ";
+        reservation.amenities.forEach((amenity, index) => {
+            description += `${amenity.quantity} x ${amenity.name}`;
+            if (index < reservation.amenities.length - 1) {
+                description += ", ";
+            }
+        });
+    }
 
     // Create payment link
     const link = await createLink(
         amount,
-        `Payment for reservation ${reservationId}`
+        description
     );
 
     // //! TEMPORARY FIX MUST REMOVE LATER
