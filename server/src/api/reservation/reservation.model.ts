@@ -83,7 +83,7 @@ const reservationSchema = new Schema(
             },
             required: true,
         },
-        specialRequests: {
+        specialRequest: {
             type: String,
         },
     },

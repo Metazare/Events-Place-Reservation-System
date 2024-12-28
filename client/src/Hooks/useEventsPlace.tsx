@@ -10,6 +10,7 @@ interface Amenity {
     name: string;
     amenityType: AmenityType;
     rate: number;
+    description?: string;
 }
 
 interface EventsPlaceData {

@@ -22,6 +22,7 @@ interface ReservationData {
     days: number;
     date: any;
     amount?: number;
+    specialRequest?: string;
 }
 
 export default function PaymentModal({ data }: { data: ReservationData }) {
