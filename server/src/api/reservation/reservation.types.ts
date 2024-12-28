@@ -27,7 +27,7 @@ export type ReservationAmenity = {
     amenityId: string;
     quantity: number;
     rate: number;
-    name: string;
+    name?: string;
 };
 
 export interface Reservation {
