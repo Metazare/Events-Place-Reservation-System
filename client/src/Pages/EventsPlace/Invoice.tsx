@@ -57,7 +57,7 @@ export default function Invoice() {
                         new Date(data?.[0].duration.start).getTime()) /
                     (1000 * 60 * 60 * 24),
                 rate: data?.[0].eventsPlace?.rate,
-            }),
+            }) / 2,
         });
 
         setTimeout(() => {

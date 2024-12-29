@@ -251,9 +251,7 @@ export const payReservation: RequestHandler = async (
         .exec();
     if (!reservation) throw new NotFound("Reservation");
 
-    let description = `Payment for reservation at 
-    ${reservation.eventsPlace.name} from ${reservation.duration.start.toDateString()} to 
-    ${reservation.duration.end.toDateString()} with guest count of ${reservation.guestCount}`;
+    let description = `Payment for Reservation at ${reservation.eventsPlace.name} from ${reservation.duration.start.toDateString()} to ${reservation.duration.end.toDateString()} with guest count of ${reservation.guestCount}`;
 
     if (reservation.amenities.length > 0) {
         description += " including amenities: ";
