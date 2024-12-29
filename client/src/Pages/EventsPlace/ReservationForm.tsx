@@ -8,7 +8,7 @@ import useModal from "src/Hooks/useModal";
 import DatePicker from "src/Components/DatePicker";
 import DateRange from "src/Components/DateRange";
 import useDates from "src/Hooks/useDates";
-import PaymentModal from "./PaymentModal";
+import PaymentModal from "./PaymentModal2";
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
