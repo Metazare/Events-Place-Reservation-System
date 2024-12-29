@@ -90,7 +90,7 @@ export default function PaymentModal({ data }: { data: ReservationData }) {
                             <a
                                 className="font-bold cursor-pointer"
                                 target="_blank"
-                                href="/policy"
+                                href="/privacy"
                             >
                                 Policy
                             </a>{" "}
@@ -98,7 +98,7 @@ export default function PaymentModal({ data }: { data: ReservationData }) {
                             <a
                                 className="font-bold cursor-pointer"
                                 target="_blank"
-                                href="/termscondition"
+                                href="/termsncondition"
                             >
                                 Terms & Condition
                             </a>
