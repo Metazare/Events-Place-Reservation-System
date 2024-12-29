@@ -7,6 +7,11 @@ import useReservation from "src/Hooks/useReservation";
 import toast from "react-hot-toast";
 import { formatToMoney } from "src/Utils/utils";
 import { useNavigate } from "react-router-dom";
+import Checkbox from "@mui/material/Checkbox";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import Tooltip from "@mui/material/Tooltip";
+
 interface ReservationData {
     eventsPlaceId: string;
     rate: number;
@@ -26,6 +31,7 @@ interface ReservationData {
 }
 
 export default function PaymentModal({ data }: { data: ReservationData }) {
+    const [isAgree, setIsAgree] = React.useState(false);
     const { createReservation, getReservationTotal } = useReservation();
     const submitReservation = async (e: any) => {
         e.preventDefault();
@@ -58,7 +64,9 @@ export default function PaymentModal({ data }: { data: ReservationData }) {
                                 return (
                                     <>
                                         <TimelineComp
-                                            title={`₱${formatToMoney(amenity.rate)} x ${amenity.quantity}`}
+                                            title={`₱${formatToMoney(
+                                                amenity.rate
+                                            )} x ${amenity.quantity}`}
                                             subtitle={amenity.name}
                                             price={`₱ ${formatToMoney(
                                                 data.rate * data.days
@@ -68,6 +76,33 @@ export default function PaymentModal({ data }: { data: ReservationData }) {
                                 );
                             })}
                         </div>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <Checkbox
+                            icon={<RadioButtonUncheckedIcon />}
+                            checkedIcon={<TaskAltIcon />}
+                            onClick={() => {
+                                setIsAgree(!isAgree);
+                            }}
+                        />
+                        <p>
+                            I agree with the{" "}
+                            <a
+                                className="font-bold cursor-pointer"
+                                target="_blank"
+                                href="/policy"
+                            >
+                                Policy
+                            </a>{" "}
+                            and{" "}
+                            <a
+                                className="font-bold cursor-pointer"
+                                target="_blank"
+                                href="/termscondition"
+                            >
+                                Terms & Condition
+                            </a>
+                        </p>
                     </div>
                     <div className="border-t border-[black]/50 flex justify-between items-end pt-[1em]">
                         <p className="text-[18px] text-[black]/50">Total</p>
@@ -87,34 +122,18 @@ export default function PaymentModal({ data }: { data: ReservationData }) {
                             className="w-[40%] mt-[20%]"
                             alt=""
                         />
-                        <div className="flex gap-2 items-center text-[white]">
-                            <a
-                                href={`https://eventsplacemarikina.netlify.app/termsncondition`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#fff] text-[12px] font-semibold"
-                            >
-                                Terms and Conditions
-                            </a>
-                            |
-                            <a
-                                href="https://eventsplacemarikina.netlify.app/privacy"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#fff] text-[12px] font-semibold"
-                            >
-                                Privacy Policy
-                            </a>
-                        </div>
                     </div>
-                    <Button
-                        variant="contained"
-                        sx={{ background: "#2D74B4" }}
-                        fullWidth
-                        onClick={submitReservation}
-                    >
-                        Reserve
-                    </Button>
+                    <Tooltip title="By clicking this button, you agree to the Events Place's Terms and Conditions and Privacy Policy.">
+                        <Button
+                            variant="contained"
+                            sx={{ background: "#2D74B4" }}
+                            fullWidth
+                            onClick={submitReservation}
+                            disabled={!isAgree}
+                        >
+                            Reserve
+                        </Button>
+                    </Tooltip>
                 </div>
             </div>
         </>
