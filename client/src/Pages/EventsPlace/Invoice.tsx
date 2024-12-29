@@ -234,11 +234,11 @@ export default function Invoice() {
                                 )} `}
                             />
                             {/* Display here per amenities */}
-                            {/* {
-                data.amenities?.map((amenity, index) => {
-                  return <TimelineComp title={`100 x ${amenity.quantity}`} subtitle={amenity.name} price={`₱ ${data.rate * data.days}`}/>
+                            {
+                data?.[0]?.amenities?.map((amenity, index) => {
+                  return <TimelineComp title={`₱${formatToMoney(amenity.rate)} x ${amenity.quantity}`} subtitle={amenity.name} price={`₱${formatToMoney(amenity.rate * amenity.quantity)}`}/>
                 })
-              } */}
+              }
                         </div>
                         <div className="flex justify-between items-center pt-4 mb-4">
                             <p className="text-[18px] text-[black]/50">Total</p>

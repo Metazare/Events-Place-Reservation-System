@@ -58,8 +58,8 @@ export default function PaymentModal({ data }: { data: ReservationData }) {
                                 return (
                                     <>
                                         <TimelineComp
-                                            title={`100 x ${amenity.quantity}`}
-                                            subtitle="Amenities Name"
+                                            title={`₱${formatToMoney(amenity.rate)} x ${amenity.quantity}`}
+                                            subtitle={amenity.name}
                                             price={`₱ ${formatToMoney(
                                                 data.rate * data.days
                                             )}`}
