@@ -77,12 +77,14 @@ export const getReviews: RequestHandler = async (
         .populate("reviewer")
         .exec();
 
+        console.log(reviews);
     // Filter reviews by eventsPlaceId if it is given
     const filteredReviews = eventsPlaceId
         ? reviews.filter(
               (review) => review.eventsPlace.eventsPlaceId === eventsPlaceId
           )
         : reviews;
+    
 
     res.json(filteredReviews);
 };
